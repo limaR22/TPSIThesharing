@@ -34,6 +34,29 @@ include_once __DIR__ . '/templates/cabecalho.php';
         color: #ffffff; /* Texto branco */
     }
 
+    /* Modal - Tema Escuro */
+    .dark-mode .modal {
+        background-color: #333333;
+        color: #ffffff;
+        border: 1px solid #555555;
+    }
+
+    .dark-mode .modal input,
+    .dark-mode .modal select,
+    .dark-mode .modal textarea {
+        background-color: #444444;
+        color: #ffffff;
+        border: 1px solid #666666;
+    }
+
+    .dark-mode .modal button {
+        background-color: #007bff;
+    }
+
+    .dark-mode .modal button:hover {
+        background-color: #0056b3;
+    }
+
     /* Sidebar estilizada */
     .sidebar {
         width: 250px;
@@ -206,30 +229,34 @@ include_once __DIR__ . '/templates/cabecalho.php';
         width: 400px;
         max-width: 90%;
         background: #ffffff;
-        border-radius: 10px;
+        border: 1px solid #ccc; /* Borda visível */
         padding: 20px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         display: none;
         z-index: 1100;
+        border-radius: 15px; /* Cantos arredondados */
+        max-height: 400px; /* Define uma altura máxima */
+        overflow-y: auto; /* Permite rolar o conteúdo */
     }
 
     .modal h2 {
         margin-top: 0;
+        font-size: 1.5rem; /* Menor tamanho do título */
     }
 
     .modal input,
     .modal select,
     .modal textarea {
         width: 100%;
-        padding: 10px;
+        padding: 8px; /* Menos padding nos campos */
         margin: 10px 0;
         border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1rem;
+        border-radius: 5px; /* Bordas arredondadas nos inputs */
+        font-size: 0.9rem; /* Menor tamanho de fonte */
     }
 
     .modal button {
-        padding: 10px 20px;
+        padding: 8px 15px;
         background-color: #007bff;
         color: #ffffff;
         border: none;
@@ -254,12 +281,14 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
     .modal .size-checkboxes {
         display: flex;
-        gap: 15px;
+        gap: 10px; /* Menor espaçamento */
     }
+
     .modal .size-checkboxes input {
         margin-right: 5px;
     }
 </style>
+
 
 <body class="light-mode">
     <!-- Barra superior -->
@@ -279,19 +308,19 @@ include_once __DIR__ . '/templates/cabecalho.php';
             <i class="fas fa-moon"></i>
         </button>
     </div>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="top-section">
+            <h2>Menu</h2>
             <div class="nav-links">
-                <a href="/grupos">Grupos</a>
-                <a href="/criar">Criar grupos</a>
-                <a href="/notificacoes">Notificações</a>
-                <a href="/aplicacao/perfil.php">Perfil</a>
+                <a href="#">Grupos</a>
+                <a href="#">Notificações</a>
+                <a href="\aplicacao\perfil.php">Perfil</a>
             </div>
         </div>
         <div class="logout-section">
             <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
+            <form action="logout.php" method="post">
                 <button type="submit" name="utilizador" value="logout">Sair</button>
             </form>
         </div>
@@ -309,35 +338,33 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
     <!-- Modal de criação de grupo -->
     <div class="modal" id="createGroupModal">
-        <h2>Criar Novo Grupo</h2>
-        <form id="createGroupForm">
-            <input type="text" name="nome" placeholder="Nome do Grupo" required>
-            <select name="genero" required>
-                <option value="" disabled selected>Selecione o Gênero</option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-            </select>
-            <div class="size-checkboxes">
-                <label><input type="checkbox" name="tamanho[]" value="S"> S</label>
-                <label><input type="checkbox" name="tamanho[]" value="M"> M</label>
-                <label><input type="checkbox" name="tamanho[]" value="L"> L</label>
-                <label><input type="checkbox" name="tamanho[]" value="XL"> XL</label>
-            </div>
-            <textarea name="descricao" rows="4" placeholder="Descrição do Grupo" required></textarea>
-            <button type="submit">Criar</button>
-        </form>
+    <h2>Criar Novo Grupo</h2>
+    <form id="createGroupForm">
+        <input type="text" name="nome" placeholder="Nome do Grupo" required>
+        <select name="genero" required>
+            <option value="" disabled selected>Selecione o Gênero</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+        </select>
+        <div class="size-checkboxes">
+            <label><input type="checkbox" name="tamanho[]" value="S"> S</label>
+            <label><input type="checkbox" name="tamanho[]" value="M"> M</label>
+            <label><input type="checkbox" name="tamanho[]" value="L"> L</label>
+            <label><input type="checkbox" name="tamanho[]" value="XL"> XL</label>
+        </div>
+        <textarea name="descricao" rows="4" placeholder="Descrição do Grupo" required></textarea>
+        <button type="submit">Criar</button>
+    </form>
     </div>
-
     <!-- Overlay para o modal -->
     <div class="modal-overlay" id="modalOverlay"></div>
 
     <!-- Font Awesome para ícones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script>
-        const modal = document.getElementById('createGroupModal');
+       const modal = document.getElementById('createGroupModal');
         const overlay = document.getElementById('modalOverlay');
         const openModalButton = document.getElementById('openModalButton');
-        const closeModalButton = document.getElementById('closeModalButton');
 
         // Abrir o modal
         openModalButton.addEventListener('click', (e) => {
@@ -347,6 +374,11 @@ include_once __DIR__ . '/templates/cabecalho.php';
         });
 
         // Fechar o modal ao clicar fora dele
+        overlay.addEventListener('click', () => {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
         overlay.addEventListener('click', () => {
             modal.style.display = 'none';
             overlay.style.display = 'none';
@@ -368,5 +400,4 @@ include_once __DIR__ . '/templates/cabecalho.php';
         });
     </script>
 </body>
-<?php
-?>
+</html>

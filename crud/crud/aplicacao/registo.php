@@ -199,8 +199,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <form action="/src/controlador/aplicacao/controlar-registo.php" method="post">
             <input type="text" class="input-field" name="nome" placeholder="Nome" maxlength="100" required>
             <input type="email" class="input-field" name="email" placeholder="Email" required>
-            <input type="password" class="input-field" name="palavra_passe" placeholder="Senha" required>
-            <input type="password" class="input-field" name="confirmar_palavra_passe" placeholder="Confirmar senha" required>
+            <input type="password" class="input-field" name="palavra_passe" placeholder="Senha" minlength="6" required>
+            <input type="password" class="input-field" name="confirmar_palavra_passe" placeholder="Confirmar senha" minlength="6" required>
             <button class="btn-custom-black" type="submit" name="utilizador" value="registo">Avançar</button>
         </form>
 
