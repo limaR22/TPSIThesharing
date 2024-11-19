@@ -171,6 +171,85 @@ include_once __DIR__ . '/templates/cabecalho.php';
     .mode-toggle:hover {
         transform: scale(1.1);
     }
+
+    /* Botão flutuante no canto inferior direito */
+    .floating-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: #ffffff;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.2s;
+        z-index: 1000; /* Sobrepõe outros elementos */
+    }
+
+    .floating-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
+
+    /* Modal */
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        max-width: 90%;
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 1100;
+    }
+
+    .modal h2 {
+        margin-top: 0;
+    }
+
+    .modal input,
+    .modal textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .modal button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .modal button:hover {
+        background-color: #0056b3;
+    }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 1099;
+    }
 </style>
 
 <body class="light-mode">
@@ -214,9 +293,44 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <h1>Bem-vindo à The Sharing!</h1>
     </div>
 
+    <!-- Botão flutuante -->
+    <div>
+        <a href="#" class="floating-button" id="openModalButton">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="createGroupModal">
+        <h2>Criar Grupo</h2>
+        <form>
+            <input type="text" name="nome" placeholder="Nome do Grupo" required>
+            <textarea name="descricao" rows="4" placeholder="Descrição do Grupo"></textarea>
+            <button type="submit">Criar</button>
+        </form>
+    </div>
+
     <!-- Font Awesome para ícones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script>
+        const modal = document.getElementById('createGroupModal');
+        const overlay = document.getElementById('modalOverlay');
+        const openModalButton = document.getElementById('openModalButton');
+
+        // Abrir o modal
+        openModalButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        // Fechar o modal ao clicar fora dele
+        overlay.addEventListener('click', () => {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
         // Alternar entre modo claro e escuro
         const toggleButton = document.getElementById('toggleMode');
         const body = document.body;
@@ -225,11 +339,10 @@ include_once __DIR__ . '/templates/cabecalho.php';
             body.classList.toggle('dark-mode');
             body.classList.toggle('light-mode');
 
-            // Atualiza o ícone do botão
             if (body.classList.contains('dark-mode')) {
-                toggleButton.innerHTML = '<i class="fas fa-sun"></i>'; // Ícone do sol
+                toggleButton.innerHTML = '<i class="fas fa-sun"></i>';
             } else {
-                toggleButton.innerHTML = '<i class="fas fa-moon"></i>'; // Ícone da lua
+                toggleButton.innerHTML = '<i class="fas fa-moon"></i>';
             }
         });
     </script>
