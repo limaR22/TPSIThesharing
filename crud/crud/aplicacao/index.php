@@ -178,7 +178,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <div class="top-bar">
         <!-- Saudação -->
         <div>
-            <h2>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h2>
+            <h3>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
         </div>
 
         <!-- Barra de pesquisa -->
