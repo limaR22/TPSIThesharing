@@ -218,6 +218,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
     }
 
     .modal input,
+    .modal select,
     .modal textarea {
         width: 100%;
         padding: 10px;
@@ -249,6 +250,14 @@ include_once __DIR__ . '/templates/cabecalho.php';
         background: rgba(0, 0, 0, 0.5);
         display: none;
         z-index: 1099;
+    }
+
+    .modal .size-checkboxes {
+        display: flex;
+        gap: 15px;
+    }
+    .modal .size-checkboxes input {
+        margin-right: 5px;
     }
 </style>
 
@@ -293,23 +302,34 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <h1>Bem-vindo à The Sharing!</h1>
     </div>
 
-    <!-- Botão flutuante -->
-    <div>
-        <a href="#" class="floating-button" id="openModalButton">
-            <i class="fas fa-plus"></i>
-        </a>
-    </div>
+    <!-- Botão flutuante para abrir o modal -->
+    <a href="#" class="floating-button" id="openModalButton">
+        <i class="fas fa-plus"></i>
+    </a>
 
-    <!-- Modal -->
-    <div class="modal-overlay" id="modalOverlay"></div>
+    <!-- Modal de criação de grupo -->
     <div class="modal" id="createGroupModal">
-        <h2>Criar Grupo</h2>
-        <form>
+        <h2>Criar Novo Grupo</h2>
+        <form id="createGroupForm">
             <input type="text" name="nome" placeholder="Nome do Grupo" required>
-            <textarea name="descricao" rows="4" placeholder="Descrição do Grupo"></textarea>
+            <select name="genero" required>
+                <option value="" disabled selected>Selecione o Gênero</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+            </select>
+            <div class="size-checkboxes">
+                <label><input type="checkbox" name="tamanho[]" value="S"> S</label>
+                <label><input type="checkbox" name="tamanho[]" value="M"> M</label>
+                <label><input type="checkbox" name="tamanho[]" value="L"> L</label>
+                <label><input type="checkbox" name="tamanho[]" value="XL"> XL</label>
+            </div>
+            <textarea name="descricao" rows="4" placeholder="Descrição do Grupo" required></textarea>
             <button type="submit">Criar</button>
         </form>
     </div>
+
+    <!-- Overlay para o modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
 
     <!-- Font Awesome para ícones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
@@ -317,6 +337,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
         const modal = document.getElementById('createGroupModal');
         const overlay = document.getElementById('modalOverlay');
         const openModalButton = document.getElementById('openModalButton');
+        const closeModalButton = document.getElementById('closeModalButton');
 
         // Abrir o modal
         openModalButton.addEventListener('click', (e) => {
