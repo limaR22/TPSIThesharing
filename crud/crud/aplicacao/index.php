@@ -14,39 +14,40 @@ include_once __DIR__ . '/templates/cabecalho.php';
 ?>
 
 <!-- Link para o CSS externo -->
-<link rel="stylesheet" href="../Css/index.css">
+<link rel="stylesheet" href="/Css/index.css">
+
+<!-- Link do Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <body class="light-mode">
     <!-- Barra superior -->
     <div class="top-bar">
-        <!-- Saudação -->
         <div>
             <h3>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
         </div>
 
-        <!-- Barra de pesquisa -->
         <div class="search-bar">
-            <input type="text" placeholder="Pesquisar grupos...">
+            <input type="text" class="form-control" placeholder="Pesquisar grupos...">
         </div>
 
-        <!-- Botão de alternar tema -->
-        <button class="mode-toggle" id="toggleMode">
+        <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
             <i class="fas fa-moon"></i>
         </button>
     </div>
+
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="top-section">
             <h2>Menu</h2>
             <div class="nav-links">
-                <a href="#">Grupos</a>
-                <a href="#">Notificações</a>
-                <a href="\aplicacao\perfil.php">Perfil</a>
+                <a href="#" class="nav-link">Grupos</a>
+                <a href="#" class="nav-link">Notificações</a>
+                <a href="\aplicacao\perfil.php" class="nav-link">Perfil</a>
             </div>
         </div>
         <div class="logout-section">
             <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
-                <button type="submit" name="utilizador" value="logout">Sair</button>
+                <button type="submit" class="btn btn-danger" name="utilizador" value="logout">Sair</button>
             </form>
         </div>
     </div>
@@ -56,40 +57,86 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <h1>Bem-vindo à The Sharing!</h1>
     </div>
 
-    <!-- Botão flutuante para abrir o modal -->
-    <a href="#" class="floating-button" id="openModalButton">
+    <!-- Botão flutuante no canto inferior direito -->
+    <button type="button" class="btn btn-primary position-fixed bottom-0 end-0 m-3" data-bs-toggle="modal" data-bs-target="#createGroupModal">
         <i class="fas fa-plus"></i>
-    </a>
+    </button>
 
     <!-- Modal de criação de grupo -->
-    <div class="modal" id="createGroupModal">
-        <h2>Criar Novo Grupo</h2>
-        <form id="createGroupForm">
-            <input type="text" name="nome" placeholder="Nome do Grupo" required>
-            <select name="genero" required>
-                <option value="" disabled selected>Selecione o Gênero</option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-            </select>
-            <div class="size-checkboxes">
-                <label><input type="checkbox" name="tamanho[]" value="S"> S</label>
-                <label><input type="checkbox" name="tamanho[]" value="M"> M</label>
-                <label><input type="checkbox" name="tamanho[]" value="L"> L</label>
-                <label><input type="checkbox" name="tamanho[]" value="XL"> XL</label>
+    <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createGroupModalLabel">Criar Novo Grupo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createGroupForm">
+                        <div class="mb-3">
+                            <label for="groupName" class="form-label">Nome do Grupo</label>
+                            <input type="text" class="form-control" id="groupName" name="nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="groupGenre" class="form-label">Gênero</label>
+                            <select class="form-select" id="groupGenre" name="genero" required>
+                                <option value="" disabled selected>Selecione o Gênero</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tamanhos</label>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="tamanho[]" value="S">
+                                    <label class="form-check-label">S</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="tamanho[]" value="M">
+                                    <label class="form-check-label">M</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="tamanho[]" value="L">
+                                    <label class="form-check-label">L</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="tamanho[]" value="XL">
+                                    <label class="form-check-label">XL</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="groupDescription" class="form-label">Descrição do Grupo</label>
+                            <textarea class="form-control" id="groupDescription" name="descricao" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Criar</button>
+                    </form>
+                </div>
             </div>
-            <textarea name="descricao" rows="4" placeholder="Descrição do Grupo" required></textarea>
-            <button type="submit">Criar</button>
-        </form>
+        </div>
     </div>
-    <!-- Overlay para o modal -->
-    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Font Awesome para ícones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-    <script>
-        const modal = document.getElementById('createGroupModal');
-        const overlay = document.getElementById('modalOverlay');
-        const openModalButton = document.getElementById('openModalButton');
 
-        // Abrir o modal
-        openModalButton.addEventListener('click', (e) => {
+    <script>
+        // Alternar entre modo claro e escuro
+        const toggleButton = document.getElementById('toggleMode');
+        const body = document.body;
+
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                toggleButton.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                toggleButton.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+    </script>
+</body>
+</html>

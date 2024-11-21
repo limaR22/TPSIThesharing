@@ -6,76 +6,89 @@ require_once __DIR__ . '/../src/middleware/middleware-utilizador.php';
 $titulo = ' - Perfil';
 include_once __DIR__ . '/templates/cabecalho.php';
 
-# ACESSA DE FUNÇÕES AUXILIADORAS. 
-# NOTA: O SIMBOLO ARROBA SERVE PARA NÃO MOSTRAR MENSAGEM DE WARNING, POIS A FUNÇÃO ABAIXO TAMBÉM INICIA SESSÕES
+# ACESSA DE FUNÇÕES AUXILIADORAS
 @require_once __DIR__ . '/../src/auxiliadores/auxiliador.php';
 $utilizador = utilizador();
+
+# Consultar a imagem de perfil no banco de dados (supondo que existe um campo 'imagem_perfil' no banco de dados)
+$imagem_perfil = isset($utilizador['perfil']) && !empty($utilizador['perfil']) ? $utilizador['perfil'] : 'https://i.pinimg.com/236x/21/9e/ae/219eaea67aafa864db091919ce3f5d82.jpg'; // Imagem padrão
 ?>
 
-<body class="container bg-light">
-  <div class="pt-1 ">
-    <div class="p-5 mb-2 bg-info text-white">
-      <h1>Registo de Utilizadores</h1>
-      <p>CRUD | Front-end Bootstrap | Back-end PHP</p>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="text-center mb-4">
+      <h1 class="fw-bold text-dark">O meu Perfil</h1>
     </div>
-    <main class="bg-light">
-      <section class="py-4">
-        <div class="d-flex justify-content">
-          <a href="/aplicacao/"><button type="button" class="btn btn-secondary px-5 me-2">Voltar</button></a>
-          <a href="/aplicacao/palavra-passe.php"><button class="btn btn-warning px-2 me-2">Alterar Palavra Passe</button></a>
+
+    <!-- Exibir a imagem de perfil -->
+    <div class="text-center mb-4">
+      <img src="<?= $imagem_perfil ?>" alt="Imagem de Perfil" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+    </div>
+
+    <section class="mb-4">
+      <div class="d-flex justify-content-between mb-3">
+        <a href="/aplicacao/" class="btn btn-outline-secondary">Voltar</a>
+        <a href="/aplicacao/palavra-passe.php" class="btn btn-warning">Alterar Palavra Passe</a>
+      </div>
+
+      <!-- Mostrar mensagens de sucesso ou erro -->
+      <?php if (isset($_SESSION['sucesso'])): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <?= $_SESSION['sucesso'] ?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-      </section>
-      <section>
-        <?php
-        # MOSTRA AS MENSAGENS DE SUCESSO E DE ERRO VINDA DO CONTROLADOR-UTILIZADOR
-        if (isset($_SESSION['sucesso'])) {
-          echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
-          echo $_SESSION['sucesso'] . '<br>';
-          echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-          unset($_SESSION['sucesso']);
-        }
-        if (isset($_SESSION['erros'])) {
-          echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
-          foreach ($_SESSION['erros'] as $erro) {
-            echo $erro . '<br>';
-          }
-          echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-          unset($_SESSION['erros']);
-        }
-        ?>
-      </section>
-      <section>
-        <form enctype="multipart/form-data" action="/src/controlador/admin/controlar-utilizador.php" method="post" class="form-control py-3">
-          <div class="input-group mb-3">
-            <span class="input-group-text">Nome</span>
-            <input type="text" class="form-control" name="nome" placeholder="nome" maxlength="100" size="100" value="<?= isset($_REQUEST['nome']) ? $_REQUEST['nome'] : $utilizador['nome'] ?>" required>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">Apelido</span>
-            <input type="text" class="form-control" name="apelido" maxlength="100" size="100" value="<?= isset($_REQUEST['apelido']) ? $_REQUEST['apelido'] : $utilizador['apelido'] ?>" required>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">NIF</span>
-            <input type="tel" class="form-control" name="nif" maxlength="9" size="9" value="<?= isset($_REQUEST['nif']) ? $_REQUEST['nif'] : $utilizador['nif'] ?>" required>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">Telemóvel</span>
-            <input type="tel" class="form-control" name="telemovel" maxlength="9" value="<?= isset($_REQUEST['telemovel']) ? $_REQUEST['telemovel'] : $utilizador['telemovel'] ?>" required>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">E-mail</span>
-            <input type="email" class="form-control" name="email" maxlength="255" value="<?= isset($_REQUEST['email']) ? $_REQUEST['email'] : $utilizador['email'] ?>" required>
-          </div>
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupFile01">Foto de Perfil</label>
-            <input accept="image/*" type="file" class="form-control" id="inputGroupFile01" name="foto" />
-          </div>
-          <div class="d-grid col-4 mx-auto">
-            <button class="w-100 btn btn-lg btn-success mb-2" type="submit" name="utilizador" value="perfil">Alterar</button>
-          </div>
-        </form>
-      </section>
-    </main>
-    <?php
-    include_once __DIR__ . '/templates/rodape.php';
-    ?>
+        <?php unset($_SESSION['sucesso']); ?>
+      <?php endif; ?>
+
+      <?php if (isset($_SESSION['erros'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <?php foreach ($_SESSION['erros'] as $erro): ?>
+            <p><?= $erro ?></p>
+          <?php endforeach; ?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['erros']); ?>
+      <?php endif; ?>
+    </section>
+
+    <section>
+      <form enctype="multipart/form-data" action="/src/controlador/admin/controlar-utilizador.php" method="post" class="shadow-sm p-4 bg-white rounded">
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" class="form-control" name="nome" id="nome" value="<?= isset($_REQUEST['nome']) ? $_REQUEST['nome'] : $utilizador['nome'] ?>" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="apelido" class="form-label">Apelido</label>
+          <input type="text" class="form-control" name="apelido" id="apelido" value="<?= isset($_REQUEST['apelido']) ? $_REQUEST['apelido'] : $utilizador['apelido'] ?>" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="nif" class="form-label">NIF</label>
+          <input type="tel" class="form-control" name="nif" id="nif" maxlength="9" value="<?= isset($_REQUEST['nif']) ? $_REQUEST['nif'] : $utilizador['nif'] ?>" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="telemovel" class="form-label">Telemóvel</label>
+          <input type="tel" class="form-control" name="telemovel" id="telemovel" maxlength="9" value="<?= isset($_REQUEST['telemovel']) ? $_REQUEST['telemovel'] : $utilizador['telemovel'] ?>" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail</label>
+          <input type="email" class="form-control" name="email" id="email" value="<?= isset($_REQUEST['email']) ? $_REQUEST['email'] : $utilizador['email'] ?>" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="inputGroupFile01" class="form-label">Foto de Perfil</label>
+          <input accept="image/*" type="file" class="form-control" id="inputGroupFile01" name="foto" />
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-dark w-100" type="submit" name="utilizador" value="perfil">Alterar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <?php include_once __DIR__ . '/templates/rodape.php'; ?>
+</body>

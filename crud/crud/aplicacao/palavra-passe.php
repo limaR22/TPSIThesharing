@@ -3,7 +3,7 @@
 @include_once __DIR__ . '.\src\middleware\middleware-utilizador.php';
 
 # CARREGA O CABECALHO PADRÃO COM O TÍTULO
-$titulo = ' - Altarar Palavra Passe';
+$titulo = ' - Alterar Palavra Passe';
 include_once __DIR__ . '/templates/cabecalho.php';
 
 # ACESSA DE FUNÇÕES AUXILIADORAS. 
@@ -14,55 +14,60 @@ include_once __DIR__ . '/templates/cabecalho.php';
 $utilizador = utilizador();
 ?>
 
-<body class="container bg-light">
-  <div class="pt-1 ">
-    <div class="p-5 mb-2 bg-info text-white">
-      <h1>Registo de Utilizadores</h1>
-      <p>CRUD | Front-end Bootstrap | Back-end PHP</p>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="text-center mb-4">
+      <h1 class="fw-bold text-dark">Alterar Palavra Passe</h1>
     </div>
-    <main class="bg-light">
-      <section class="py-4">
-        <a href="/aplicacao/perfil.php"><button type="button" class="btn btn-secondary px-5">Voltar</button></a>
-      </section>
-      <section>
-        <?php
-        # MOSTRA AS MENSAGENS DE SUCESSO E DE ERRO VINDA DO CONTROLADOR-UTILIZADOR
-        if (isset($_SESSION['sucesso'])) {
-          echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
-          echo $_SESSION['sucesso'] . '<br>';
-          echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-          unset($_SESSION['sucesso']);
-        }
-        if (isset($_SESSION['erros'])) {
-          echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
-          foreach ($_SESSION['erros'] as $erro) {
-            echo $erro . '<br>';
-          }
-          echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-          unset($_SESSION['erros']);
-        }
-        ?>
-      </section>
-      <section>
-        <form action="/src/controlador/admin/controlar-utilizador.php" method="post" class="form-control py-3">
-          <div class="input-group mb-3">
-            <span class="input-group-text">Nome</span>
-            <input type="text" readonly class="form-control" name="nome" placeholder="<?= $utilizador['nome'] ?>" value="<?= $utilizador['nome'] ?>">
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">Palavra Passe</span>
-            <input type="password" class="form-control" name="palavra_passe" maxlength="255" size="255" required>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">Confirme a Palavra Passe</span>
-            <input type="password" class="form-control" name="confirmar_palavra_passe" maxlength="255" required>
-          </div>
-          <div class="d-grid col-4 mx-auto">
-            <button class="w-100 btn btn-lg btn-success mb-2" type="submit" name="utilizador" value="palavra_passe">Alterar</button>
-          </div>
-        </form>
-      </section>
-    </main>
-    <?php
-    include_once __DIR__ . '/templates/rodape.php';
-    ?>
+
+    <section class="mb-4">
+      <div class="d-flex justify-content-between mb-3">
+        <a href="/aplicacao/perfil.php" class="btn btn-outline-secondary">Voltar</a>
+      </div>
+
+      <!-- Mostrar mensagens de sucesso ou erro -->
+      <?php if (isset($_SESSION['sucesso'])): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <?= $_SESSION['sucesso'] ?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['sucesso']); ?>
+      <?php endif; ?>
+
+      <?php if (isset($_SESSION['erros'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <?php foreach ($_SESSION['erros'] as $erro): ?>
+            <p><?= $erro ?></p>
+          <?php endforeach; ?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['erros']); ?>
+      <?php endif; ?>
+    </section>
+
+    <section>
+      <form action="/src/controlador/admin/controlar-utilizador.php" method="post" class="shadow-sm p-4 bg-white rounded">
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" class="form-control" name="nome" id="nome" value="<?= $utilizador['nome'] ?>" readonly>
+        </div>
+
+        <div class="mb-3">
+          <label for="palavra_passe" class="form-label">Nova Palavra Passe</label>
+          <input type="password" class="form-control" name="palavra_passe" id="palavra_passe" maxlength="255" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="confirmar_palavra_passe" class="form-label">Confirmar Palavra Passe</label>
+          <input type="password" class="form-control" name="confirmar_palavra_passe" id="confirmar_palavra_passe" maxlength="255" required>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-dark w-100" type="submit" name="utilizador" value="palavra_passe">Alterar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <?php include_once __DIR__ . '/templates/rodape.php'; ?>
+</body>
