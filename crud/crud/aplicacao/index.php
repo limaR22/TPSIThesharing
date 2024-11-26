@@ -40,8 +40,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <div class="top-section">
             <h2>Menu</h2>
             <div class="nav-links">
-                <a href="#" class="nav-link">Grupos</a>
-                <a href="#" class="nav-link">Notificações</a>
+                <a href="\aplicacao\grupos.php" class="nav-link">Grupos</a>
+                <a href="\aplicacao\notificacoes.php" class="nav-link">Notificações</a>
                 <a href="\aplicacao\perfil.php" class="nav-link">Perfil</a>
             </div>
         </div>

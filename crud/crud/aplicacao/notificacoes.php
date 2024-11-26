@@ -8,17 +8,17 @@ require_once __DIR__ . '/../src/middleware/middleware-utilizador.php';
 # Carrega o utilizador atual
 $utilizador = utilizador();
 
-# Carregar grupos do utilizador
-# Supondo que você tenha uma função que retorne os grupos aos quais o utilizador pertence
+# Carregar notificações do utilizador
+# Supondo que você tenha uma função que retorne as notificações do utilizador
 
 
 # Carrega o cabeçalho padrão com o título
-$titulo = '- Meus Grupos';
+$titulo = '- Notificações';
 include_once __DIR__ . '/templates/cabecalho.php';
 ?>
 
 <!-- Link para o CSS externo -->
-<link rel="stylesheet" href="/Css/grupos.css">
+<link rel="stylesheet" href="/Css/notificacoes.css">
 
 <!-- Link do Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -28,10 +28,6 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <div class="top-bar">
         <div>
             <h3>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
-        </div>
-
-        <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Pesquisar grupos...">
         </div>
 
         <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
@@ -44,8 +40,9 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <div class="top-section">
             <h2>Menu</h2>
             <div class="nav-links">
-                <a href="\aplicacao\index.php" class="nav-link">Início</a> <!-- Link para a página inicial -->
-                <a href="\aplicacao\notificacoes.php" class="nav-link">Notificações</a>
+                 <!-- Link para a página inicial -->
+                <a href="\aplicacao\grupos.php" class="nav-link">Grupos</a>
+                <a href="\aplicacao\index.php" class="nav-link">Início</a>
                 <a href="\aplicacao\perfil.php" class="nav-link">Perfil</a>
             </div>
         </div>
@@ -58,20 +55,19 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
     <!-- Conteúdo principal -->
     <div class="main-content">
-        <h1>Meus Grupos</h1>
+        <h1>Notificações</h1>
 
-        <!-- Lista de grupos -->
-        <div class="grupos-list">
-            <?php if (empty($grupos)): ?>
-                <p>Não estás em nenhum grupo neste momento... 😓.</p>
+        <!-- Lista de notificações -->
+        <div class="notificacoes-list">
+            <?php if (empty($notificacoes)): ?>
+                <p>Não tens notificações neste momento...🗞️.</p>
             <?php else: ?>
                 <ul class="list-group">
-                    <?php foreach ($grupos as $grupo): ?>
+                    <?php foreach ($notificacoes as $notificacao): ?>
                         <li class="list-group-item">
-                            <h5><?= htmlspecialchars($grupo['nome']) ?></h5>
-                            <p><?= htmlspecialchars($grupo['descricao']) ?></p>
-                            <p><strong>Gênero:</strong> <?= ucfirst($grupo['genero']) ?></p>
-                            <p><strong>Tamanhos disponíveis:</strong> <?= implode(', ', $grupo['tamanhos']) ?></p>
+                            <h5><?= htmlspecialchars($notificacao['titulo']) ?></h5>
+                            <p><?= htmlspecialchars($notificacao['mensagem']) ?></p>
+                            <p><strong>Data:</strong> <?= htmlspecialchars($notificacao['data']) ?></p>
                         </li>
                     <?php endforeach; ?>
                 </ul>
