@@ -14,9 +14,9 @@ $utilizador = utilizador();
 $imagem_perfil = isset($utilizador['perfil']) && !empty($utilizador['perfil']) ? $utilizador['perfil'] : 'https://i.pinimg.com/236x/21/9e/ae/219eaea67aafa864db091919ce3f5d82.jpg'; // Imagem padrão
 ?>
 
-<body class="bg-light">
+<body class="light-mode">
   <div class="container py-5">
-    <div class="text-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
       <h1 class="fw-bold text-dark">O meu Perfil</h1>
     </div>
 
@@ -89,6 +89,7 @@ $imagem_perfil = isset($utilizador['perfil']) && !empty($utilizador['perfil']) ?
       </form>
     </section>
   </div>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-  <?php include_once __DIR__ . '/templates/rodape.php'; ?>
+  <script src="/javascript/modos.js"></script>
 </body>

@@ -10,8 +10,6 @@ $utilizador = utilizador();
 
 # Carregar grupos do utilizador
 # Supondo que você tenha uma função que retorne os grupos aos quais o utilizador pertence
-
-
 # Carrega o cabeçalho padrão com o título
 $titulo = '- Meus Grupos';
 include_once __DIR__ . '/templates/cabecalho.php';
@@ -85,21 +83,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <!-- Font Awesome para ícones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 
-    <script>
-        // Alternar entre modo claro e escuro
-        const toggleButton = document.getElementById('toggleMode');
-        const body = document.body;
-
-        toggleButton.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            body.classList.toggle('light-mode');
-
-            if (body.classList.contains('dark-mode')) {
-                toggleButton.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                toggleButton.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        });
-    </script>
+    <script src="/javascript/modos.js"></script>
+    
 </body>
 </html>

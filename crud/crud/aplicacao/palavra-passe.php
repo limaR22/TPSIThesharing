@@ -14,10 +14,13 @@ include_once __DIR__ . '/templates/cabecalho.php';
 $utilizador = utilizador();
 ?>
 
-<body class="bg-light">
+<link rel="stylesheet" href="/Css/palavra.css">
+
+<body class="light-mode">
   <div class="container py-5">
-    <div class="text-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
       <h1 class="fw-bold text-dark">Alterar Palavra Passe</h1>
+      <!-- Botão de alternância de modo -->
     </div>
 
     <section class="mb-4">
@@ -70,4 +73,5 @@ $utilizador = utilizador();
   </div>
 
   <?php include_once __DIR__ . '/templates/rodape.php'; ?>
+  <script src="/javascript/modos.js"></script>
 </body>

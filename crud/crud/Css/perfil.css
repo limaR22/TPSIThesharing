@@ -1,0 +1,32 @@
+/* Estilos para o modo claro */
+body.light-mode {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  body.light-mode .btn-light {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  body.light-mode .btn-dark {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  /* Estilos para o modo escuro */
+  body.dark-mode {
+    background-color: #121212;
+    color: #fff;
+  }
+  
+  body.dark-mode .btn-light {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  body.dark-mode .btn-dark {
+    background-color: #fff;
+    color: #121212;
+  }
+  

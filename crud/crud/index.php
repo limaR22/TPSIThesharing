@@ -147,22 +147,7 @@ require_once __DIR__ . '/src/middleware/middleware-nao-autenticado.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Font Awesome JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-    <script>
-        // JavaScript para alternar entre modos
-        const toggleButton = document.getElementById('toggleMode');
-        const body = document.body;
 
-        toggleButton.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            body.classList.toggle('light-mode');
-
-            // Atualizar o ícone da lua
-            if (body.classList.contains('dark-mode')) {
-                toggleButton.innerHTML = '<i class="fas fa-sun"></i>'; // Ícone do sol
-            } else {
-                toggleButton.innerHTML = '<i class="fas fa-moon"></i>'; // Ícone da lua
-            }
-        });
-    </script>
+    <script src="/javascript/modos.js"></script>
 </body>
 </html>

@@ -1,158 +1,295 @@
-    /* Reset básico */
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        display: flex;
-        height: 100vh;
-        transition: background-color 0.3s, color 0.3s;
-    }
+/* Reset básico */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+}
 
-    /* Modos claro e escuro */
-    .light-mode {
-        background-color: #ffffff; /* Fundo branco */
-        color: #000000; /* Texto preto */
-    }
+/* Modos claro e escuro */
+.light-mode {
+    background-color: #ffffff; /* Fundo branco */
+    color: #000000; /* Texto preto */
+}
 
-    .dark-mode {
-        background-color: #000000; /* Fundo preto */
-        color: #ffffff; /* Texto branco */
-    }
+.dark-mode {
+    background-color: #000000; /* Fundo preto */
+    color: #ffffff; /* Texto branco */
+}
 
-    /* Sidebar estilizada */
-    .sidebar {
-        width: 250px;
-        background-color: #111111;
-        color: #ffffff;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 20px;
-        box-sizing: border-box;
-        transition: background-color 0.3s, color 0.3s;
-        margin-top: 60px; /* Altura da barra superior */
-        height: calc(100vh - 60px); /* Altura da tela menos a altura da barra superior */
-        position: fixed;
-        top: 0;
-        left: 0;
-    }
+/* Sidebar estilizada */
+.sidebar {
+    width: 250px;
+    background-color: #111111; /* Fundo escuro por padrão */
+    color: #ffffff; /* Texto branco */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 60px; /* Altura da barra superior */
+    height: calc(100vh - 60px); /* Altura da tela menos a altura da barra superior */
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 
-    .light-mode .sidebar {
-        background-color: #f7f7f7;
-        color: #000000;
-    }
+.light-mode .sidebar {
+    background-color: #f7f7f7; /* Modo claro: fundo mais claro */
+    color: #000000; /* Texto preto */
+}
 
-    .sidebar .top-section h2 {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
-    }
+.dark-mode .sidebar {
+    background-color: #222222; /* Modo escuro: fundo mais escuro */
+    color: #ffffff; /* Texto branco */
+}
 
-    .sidebar .nav-links {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+.sidebar .top-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
 
-    .sidebar .nav-links a {
-        text-decoration: none;
-        color: inherit;
-        font-size: 1rem;
-    }
+.sidebar .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
-    .sidebar .nav-links a:hover {
-        opacity: 0.8;
-    }
+.sidebar .nav-links a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 1rem;
+}
 
-    .logout-section form button {
-        width: 100%;
-        padding: 10px;
-        background-color: #dc3545;
-        border: none;
-        border-radius: 5px;
-        color: #ffffff;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
+.sidebar .nav-links a:hover {
+    opacity: 0.8;
+    color: #007bff; /* Cor do link ao passar o mouse */
+}
 
-    .light-mode .logout-section form button {
-        background-color: #ff6666;
-    }
+.light-mode .sidebar .nav-links a {
+    color: #000000; /* Links pretos no modo claro */
+}
 
-    .logout-section form button:hover {
-        background-color: #a71d2a;
-    }
+.dark-mode .sidebar .nav-links a {
+    color: #ffffff; /* Links brancos no modo escuro */
+}
 
-    .main-content {
-        margin-left: 250px; /* Largura da sidebar */
-        margin-top: 60px; /* Altura da barra superior */
-        padding: 20px;
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+.sidebar .nav-links a:hover {
+    opacity: 0.8;
+    color: #007bff; /* Cor do link ao passar o mouse */
+}
 
-    /* Barra superior */
-    .top-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 60px;
-        background-color: #f1f1f1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        box-sizing: border-box;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s, color 0.3s;
-        z-index: 1000;
-    }
+.light-mode .sidebar .nav-links a:hover {
+    color: #0056b3; /* Cor do link ao passar o mouse no modo claro */
+}
 
-    .dark-mode .top-bar {
-        background-color: #222222;
-        color: #ffffff;
-    }
+/* Barra superior */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 1000;
+}
 
-    /* Barra de pesquisa */
-    .search-bar {
-        flex: 1;
-        margin: 0 20px;
-        display: flex;
-        justify-content: center;
-    }
+.dark-mode .top-bar {
+    background-color: #222222;
+    color: #ffffff;
+}
 
-    .search-bar input {
-        width: 50%;
-        padding: 10px;
-        font-size: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        outline: none;
-        transition: border-color 0.3s;
-    }
+/* Barra de pesquisa */
+.search-bar {
+    flex: 1;
+    margin: 0 20px;
+    display: flex;
+    justify-content: center;
+}
 
-    .dark-mode .search-bar input {
-        background-color: #333333;
-        color: #ffffff;
-        border: 1px solid #555555;
-    }
+.search-bar input {
+    width: 50%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    transition: border-color 0.3s;
+}
 
-    .search-bar input:focus {
-        border-color: #007bff;
-    }
+.dark-mode .search-bar input {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
 
-    /* Botão de alternar tema */
-    .mode-toggle {
-        font-size: 1.5rem;
-        background-color: transparent;
-        border: none;
-        color: inherit;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
+.search-bar input:focus {
+    border-color: #007bff;
+}
 
-    .mode-toggle:hover {
-        transform: scale(1.1);
-    }
+/* Botão de alternar tema */
+.mode-toggle {
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
 
+.mode-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Sidebar links */
+.sidebar .nav-links a {
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.sidebar .nav-links a:hover {
+    opacity: 0.8;
+    color: #007bff;
+}
+
+/* Conteúdo principal */
+.main-content {
+    margin-left: 250px; /* Largura da sidebar */
+    margin-top: 60px; /* Altura da barra superior */
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal de criação de grupo */
+.modal-content {
+    background-color: #ffffff;
+    color: #000000;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .modal-content {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+/* Modal Botões */
+.modal-header, .modal-footer {
+    background-color: #f1f1f1;
+}
+
+.dark-mode .modal-header, .dark-mode .modal-footer {
+    background-color: #444444;
+}
+
+.modal-footer button {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+.dark-mode .modal-footer button {
+    background-color: #45b28a;
+}
+
+.modal-footer button:hover {
+    background-color: #218838;
+}
+
+.dark-mode .modal-footer button:hover {
+    background-color: #207a61;
+}
+
+/* Formulário de criação de grupo */
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+}
+
+.dark-mode .form-control {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+}
+
+.dark-mode .form-control:focus {
+    border-color: #55b8d8;
+}
+
+/* Tamanhos de grupo */
+.form-check-input {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+}
+
+.dark-mode .form-check-input {
+    background-color: #333333;
+    border: 1px solid #555555;
+}
+
+/* Botão de criação de grupo */
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.dark-mode .btn-success {
+    background-color: #45b28a;
+    border-color: #45b28a;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.dark-mode .btn-success:hover {
+    background-color: #207a61;
+    border-color: #207a61;
+}
+
+/* Logout */
+.logout-section form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.light-mode .logout-section form button {
+    background-color: #ff6666;
+}
+
+.logout-section form button:hover {
+    background-color: #a71d2a;
+}
+
+.dark-mode .logout-section form button {
+    background-color: #d9534f;
+}
+
+.dark-mode .logout-section form button:hover {
+    background-color: #c9302c;
+}
