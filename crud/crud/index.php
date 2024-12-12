@@ -134,12 +134,8 @@ require_once __DIR__ . '/src/middleware/middleware-nao-autenticado.php';
         <h1>Partilhe agora!</h1>
         <script src="https://accounts.google.com/gsi/client" async></script>
     <div id="g_id_onload"
-        data-client_id="YOUR_GOOGLE_CLIENT_ID
-
-"
-        data-login_uri="https://your.domain/your_login_endpoint
-
-"
+        data-client_id="813200784746-modba2qap8vs8j99djfg7oblkiqep6nj.apps.googleusercontent.com"
+        data-login_uri="http://localhost:8080/aplicacao/"
         data-auto_prompt="false">
     </div>
     <div class="g_id_signin"
