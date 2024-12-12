@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['descr
     }
 }
 
-// Carregar os grupos do utilizador
+// Carregar os grupos
 $sql = "SELECT * FROM grupo";
 $stmt = $pdo->query($sql);
 $grupos = $stmt->fetchAll();
@@ -112,6 +112,9 @@ include_once __DIR__ . '/templates/cabecalho.php';
                                 <div class="card-body">
                                     <h5 class="card-title"><?= htmlspecialchars($grupo['nome']) ?></h5>
                                     <p class="card-text"><?= htmlspecialchars($grupo['descricao']) ?></p>
+                                    <!-- Link para entrar no grupo -->
+                                    <a href="../aplicacao/grupo.php?grupo_id=<?= $grupo['id'] ?>" class="btn btn-primary">Entrar no Grupo</a>
+
                                 </div>
                             </div>
                         </div>
