@@ -132,9 +132,24 @@ require_once __DIR__ . '/src/middleware/middleware-nao-autenticado.php';
     </div>
     <div class="right-section">
         <h1>Partilhe agora!</h1>
-        <button class="btn-custom-white">
-            <i class="fab fa-google"></i> Inscrever-se com Google       
-        </button><br>
+        <script src="https://accounts.google.com/gsi/client" async></script>
+    <div id="g_id_onload"
+        data-client_id="YOUR_GOOGLE_CLIENT_ID
+
+"
+        data-login_uri="https://your.domain/your_login_endpoint
+
+"
+        data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left">
+    </div>
         <button class="btn-custom-blue"onclick="location.href='/aplicacao/registo.php'">Criar Conta</button><br>
         <h3>Já tem uma conta?</h3>
         <button class="btn-custom-blue" onclick="location.href='/aplicacao/login.php'">Entrar</button>
