@@ -4,23 +4,30 @@
 
 # INSERE DADOS DA CONEXÃO COM O PDO UTILIZANDO SQLITE
 
-require __DIR__ . '/criar-conexao.php';
+require_once __DIR__ . '/src/infraestrutura/basededados/criar-conexao.php';
+
 
 # APAGA TABELA SE ELA EXISTIR
 $pdo->exec('DROP TABLE IF EXISTS cursos;');
 echo 'Tabela grupos apagada!' . PHP_EOL;
 
 # CRIA A TABELA CURSOS COM NOMES DE COLUNAS VÁLIDOS
-$pdo->exec(
-    'CREATE TABLE grupos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        nome TEXT NOT NULL, 
-        genero TEXT NOT NULL, 
-        tamanho TEXT NOT NULL,  
-        descricao TEXT NOT NULL
-    );'
-);
-echo 'Tabela grupos criada!' . PHP_EOL;
+try {
+    $sql = "
+        CREATE TABLE IF NOT EXISTS grupo (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            descricao TEXT,
+            foto TEXT,
+            criado_por INTEGER,
+            criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    ";
+    $pdo->exec($sql);
+    echo "Tabela 'grupo' criada/verificada com sucesso!";
+} catch (PDOException $e) {
+    echo "Erro ao criar/verificar tabela 'grupo': " . $e->getMessage();
+}
 
 # ABAIXO UM ARRAY SIMULANDO OS DADOS DE UM CURSO
 $curso = [

@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 # INICIALIZA O REPOSITÓRIO PDO UTILIZADOR PARA 
 require_once __DIR__ . '/../../src/infraestrutura/basededados/repositorio-utilizador.php';
 

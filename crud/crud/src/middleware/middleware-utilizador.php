@@ -6,7 +6,9 @@
  **/
 
 # INICIA A SESSÃO
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 
 # SE UTILIZADOR NÃO TIVER SESSÃO INICIADA, ENVIA PARA TELA DE LOGIN
 if (!isset($_SESSION['id'])) {

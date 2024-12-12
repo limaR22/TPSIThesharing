@@ -1,16 +1,53 @@
 <?php
-# Middleware para garantir que apenas utilizadores autenticados acessem este sítio
+// Iniciar sessão e carregar o utilizador
 require_once __DIR__ . '/../src/middleware/middleware-utilizador.php';
+require_once __DIR__ . '/../src/auxiliadores/auxiliador.php';
 
-# Acessa funções auxiliares
-@require_once __DIR__ . '/../src/auxiliadores/auxiliador.php';
+// Conectar à base de dados
+require_once __DIR__ . '/../src/infraestrutura/basededados/criar-conexao.php';
 
-# Carrega o utilizador atual
-$utilizador = utilizador();
+// Verificar se o formulário de criação de grupo foi enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['descricao'])) {
+    $nome = $_POST['nome'];
+    $descricao = $_POST['descricao'];
+    $foto = $_FILES['foto'];
 
-# Carregar grupos do utilizador
-# Supondo que você tenha uma função que retorne os grupos aos quais o utilizador pertence
-# Carrega o cabeçalho padrão com o título
+    // Verifica se o arquivo foi enviado corretamente
+    if ($foto && $foto['error'] === 0) {
+        // Definir um nome único para o arquivo (para evitar conflitos)
+        $fotoNome = uniqid('grupo_', true) . '.' . pathinfo($foto['name'], PATHINFO_EXTENSION);
+        $fotoCaminho = 'uploads/' . $fotoNome; // Pasta 'uploads/'
+
+        // Move o arquivo para a pasta 'uploads/'
+        if (move_uploaded_file($foto['tmp_name'], __DIR__ . '/' . $fotoCaminho)) {
+            // Inserir os dados no banco de dados
+            $sql = "INSERT INTO grupo (nome, descricao, foto) VALUES (:nome, :descricao, :foto)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':nome', $nome);
+            $stmt->bindParam(':descricao', $descricao);
+            $stmt->bindParam(':foto', $fotoCaminho);
+
+            if ($stmt->execute()) {
+                // Redirecionar após sucesso
+                header("Location: grupos.php");
+                exit();
+            } else {
+                echo "Erro ao criar o grupo!";
+            }
+        } else {
+            echo "Erro ao mover o arquivo de imagem.";
+        }
+    } else {
+        echo "Por favor, envie uma imagem válida.";
+    }
+}
+
+// Carregar os grupos do utilizador
+$sql = "SELECT * FROM grupo";
+$stmt = $pdo->query($sql);
+$grupos = $stmt->fetchAll();
+
+// Carregar cabeçalho
 $titulo = '- Meus Grupos';
 include_once __DIR__ . '/templates/cabecalho.php';
 ?>
@@ -42,7 +79,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <div class="top-section">
             <h2>Menu</h2>
             <div class="nav-links">
-                <a href="\aplicacao\index.php" class="nav-link">Início</a> <!-- Link para a página inicial -->
+                <a href="\aplicacao\index.php" class="nav-link">Início</a>
                 <a href="\aplicacao\notificacoes.php" class="nav-link">Notificações</a>
                 <a href="\aplicacao\perfil.php" class="nav-link">Perfil</a>
             </div>
@@ -63,27 +100,67 @@ include_once __DIR__ . '/templates/cabecalho.php';
             <?php if (empty($grupos)): ?>
                 <p>Não estás em nenhum grupo neste momento... 😓.</p>
             <?php else: ?>
-                <ul class="list-group">
+                <div class="row">
                     <?php foreach ($grupos as $grupo): ?>
-                        <li class="list-group-item">
-                            <h5><?= htmlspecialchars($grupo['nome']) ?></h5>
-                            <p><?= htmlspecialchars($grupo['descricao']) ?></p>
-                            <p><strong>Gênero:</strong> <?= ucfirst($grupo['genero']) ?></p>
-                            <p><strong>Tamanhos disponíveis:</strong> <?= implode(', ', $grupo['tamanhos']) ?></p>
-                        </li>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <?php if ($grupo['foto']): ?>
+                                    <img src="<?= $grupo['foto'] ?>" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
+                                <?php else: ?>
+                                    <img src="default-image.jpg" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
+                                <?php endif; ?>
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= htmlspecialchars($grupo['nome']) ?></h5>
+                                    <p class="card-text"><?= htmlspecialchars($grupo['descricao']) ?></p>
+                                </div>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
-                </ul>
+                </div>
             <?php endif; ?>
         </div>
     </div>
 
+    <!-- Botão flutuante para abrir o formulário de criação de grupo -->
+    <button class="btn btn-success btn-floating" id="criarGrupoBtn" style="position: fixed; bottom: 20px; right: 20px;">
+        Criar Grupo
+    </button>
+
+    <!-- Formulário de criação de grupo (inicialmente escondido) -->
+    <div id="formularioGrupo" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+        <h5>Criar Novo Grupo</h5>
+        <form id="formCriarGrupo" action="grupos.php" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome do Grupo</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" id="descricao" name="descricao" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="foto" class="form-label">Foto do Grupo</label>
+                <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary">Criar Grupo</button>
+            <button type="button" class="btn btn-secondary" id="cancelarBtn">Cancelar</button>
+        </form>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mostrar o formulário quando o botão "Criar Grupo" for clicado
+        document.getElementById('criarGrupoBtn').addEventListener('click', function() {
+            document.getElementById('formularioGrupo').style.display = 'block';
+        });
+
+        // Esconder o formulário quando o botão "Cancelar" for clicado
+        document.getElementById('cancelarBtn').addEventListener('click', function() {
+            document.getElementById('formularioGrupo').style.display = 'none';
+        });
+    </script>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Font Awesome para ícones -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
-    <script src="/javascript/modos.js"></script>
-    
 </body>
 </html>
