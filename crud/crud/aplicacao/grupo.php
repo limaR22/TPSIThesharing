@@ -1,88 +1,122 @@
 <?php
-require_once realpath(__DIR__ . '/../src/middleware/middleware-utilizador.php');
 require_once realpath(__DIR__ . '/../src/infraestrutura/basededados/criar-conexao.php');
 
 // Verifica se o ID do grupo foi passado na URL
 if (!isset($_GET['grupo_id'])) {
-    echo "ID do grupo não especificado.";
-    exit();
+    die("ID do grupo não especificado.");
 }
 
-// Obtém o ID do grupo da URL
-$grupo_id = $_GET['grupo_id'];
+$grupo_id = (int)$_GET['grupo_id'];
 
-// Prepara a consulta para buscar o grupo pelo ID
-$sql = "SELECT * FROM grupo WHERE id = :id";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':id', $grupo_id, PDO::PARAM_INT);
-$stmt->execute();
-$grupo = $stmt->fetch();
+// Verifica se o grupo existe
+$stmtGrupo = $pdo->prepare("SELECT * FROM grupo WHERE id = :id");
+$stmtGrupo->execute([':id' => $grupo_id]);
+$grupo = $stmtGrupo->fetch();
 
-// Verifica se o grupo foi encontrado
 if (!$grupo) {
-    echo "Grupo não encontrado.";
-    exit();
+    die("Grupo não encontrado.");
 }
 
-// Inclui o cabeçalho da página
-include_once __DIR__ . '/templates/cabecalho.php';
+// Adiciona nova roupa se o formulário foi enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = $_POST['nome'] ?? '';
+    $descricao = $_POST['descricao'] ?? '';
+    $utilizador_id = 1; // Simula um ID de usuário para testes
+
+    // Verifica se o arquivo foi enviado corretamente
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        $fotoNome = uniqid('roupa_', true) . '.' . pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+        $fotoCaminho = __DIR__ . '/uploads/' . $fotoNome;
+
+        if (move_uploaded_file($_FILES['foto']['tmp_name'], $fotoCaminho)) {
+            $fotoRelativa = 'uploads/' . $fotoNome;
+
+            // Insere a roupa no banco de dados
+            $stmtInserir = $pdo->prepare("
+                INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id) 
+                VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id)
+            ");
+            $stmtInserir->execute([
+                ':nome' => $nome,
+                ':descricao' => $descricao,
+                ':imagem' => $fotoRelativa,
+                ':grupo_id' => $grupo_id,
+                ':utilizador_id' => $utilizador_id,
+            ]);
+
+            echo "Roupa adicionada com sucesso!";
+        } else {
+            echo "Erro ao salvar a imagem.";
+        }
+    } else {
+        echo "Erro no envio da imagem.";
+    }
+}
+
+// Busca as roupas deste grupo
+$stmtRoupas = $pdo->prepare("SELECT * FROM roupas WHERE grupo_id = :grupo_id");
+$stmtRoupas->execute([':grupo_id' => $grupo_id]);
+$roupas = $stmtRoupas->fetchAll();
 ?>
 
-<div class="container">
-    <div class="group-header">
-        <h1><?= htmlspecialchars($grupo['nome']) ?></h1>
-        <p class="group-description"><?= htmlspecialchars($grupo['descricao']) ?></p>
-    </div>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Grupo: <?= htmlspecialchars($grupo['nome']) ?></title>
+    <link rel="stylesheet" href="../Css/grupo.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Grupo: <?= htmlspecialchars($grupo['nome']) ?></h1>
+        <p><?= htmlspecialchars($grupo['descricao']) ?></p>
 
-    <div class="add-clothing">
-        <h2>Adicionar Roupa</h2>
-        <form action="/src/controlador/aplicacao/controlar-roupa.php" method="POST" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label for="roupaNome" class="form-label">Nome da Roupa</label>
-        <input type="text" class="form-control" id="roupaNome" name="nome" required>
-    </div>
-    <div class="mb-3">
-        <label for="roupaDescricao" class="form-label">Descrição da Roupa</label>
-        <textarea class="form-control" id="roupaDescricao" name="descricao" required></textarea>
-    </div>
-    <div class="mb-3">
-        <label for="roupaFoto" class="form-label">Foto da Roupa</label>
-        <input type="file" class="form-control" id="roupaFoto" name="foto" accept="image/*" required>
-    </div>
-    <input type="hidden" name="grupo_id" value="<?= $grupo_id ?>">
-    <button type="submit" class="btn btn-success">Adicionar Roupa</button>
-</form>
-    </div>
-
-    <div class="roupas-list">
         <h2>Roupas no Grupo</h2>
-        <ul class="list-group">
-            <?php
-            // Aqui você deve buscar as roupas associadas a este grupo
-            $sqlRoupas = "SELECT * FROM roupas WHERE grupo_id = :grupo_id";
-            $stmtRoupas = $pdo->prepare($sqlRoupas);
-            $stmtRoupas->bindParam(':grupo_id', $grupo_id, PDO::PARAM_INT);
-            $stmtRoupas->execute();
-            $roupas = $stmtRoupas->fetchAll();
-
-            foreach ($roupas as $roupa) {
-                echo '<li class="list-group-item">';
-                echo '<h5>' . htmlspecialchars($roupa['nome']) . '</h5>';
-                echo '<p>' . htmlspecialchars($roupa['descricao']) . '</p>';
-                if ($roupa['foto']) {
-                    echo '<img src="' . htmlspecialchars($roupa['foto']) . '" alt="Foto da roupa" style="width: 100px; height: auto;">';
-                }
-                echo '</li>';
-            }
-            ?>
+        <ul class="roupas-list">
+            <?php if (empty($roupas)): ?>
+                <li>Nenhuma roupa adicionada a este grupo ainda.</li>
+            <?php else: ?>
+                <?php foreach ($roupas as $roupa): ?>
+                    <li>
+                        <?php if ($roupa['imagem']): ?>
+                            <img src="<?= htmlspecialchars($roupa['imagem']) ?>" alt="Foto da roupa">
+                        <?php endif; ?>
+                        <div>
+                            <h3><?= htmlspecialchars($roupa['nome']) ?></h3>
+                            <p><?= htmlspecialchars($roupa['descricao']) ?></p>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </ul>
     </div>
-</div>
 
-<!-- Link do Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Formulário para adicionar roupa -->
+    <div class="formulario-roupa">
+        <h2>Adicionar Roupa</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" required>
+            
+            <label for="descricao">Descrição:</label>
+            <textarea name="descricao" id="descricao" required></textarea>
+            
+            <label for="foto">Foto:</label>
+            <input type="file" name="foto" id="foto" accept="image/*" required>
+            
+            <button type="submit">Adicionar Roupa</button>
+        </form>
+    </div>
 
-<!-- JavaScript do Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Botão para abrir o formulário -->
+    <button class="btn-adicionar" onclick="toggleForm()">+</button>
 
-<?php include_once __DIR__ . '/templates/rodape.php'; ?>
+    <script>
+        // Função para mostrar/ocultar o formulário
+        function toggleForm() {
+            var form = document.querySelector('.formulario-roupa');
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

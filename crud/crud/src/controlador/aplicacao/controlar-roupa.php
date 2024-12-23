@@ -1,65 +1,64 @@
 <?php
 session_start();
-require_once __DIR__ . '/../../infraestrutura/basededados/repositorio-utilizador.php';
 require_once __DIR__ . '/../../infraestrutura/basededados/criar-conexao.php';
+require_once __DIR__ . '/../../validacao/aplicacao/validar-roupa.php';
 
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Verifica se os dados necessários estão presentes
-    if (isset($_POST['nome'], $_POST['descricao'], $_FILES['foto'], $_POST['grupo_id'])) {
-        $nome = $_POST['nome'];
-        $descricao = $_POST['descricao'];
-        $grupo_id = $_POST['grupo_id'];
-        $utilizador_id = $_SESSION['id']; // Supondo que você tenha o ID do usuário na sessão
+    try {
+        // Valida os dados do formulário
+        $dadosValidados = validarRoupa($_POST);
 
-        // Processa a imagem
-        $foto = $_FILES['foto'];
-        $caminhoFoto = '';
-
-        // Verifica se a imagem foi enviada corretamente
-        if ($foto && $foto['error'] === 0) {
-            // Define um nome único para o arquivo
-            $fotoNome = uniqid('roupa_', true) . '.' . pathinfo($foto['name'], PATHINFO_EXTENSION);
-            $fotoCaminho = 'uploads/' . $fotoNome; // Pasta 'uploads/'
-
-            // Move o arquivo para a pasta 'uploads/'
-            if (move_uploaded_file($foto['tmp_name'], __DIR__ . '/' . $fotoCaminho)) {
-                $caminhoFoto = $fotoCaminho;
-            } else {
-                $_SESSION['erros'] = ['Erro ao mover o arquivo de imagem.'];
-                header('Location: /aplicacao/grupo.php?grupo_id=' . $grupo_id);
-                exit();
-            }
-        } else {
-            $_SESSION['erros'] = ['Por favor, envie uma imagem válida.'];
-            header('Location: /aplicacao/grupo.php?grupo_id=' . $grupo_id);
+        if (isset($dadosValidados['invalido'])) {
+            $_SESSION['erros'] = $dadosValidados['invalido'];
+            header('Location: /aplicacao/grupo.php?grupo_id=' . $_POST['grupo_id']);
             exit();
         }
 
-        // Insere a roupa no banco de dados
-        $sql = "INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id) VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id)";
+        $nome = trim($dadosValidados['nome']);
+        $descricao = trim($dadosValidados['descricao']);
+        $grupo_id = (int) $dadosValidados['grupo_id'];
+        $utilizador_id = (int) $_SESSION['id'];
+
+        // Processar imagem
+        $foto = $_FILES['foto'];
+        $caminhoFoto = null;
+
+        if ($foto && $foto['error'] === UPLOAD_ERR_OK) {
+            $fotoNome = uniqid('roupa_', true) . '.' . pathinfo($foto['name'], PATHINFO_EXTENSION);
+            $fotoCaminho = __DIR__ . '/../../../uploads/' . $fotoNome;
+
+            if (move_uploaded_file($foto['tmp_name'], $fotoCaminho)) {
+                $caminhoFoto = 'uploads/' . $fotoNome;
+            } else {
+                throw new Exception('Erro ao mover o arquivo de imagem.');
+            }
+        }
+
+        // Inserir dados no banco
+        $sql = "INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id) 
+                VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id)";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':descricao', $descricao);
         $stmt->bindParam(':imagem', $caminhoFoto);
-        $stmt->bindParam(':grupo_id', $grupo_id);
-        $stmt->bindParam(':utilizador_id', $utilizador_id); // Adicionando o ID do usuário
+        $stmt->bindParam(':grupo_id', $grupo_id, PDO::PARAM_INT);
+        $stmt->bindParam(':utilizador_id', $utilizador_id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $_SESSION['sucesso'] = 'Roupa adicionada com sucesso!';
         } else {
-            $_SESSION['erros'] = ['Erro ao adicionar a roupa.'];
-            error_log(print_r($stmt->errorInfo(), true)); // Log de erro
+            throw new Exception('Erro ao inserir roupa no banco de dados.');
         }
-    } else {
-        $_SESSION['erros'] = ['Dados incompletos.'];
-    }
 
-    // Redireciona de volta para a página do grupo
-    header('Location: /aplicacao/grupo.php?grupo_id=' . $grupo_id);
-    exit();
+        header('Location: /aplicacao/grupo.php?grupo_id=' . $grupo_id);
+        exit();
+    } catch (Exception $e) {
+        $_SESSION['erros'] = [$e->getMessage()];
+        header('Location: /aplicacao/grupo.php?grupo_id=' . $_POST['grupo_id']);
+        exit();
+    }
 } else {
-    // Se não for um POST, redireciona para a página do grupo
     header('Location: /aplicacao/grupos.php');
     exit();
 }
