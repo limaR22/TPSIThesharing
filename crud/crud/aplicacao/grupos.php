@@ -6,11 +6,19 @@ require_once __DIR__ . '/../src/auxiliadores/auxiliador.php';
 // Conectar à base de dados
 require_once __DIR__ . '/../src/infraestrutura/basededados/criar-conexao.php';
 
+// Verificar se o formulário de pesquisa foi enviado
+$searchTerm = '';
+if (isset($_GET['search'])) {
+    $searchTerm = $_GET['search'];
+}
+
+
 // Verificar se o formulário de criação de grupo foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['descricao'])) {
     $nome = $_POST['nome'];
     $descricao = $_POST['descricao'];
     $foto = $_FILES['foto'];
+    $utilizador_id = $_SESSION['id']; // ID do usuário autenticado
 
     // Verifica se o arquivo foi enviado corretamente
     if ($foto && $foto['error'] === 0) {
@@ -21,11 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['descr
         // Move o arquivo para a pasta 'uploads/'
         if (move_uploaded_file($foto['tmp_name'], __DIR__ . '/' . $fotoCaminho)) {
             // Inserir os dados no banco de dados
-            $sql = "INSERT INTO grupo (nome, descricao, foto) VALUES (:nome, :descricao, :foto)";
+            $sql = "INSERT INTO grupo (nome, descricao, foto, utilizador_id) VALUES (:nome, :descricao, :foto, :utilizador_id)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':nome', $nome);
             $stmt->bindParam(':descricao', $descricao);
             $stmt->bindParam(':foto', $fotoCaminho);
+            $stmt->bindParam(':utilizador_id', $utilizador_id); // Associar ao usuário
 
             if ($stmt->execute()) {
                 // Redirecionar após sucesso
@@ -42,10 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['descr
     }
 }
 
-// Carregar os grupos
-$sql = "SELECT * FROM grupo";
-$stmt = $pdo->query($sql);
-$grupos = $stmt->fetchAll();
+// Carregar os grupos do usuário autenticado
+$utilizador_id = $_SESSION['id']; // ID do usuário autenticado
+$stmtGrupos = $pdo->prepare("SELECT * FROM grupo WHERE utilizador_id = :utilizador_id");
+$stmtGrupos->execute([':utilizador_id' => $utilizador_id]);
+$grupos = $stmtGrupos->fetchAll();
 
 // Carregar cabeçalho
 $titulo = '- Meus Grupos';
@@ -62,7 +72,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <!-- Barra superior -->
     <div class="top-bar">
         <div>
-            <h3>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
+            <h3>Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
         </div>
 
         <div class="search-bar">
@@ -79,13 +89,14 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <div class="top-section">
             <h2>Menu</h2>
             <div class="nav-links">
-                <a href="\aplicacao\index.php" class="nav-link">Início</a>
-                <a href="\aplicacao\notificacoes.php" class="nav-link">Notificações</a>
-                <a href="\aplicacao\perfil.php" class="nav-link">Perfil</a>
+                <a href="/aplicacao/index.php" class="nav-link">Início</a>
+                <a href="/aplicacao/notificacoes.php" class="nav-link">Notificações</a>
+                <a href="/aplicacao/perfil.php" class="nav-link">Perfil</a>
             </div>
         </div>
         <div class="logout-section">
-            <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
+            <form action ```php
+            = "/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
                 <button type="submit" class="btn btn-danger" name="utilizador" value="logout">Sair</button>
             </form>
         </div>
@@ -95,34 +106,41 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <div class="main-content">
         <h1>Meus Grupos</h1>
 
-        <!-- Lista de grupos -->
-        <div class="grupos-list">
-            <?php if (empty($grupos)): ?>
-                <p>Não estás em nenhum grupo neste momento... 😓.</p>
-            <?php else: ?>
-                <div class="row">
-                    <?php foreach ($grupos as $grupo): ?>
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <?php if ($grupo['foto']): ?>
-                                    <img src="<?= $grupo['foto'] ?>" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
-                                <?php else: ?>
-                                    <img src="default-image.jpg" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
-                                <?php endif; ?>
-                                <div class="card-body">
-                                    <h5 class="card-title"><?= htmlspecialchars($grupo['nome']) ?></h5>
-                                    <p class="card-text"><?= htmlspecialchars($grupo['descricao']) ?></p>
-                                    <!-- Link para entrar no grupo -->
-                                    <a href="../aplicacao/grupo.php?grupo_id=<?= $grupo['id'] ?>" class="btn btn-primary">Entrar no Grupo</a>
-
-                                </div>
-                            </div>
+<!-- Lista de grupos -->
+<div class="grupos-list">
+    <?php if (empty($grupos)): ?>
+        <p>Não estás em nenhum grupo neste momento... 😓.</p>
+    <?php else: ?>
+        <div class="row">
+            <?php foreach ($grupos as $grupo): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <?php if ($grupo['foto']): ?>
+                            <img src="<?= $grupo['foto'] ?>" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
+                        <?php else: ?>
+                            <img src="default-image.jpg" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($grupo['nome']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($grupo['descricao']) ?></p>
+                            <!-- Link para entrar no grupo -->
+                            <a href="../aplicacao/grupo.php?grupo_id=<?= $grupo['id'] ?>" class="btn btn-primary">Entrar no Grupo</a>
+                            <!-- Botões de editar e excluir -->
+                            <form action="editar_grupo.php" method="post" style="display:inline;">
+                                <input type="hidden" name="grupo_id" value="<?= $grupo['id'] ?>">
+                                <button type="submit" class="btn btn-warning">Editar</button>
+                            </form>
+                            <form action="excluir_grupo.php" method="post" style="display:inline;">
+                                <input type="hidden" name="grupo_id" value="<?= $grupo['id'] ?>">
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                            </form>
                         </div>
-                    <?php endforeach; ?>
+                    </div>
                 </div>
-            <?php endif; ?>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
+</div>
 
     <!-- Botão flutuante para abrir o formulário de criação de grupo -->
     <button class="btn btn-success btn-floating" id="criarGrupoBtn" style="position: fixed; bottom: 20px; right: 20px;">
