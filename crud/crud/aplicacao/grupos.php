@@ -49,14 +49,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['descr
     }
 }
 
+// Verificar se o usuário se inscreveu em algum grupo
+if (isset($_POST['inscrever_grupo_id'])) {
+    $grupo_id = $_POST['inscrever_grupo_id'];
+    $utilizador_id = $_SESSION['id'];
+
+    // Inserir na tabela grupo_utilizador para registrar a inscrição
+    $stmtInscricao = $pdo->prepare("INSERT INTO grupo_utilizador (id_utilizador, id_grupo) VALUES (:id_utilizador, :id_grupo)");
+    $stmtInscricao->execute([':id_utilizador' => $utilizador_id, ':id_grupo' => $grupo_id]);
+
+    // Redirecionar para que a página seja recarregada com a inscrição
+    header("Location: grupos.php");
+    exit();
+}
+
+// Carregar os grupos (tanto os criados como os nos quais o utilizador se inscreveu)
 if (!empty($searchTerm)) {
     // Pesquisa global por grupos
     $stmtGrupos = $pdo->prepare("SELECT * FROM grupo WHERE nome LIKE :search OR descricao LIKE :search");
     $stmtGrupos->execute([':search' => '%' . $searchTerm . '%']);
 } else {
-    // Carregar grupos apenas do utilizador autenticado
+    // Carregar todos os grupos do utilizador: criados e inscritos
     $utilizador_id = $_SESSION['id'];
-    $stmtGrupos = $pdo->prepare("SELECT * FROM grupo WHERE utilizador_id = :utilizador_id");
+    $stmtGrupos = $pdo->prepare("
+        SELECT g.* FROM grupo g
+        LEFT JOIN grupo_utilizador gu ON g.id = gu.id_grupo
+        WHERE g.utilizador_id = :utilizador_id OR gu.id_utilizador = :utilizador_id
+    ");
     $stmtGrupos->execute([':utilizador_id' => $utilizador_id]);
 }
 
@@ -81,13 +100,11 @@ include_once __DIR__ . '/templates/cabecalho.php';
         </div>
 
         <div class="search-bar">
-            <form method="GET" action="">
+            <form method="GET" action="grupos.php">
                 <input type="text" class="form-control" name="search" placeholder="Pesquisar grupos..." value="<?= htmlspecialchars($searchTerm) ?>">
                 <button type="submit" class="btn btn-primary">Pesquisar</button>
             </form>
         </div>
-
-
 
         <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
             <i class="fas fa-moon"></i>
@@ -115,52 +132,73 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <div class="main-content">
         <h1>Meus Grupos</h1>
 
-     <!-- Lista de grupos -->
-<div class="grupos-list">
-    <?php if (empty($grupos)): ?>
-        <p class="text-muted">
-            <?php if (!empty($searchTerm)): ?>
-                Nenhum grupo encontrado para "<?= htmlspecialchars($searchTerm) ?>" 😓.
+        <!-- Lista de grupos -->
+        <div class="grupos-list">
+            <?php if (empty($grupos)): ?>
+                <p class="text-muted">
+                    <?php if (!empty($searchTerm)): ?>
+                        Nenhum grupo encontrado para "<?= htmlspecialchars($searchTerm) ?>" 😓.
+                    <?php else: ?>
+                        Ainda não estás em nenhum grupo! Cria ou pesquisa um grupo para começar 🚀.
+                    <?php endif; ?>
+                </p>
             <?php else: ?>
-                Ainda não estás em nenhum grupo! Cria ou pesquisa um grupo para começar 🚀.
-            <?php endif; ?>
-        </p>
-    <?php else: ?>
-        <div class="row">
-            <?php foreach ($grupos as $grupo): ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <?php if ($grupo['foto']): ?>
-                            <img src="<?= $grupo['foto'] ?>" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
-                        <?php else: ?>
-                            <img src="default-image.jpg" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
-                        <?php endif; ?>
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($grupo['nome']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($grupo['descricao']) ?></p>
-                            <!-- Link para entrar no grupo -->
-                            <a href="../aplicacao/grupo.php?grupo_id=<?= $grupo['id'] ?>" class="btn btn-primary">Entrar no Grupo</a>
+                <div class="row">
+                    <?php foreach ($grupos as $grupo): ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <?php if ($grupo['foto']): ?>
+                                    <img src="<?= $grupo['foto'] ?>" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
+                                <?php else: ?>
+                                    <img src="default-image.jpg" class="card-img-top" alt="Foto do grupo" style="height: 200px; object-fit: cover;">
+                                <?php endif; ?>
+                                <div class="card-body">
+                                        <h5 class="card-title"><?= htmlspecialchars($grupo['nome']) ?></h5>
+                                        <p class="card-text"><?= htmlspecialchars($grupo['descricao']) ?></p>
+                                        
+                                        <!-- Verificar se o utilizador já está inscrito -->
+                                        <?php
+                                        $stmtVerificaInscricao = $pdo->prepare("SELECT 1 FROM grupo_utilizador WHERE id_grupo = :id_grupo AND id_utilizador = :id_utilizador");
+                                        $stmtVerificaInscricao->execute([':id_grupo' => $grupo['id'], ':id_utilizador' => $_SESSION['id']]);
+                                        $inscrito = $stmtVerificaInscricao->fetchColumn();
+                                        ?>
 
-                            <!-- Verificar se o utilizador logado é o criador do grupo -->
-                            <?php if ($_SESSION['id'] == $grupo['utilizador_id']): ?>
-                                <!-- Botões de editar e excluir apenas para o criador do grupo -->
-                                <form action="editar_grupo.php" method="post" style="display:inline;">
-                                    <input type="hidden" name="grupo_id" value="<?= $grupo['id'] ?>">
-                                    <button type="submit" class="btn btn-warning">Editar</button>
-                                </form>
-                                <form action="excluir_grupo.php" method="post" style="display:inline;">
-                                    <input type="hidden" name="grupo_id" value="<?= $grupo['id'] ?>">
-                                    <button type="submit" class="btn btn-danger">Excluir</button>
-                                </form>
-                            <?php endif; ?>
+                                        <!-- Se o usuário for dono do grupo, não exibe "Inscrever-se" -->
+                                        <?php if ($_SESSION['id'] != $grupo['utilizador_id']): ?>
+                                            <?php if ($inscrito): ?>
+                                                <span class="badge bg-success">Inscrito</span>
+                                            <?php else: ?>
+                                                <form method="POST" action="grupos.php" class="d-inline-block">
+                                                    <input type="hidden" name="inscrever_grupo_id" value="<?= $grupo['id'] ?>">
+                                                    <button type="submit" class="btn btn-primary">Inscrever-se</button>
+                                                </form>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+
+                                        <!-- Link para entrar no grupo -->
+                                        <a href="../aplicacao/grupo.php?grupo_id=<?= $grupo['id'] ?>" class="btn btn-primary d-inline-block">Entrar no Grupo</a>
+                                    </div>
+
+
+                                    <!-- Verificar se o utilizador logado é o criador do grupo -->
+                                    <?php if ($_SESSION['id'] == $grupo['utilizador_id']): ?>
+                                        <!-- Botões de editar e excluir apenas para o criador do grupo -->
+                                        <form action="editar_grupo.php" method="post" style="display:inline;">
+                                            <input type="hidden" name="grupo_id" value="<?= $grupo['id'] ?>">
+                                            <button type="submit" class="btn btn-warning">Editar</button>
+                                        </form>
+                                        <form action="excluir_grupo.php" method="post" style="display:inline;">
+                                            <input type="hidden" name="grupo_id" value="<?= $grupo['id'] ?>">
+                                            <button type="submit" class="btn btn-danger">Excluir</button>
+                                        </form>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
-</div>
-
 
         <!-- Botão flutuante para abrir o formulário de criação de grupo -->
         <button class="btn btn-success btn-floating" id="criarGrupoBtn" style="position: fixed; bottom: 20px; right: 20px;">

@@ -45,8 +45,8 @@ body {
 /* Sidebar estilizada */
 .sidebar {
     width: 250px;
-    background-color: #111111; /* Fundo escuro por padrão */
-    color: #ffffff; /* Texto branco */
+    background-color: #f7f7f7; /* Fundo escuro por padrão */
+    color: #000000; /* Texto branco */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -105,6 +105,11 @@ body {
 .logout-section form button:hover {
     background-color: #a71d2a;
 }
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+  }
 
 /* Conteúdo principal */
 .main-content {
@@ -196,6 +201,15 @@ body {
 .grupos-list li .card-body .btn-entrar:hover {
     background-color: #007bff;
     color: white;
+}
+
+.card-body .btn {
+    margin-right: 10px; /* Espaço entre os botões */
+}
+
+.card-body .d-inline-block {
+    display: inline-block;
+    margin-right: 10px; /* Espaço entre os botões */
 }
 
 
