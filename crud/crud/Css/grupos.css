@@ -201,14 +201,18 @@ body {
 
 /* Barra de pesquisa */
 .search-bar {
-    flex: 1;
-    margin: 0 20px;
+    display: flex;  /* Flexbox para alinhamento */
+    justify-content: center;  /* Alinha o conteúdo horizontalmente */
+    margin: 20px 0;  /* Um pouco de espaço ao redor */
+}
+
+.search-bar form {
     display: flex;
-    justify-content: center;
+    align-items: center;  /* Garante que os itens fiquem centralizados verticalmente */
 }
 
 .search-bar input {
-    width: 50%;
+    width: 70%;  /* Ajusta a largura para o campo de pesquisa */
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
@@ -217,6 +221,22 @@ body {
     transition: border-color 0.3s;
 }
 
+.search-bar button {
+    margin-left: 10px;  /* Espaço entre o campo de pesquisa e o botão */
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 20px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* Modo escuro */
 .dark-mode .search-bar input {
     background-color: #333333;
     color: #ffffff;
@@ -226,6 +246,7 @@ body {
 .search-bar input:focus {
     border-color: #007bff;
 }
+
 
 /* Botão de alternar tema */
 .mode-toggle {
