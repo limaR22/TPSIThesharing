@@ -1,12 +1,22 @@
 <?php
-# Middleware para garantir que apenas utilizadores autenticados acessem este sítio
+// Iniciar sessão
+session_start();
+
+// Middleware para garantir autenticação
 require_once __DIR__ . '/../src/middleware/middleware-utilizador.php';
 
-# Acessa funções auxiliares
-@require_once __DIR__ . '/../src/auxiliadores/auxiliador.php';
+// Conectar à base de dados
+require_once __DIR__ . '/../src/infraestrutura/basededados/criar-conexao.php';
 
-# Carrega o utilizador atual
-$utilizador = utilizador();
+// Verificar se o utilizador está autenticado
+if (!isset($_SESSION['id'])) {
+    die("Utilizador não autenticado. Por favor, faça login.");
+}
+
+// Carregar notificações do utilizador autenticado
+$stmtNotificacoes = $pdo->prepare("SELECT titulo, mensagem, data FROM notificacoes WHERE utilizador_id = :utilizador_id ORDER BY data DESC");
+$stmtNotificacoes->execute([':utilizador_id' => $_SESSION['id']]);
+$notificacoes = $stmtNotificacoes->fetchAll();
 
 # Carregar notificações do utilizador
 # Supondo que você tenha uma função que retorne as notificações do utilizador

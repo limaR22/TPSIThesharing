@@ -65,15 +65,20 @@ $stmtRoupas = $pdo->prepare("SELECT * FROM roupas WHERE grupo_id = :grupo_id");
 $stmtRoupas->execute([':grupo_id' => $grupo_id]);
 $roupas = $stmtRoupas->fetchAll();
 
-# Busca os membros do grupo
 $stmtMembros = $pdo->prepare("
-    SELECT u.id, u.nome, CASE WHEN g.utilizador_id = u.id THEN 1 ELSE 0 END AS is_admin 
-    FROM utilizadores u
-    JOIN grupo_utilizador gu ON u.id = gu.id_utilizador
-    LEFT JOIN grupo g ON g.id = gu.id_grupo
+    SELECT u.id, u.nome, 
+    CASE 
+        WHEN g.utilizador_id = u.id THEN 1  -- Verifica se o utilizador é o admin
+        ELSE 0
+    END AS is_admin
+    FROM grupo_utilizador gu
+    JOIN utilizadores u ON gu.id_utilizador = u.id
+    JOIN grupo g ON g.id = gu.id_grupo
     WHERE gu.id_grupo = :grupo_id
-    ORDER BY is_admin DESC, u.nome
+    ORDER BY is_admin DESC, u.nome;
 ");
+
+
 $stmtMembros->execute([':grupo_id' => $grupo_id]);
 $membros = $stmtMembros->fetchAll();
 
@@ -172,18 +177,37 @@ include_once __DIR__ . '/templates/cabecalho.php';
 </div>
 
 
-  <!-- Lista de utilizadores -->
-  <div class="utilizadores-list">
-    <h2>Utilizadores do Grupo</h2>
-    <ul>
-      <?php foreach ($membros as $membro): ?>
+<!-- Lista de utilizadores -->
+<div class="utilizadores-list">
+  <h2>Utilizadores do Grupo</h2>
+
+  <!-- Exibe Admin -->
+  <h3>Admin</h3>
+        <ul>
+        <?php foreach ($membros as $membro): ?>
+            <?php if ($membro['is_admin']): ?>
+            <li class="admin">
+                <strong><?= htmlspecialchars($membro['nome']) ?> (Admin)</strong>
+            </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </ul>
+
+
+  <!-- Exibe Utilizadores -->
+  <h3>Utilizadores</h3>
+  <ul>
+    <?php foreach ($membros as $membro): ?>
+      <?php if (!$membro['is_admin']): ?>
         <li>
-          <?= htmlspecialchars($membro['nome']) ?> <?= $membro['is_admin'] ? '(Admin)' : '' ?>
+          <?= htmlspecialchars($membro['nome']) ?>
         </li>
-      <?php endforeach; ?>
-    </ul>
-  </div>
+      <?php endif; ?>
+    <?php endforeach; ?>
+  </ul>
 </div>
+
+
 
 <!-- JavaScript para mostrar o modal -->
 <script>

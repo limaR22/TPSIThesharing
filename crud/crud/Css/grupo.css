@@ -200,11 +200,22 @@ body {
     margin-bottom: 20px;
 }
 
+/* Estilo para os títulos das categorias: Admin e Utilizadores */
+.utilizadores-list h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Lista de membros */
 .utilizadores-list ul {
     list-style: none;
     padding: 0;
 }
 
+/* Estilo dos itens da lista */
 .utilizadores-list li {
     margin-bottom: 10px;
     padding: 10px;
@@ -212,6 +223,18 @@ body {
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+
+/* Destaque para Admin */
+.utilizadores-list li.admin {
+    font-weight: bold;
+    color: #ff6347; /* Cor de destaque (tom de laranja ou vermelho) */
+}
+
+/* Estilo do nome do Admin */
+.utilizadores-list li.admin strong {
+    color: #007bff; /* cor de destaque para o admin */
+}
+
 
 /* Formulário de adicionar roupa */
 .adicionar-roupa-form {
