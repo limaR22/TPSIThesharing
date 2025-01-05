@@ -178,7 +178,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
                                     <?php if ($_SESSION['id'] == $grupo['utilizador_id']): ?>
                                         <form action="editar_grupo.php" method="post" style="display:inline;">
                                             <input type="hidden" name="grupo_id" value="<?= $grupo['id'] ?>">
-                                            <button type="submit" class="btn btn-warning">Editar</button>
+                                            <a href="editar_grupo.php?grupo_id=<?= $grupo['id'] ?>" class="btn btn-warning">Editar</a>
                                         </form>
                                         <form action="excluir_grupo.php" method="post" style="display:inline;">
                                             <input type="hidden" name="grupo_id" value="<?= $grupo['id'] ?>">
