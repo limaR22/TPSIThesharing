@@ -13,7 +13,7 @@ $utilizador_id = $_SESSION['id'];
 
 # Verificar se o ID da roupa foi enviado
 if (!isset($_POST['roupa_id'])) {
-    echo "Erro: Nenhuma peça de roupa selecionada.";
+    echo '<div class="container"><div class="error-message">Erro: Nenhuma peça de roupa selecionada.</div></div>';
     exit();
 }
 
@@ -25,7 +25,7 @@ $stmt->execute([':roupa_id' => $roupa_id]);
 $dono_id = $stmt->fetchColumn();
 
 if ($dono_id == $utilizador_id) {
-    echo "Erro: Você não pode alugar a sua própria peça.";
+    echo '<div class="container"><div class="error-message">Erro: Você não pode alugar a sua própria peça.</div></div>';
     exit();
 }
 
@@ -35,7 +35,7 @@ $stmt->execute([':roupa_id' => $roupa_id]);
 $status = $stmt->fetchColumn();
 
 if ($status != 'disponível') {
-    echo "Erro: Esta peça já foi alugada e não está disponível.";
+    echo '<div class="container"><div class="error-message">Erro: Esta peça já foi alugada e não está disponível.</div></div>';
     exit();
 }
 
@@ -70,8 +70,26 @@ try {
         ':data' => date('Y-m-d H:i:s')
     ]);
 
-    echo "Aluguel realizado com sucesso!";
+    echo '<div class="container"><div class="success-message">Aluguel realizado com sucesso!</div></div>';
 } catch (PDOException $e) {
-    echo "Erro ao processar o aluguel: " . $e->getMessage();
+    echo '<div class="container"><div class="error-message">Erro ao processar o aluguel: ' . $e->getMessage() . '</div></div>';
 }
 ?>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">  
+<link rel="stylesheet" href="/Css/alugarroupa.css">
+
+<div class="container">
+    <div class="page-header text-center">
+        <!-- Logotipo da Aplicação -->
+        <img src="Img/imagemthesharing1.png" alt="Logotipo" class="logo">
+        <h1>Aluguel da Peça de Roupa</h1>
+        <p class="message">Alugado com sucesso!</p>
+    </div>
+
+    <form method="POST">
+        <input type="hidden" name="roupa_id" value="<?= $roupa_id ?>">
+    </form>
+
+    <a href="grupos.php" class="btn-back">Voltar</a>
+</div>
