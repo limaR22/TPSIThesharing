@@ -40,11 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (move_uploaded_file($_FILES['foto']['tmp_name'], $fotoCaminho)) {
             $fotoRelativa = 'uploads/' . $fotoNome;
 
-            $stmtInserir = $pdo->prepare("
-                INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id) 
-                VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id)
-            ");
-            $stmtInserir->execute([ 
+            $stmtInserir = $pdo->prepare("INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id) VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id)");
+            $stmtInserir->execute([
                 ':nome' => $nome,
                 ':descricao' => $descricao,
                 ':imagem' => $fotoRelativa,
@@ -59,26 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
 # Busca as roupas deste grupo
 $stmtRoupas = $pdo->prepare("SELECT * FROM roupas WHERE grupo_id = :grupo_id");
 $stmtRoupas->execute([':grupo_id' => $grupo_id]);
 $roupas = $stmtRoupas->fetchAll();
 
-$stmtMembros = $pdo->prepare("
-    SELECT u.id, u.nome, 
-    CASE 
-        WHEN g.utilizador_id = u.id THEN 1  -- Verifica se o utilizador é o admin
-        ELSE 0
-    END AS is_admin
-    FROM grupo_utilizador gu
-    JOIN utilizadores u ON gu.id_utilizador = u.id
-    JOIN grupo g ON g.id = gu.id_grupo
-    WHERE gu.id_grupo = :grupo_id
-    ORDER BY is_admin DESC, u.nome;
-");
-
-
+$stmtMembros = $pdo->prepare("SELECT u.id, u.nome, CASE WHEN g.utilizador_id = u.id THEN 1 ELSE 0 END AS is_admin FROM grupo_utilizador gu JOIN utilizadores u ON gu.id_utilizador = u.id JOIN grupo g ON g.id = gu.id_grupo WHERE gu.id_grupo = :grupo_id ORDER BY is_admin DESC, u.nome;");
 $stmtMembros->execute([':grupo_id' => $grupo_id]);
 $membros = $stmtMembros->fetchAll();
 
@@ -89,141 +72,113 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
 <!-- Link para o CSS externo -->
 <link rel="stylesheet" href="/Css/grupo.css">
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Barra de pesquisa -->
-<div class="top-bar">
-  <div>
-    <h3>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
-  </div>
-
-  <div class="search-bar">
-    <form method="GET" action="" class="mb-3">
-      <input type="text" class="form-control" name="search" placeholder="Pesquisar grupos...">
-      <button type="submit" class="btn btn-primary">Pesquisar</button>
-    </form>
-  </div>
-
-  <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
-    <i class="fas fa-moon"></i>
-  </button>
-</div>
-
-<!-- Barra de navegação lateral -->
-<div class="sidebar">
-  <div class="top-section">
-    <h2>Menu</h2>
-    <div class="nav-links">
-      <a href="\aplicacao\grupos.php" class="nav-link">Grupos</a>
-      <a href="\aplicacao\notificacoes.php" class="nav-link">Notificações</a>
-      <a href="\aplicacao\perfil.php" class="nav-link">Perfil</a>
-    </div>
-  </div>
-  <div class="logout-section">
-    <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
-      <button type="submit" class="btn btn-danger" name="utilizador" value="logout">Sair</button>
-    </form>
-  </div>
-</div>
 
 <!-- Área de conteúdo -->
 <div class="content">
-  <h1><?= htmlspecialchars($grupo['nome']) ?></h1>
-  <p><?= htmlspecialchars($grupo['descricao']) ?></p>
+    <h1><?= htmlspecialchars($grupo['nome']) ?></h1>
+    <p><?= htmlspecialchars($grupo['descricao']) ?></p>
 
-  <!-- Botão de adicionar roupa -->
-  <button class="btn btn-success" id="adicionar-roupa-btn">Adicionar Roupa</button>
+    <!-- Botão Voltar -->
+    <a href="grupos.php" id="voltar-btn" class="btn btn-secondary">✖</a>
 
-  <!-- Modal para adicionar roupa -->
-  <div id="adicionar-roupa-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" id="close-modal">&times;</span>
-      <h2>Adicionar Roupa</h2>
-      <form method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="nome">Nome:</label>
-          <input type="text" class="form-control" name="nome" required>
+    <!-- Botão de adicionar roupa -->
+    <button class="btn btn-success" id="adicionar-roupa-btn">Adicionar Roupa</button>
+
+    <!-- Modal para adicionar roupa -->
+    <div id="adicionar-roupa-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <h2>Adicionar Roupa</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" class="form-control" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição:</label>
+                    <textarea class="form-control" name="descricao" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="foto">Foto:</label>
+                    <input type="file" class="form-control" name="foto" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-success">Adicionar Roupa</button>
+            </form>
         </div>
-        <div class="form-group">
-          <label for="descricao">Descrição:</label>
-          <textarea class="form-control" name="descricao" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="foto">Foto:</label>
-          <input type="file" class="form-control" name="foto" accept="image/*" required>
-        </div>
-        <button type="submit" class="btn btn-success">Adicionar Roupa</button>
-      </form>
     </div>
-  </div>
 
-<!-- Lista de roupas -->
-<div class="roupas-list">
-  <h2>Roupas do Grupo</h2>
-  <ul>
-    <?php foreach ($roupas as $roupa): ?>
-      <li>
-        <strong><?= htmlspecialchars($roupa['nome']) ?></strong>: <?= htmlspecialchars($roupa['descricao']) ?>
-        <?php if ($roupa['imagem']): ?>
-          <img src="<?= htmlspecialchars($roupa['imagem']) ?>" alt="<?= htmlspecialchars($roupa['nome']) ?>" width="100">
-        <?php endif; ?>
+    
 
-        <!-- Link ou botão para os detalhes -->
-        <a href="roupas-detalhes.php?id=<?= $roupa['id'] ?>" class="btn btn-info">Detalhes</a>
-      </li>
-    <?php endforeach; ?>
-  </ul>
-</div>
+   <!-- Lista de utilizadores -->
+<div class="sidebar">
+    <h2>Utilizadores do Grupo</h2>
 
-
-<!-- Lista de utilizadores -->
-<div class="utilizadores-list">
-  <h2>Utilizadores do Grupo</h2>
-
-  <!-- Exibe Admin -->
-  <h3>Admin</h3>
-        <ul>
+    <!-- Exibe Admin -->
+    <h3>Admin</h3>
+    <ul>
         <?php foreach ($membros as $membro): ?>
             <?php if ($membro['is_admin']): ?>
-            <li class="admin">
-                <strong><?= htmlspecialchars($membro['nome']) ?> (Admin)</strong>
-            </li>
+                <li class="admin">
+                    <span class="user-icon">👑</span>
+                    <span class="user-name"><?= htmlspecialchars($membro['nome']) ?></span>
+                    <span class="role admin">(Admin)</span>
+                </li>
             <?php endif; ?>
         <?php endforeach; ?>
-        </ul>
-
-
-  <!-- Exibe Utilizadores -->
-  <h3>Utilizadores</h3>
-  <ul>
-    <?php foreach ($membros as $membro): ?>
-      <?php if (!$membro['is_admin']): ?>
-        <li>
-          <?= htmlspecialchars($membro['nome']) ?>
-        </li>
-      <?php endif; ?>
-    <?php endforeach; ?>
-  </ul>
+    </ul>
+    <!-- Exibe Utilizadores -->
+    <h3>Utilizadores</h3>
+      <ul>
+        <?php foreach ($membros as $membro): ?>
+            <?php if (!$membro['is_admin']): ?>
+                <li>
+                    <span class="user-icon">👤</span>
+                    <span class="user-name"><?= htmlspecialchars($membro['nome']) ?></span>
+                    <span class="role utilizador">(Utilizador)</span>
+                </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+      </ul>
 </div>
 
+    <!-- Lista de roupas -->
+    <div class="roupas-list">
+        <h2>Roupas do Grupo</h2>
+        <div class="row">
+            <?php foreach ($roupas as $roupa): ?>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <?php if ($roupa['imagem']): ?>
+                            <img src="<?= htmlspecialchars($roupa['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($roupa['nome']) ?>" style="object-fit: cover; height: 200px; width: 100%;">
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($roupa['nome']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($roupa['descricao']) ?></p>
+                            <a href="roupas-detalhes.php?id=<?= $roupa['id'] ?>" class="btn btn-info">Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
+    <!-- JavaScript para mostrar o modal -->
+    <script>
+        document.getElementById('adicionar-roupa-btn').addEventListener('click', function() {
+            document.getElementById('adicionar-roupa-modal').style.display = 'flex';
+        });
 
-<!-- JavaScript para mostrar o modal -->
-<script>
-  document.getElementById('adicionar-roupa-btn').addEventListener('click', function() {
-    document.getElementById('adicionar-roupa-modal').style.display = 'flex';
-  });
+        document.getElementById('close-modal').addEventListener('click', function() {
+            document.getElementById('adicionar-roupa-modal').style.display = 'none';
+        });
 
-  document.getElementById('close-modal').addEventListener('click', function() {
-    document.getElementById('adicionar-roupa-modal').style.display = 'none';
-  });
-
-  window.onclick = function(event) {
-    if (event.target === document.getElementById('adicionar-roupa-modal')) {
-      document.getElementById('adicionar-roupa-modal').style.display = 'none';
-    }
-  };
-</script>
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('adicionar-roupa-modal')) {
+                document.getElementById('adicionar-roupa-modal').style.display = 'none';
+            }
+        };
+    </script>
 
 <?php include_once __DIR__ . '/templates/rodape.php'; ?>
