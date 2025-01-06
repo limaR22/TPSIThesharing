@@ -63,6 +63,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 
+function validarEmail($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+function validarSenha($senha) {
+    return strlen($senha) >= 8; 
+}
+
+$email = $_POST['email'];
+$senha = $_POST['senha'];
+
+if (validarEmail($email) && validarSenha($senha)) {
+    echo "Dados válidos!";
+} else {
+    echo "Dados inválidos!";
+}
+
 $titulo = '- Editar Grupo';
 include_once __DIR__ . '/templates/cabecalho.php';
 ?>
