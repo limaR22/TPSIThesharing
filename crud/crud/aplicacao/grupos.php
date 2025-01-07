@@ -193,7 +193,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
             <?php endif; ?>
         </div>
 
-        <button class="btn btn-success btn-floating" id="criarGrupoBtn" style="position: fixed; bottom: 20px; right: 20px;">
+        <button class="btn btn-primary btn-floating" id="criarGrupoBtn" style="position: fixed; bottom: 20px; right: 20px;">
             Criar Grupo
         </button>
 

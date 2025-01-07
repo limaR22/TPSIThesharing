@@ -73,15 +73,35 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <!-- Link para o CSS externo -->
 <link rel="stylesheet" href="/Css/grupo.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Barra superior -->
 
+<div class="top-bar">
+    <div>
+        <h3>Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
+    </div>
+
+    <div class="search-bar">
+
+    </div>
+
+    <div class="mode-toggle-container">
+        <div class="d-flex align-items-center">
+            <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="grupos.php" class="btn btn-secondary ms-2">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+</div>
 
 <!-- Área de conteúdo -->
 <div class="content">
     <h1><?= htmlspecialchars($grupo['nome']) ?></h1>
     <p><?= htmlspecialchars($grupo['descricao']) ?></p>
-
-    <!-- Botão Voltar -->
-    <a href="grupos.php" id="voltar-btn" class="btn btn-secondary">✖</a>
+   
+    
 
     <!-- Botão de adicionar roupa -->
     <button class="btn btn-success" id="adicionar-roupa-btn">Adicionar Roupa</button>
@@ -165,5 +185,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
             }
         };
     </script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+    <script src="/javascript/modos.js"></script>
 
 <?php include_once __DIR__ . '/templates/rodape.php'; ?>
