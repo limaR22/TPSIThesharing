@@ -114,22 +114,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
    <!-- Lista de utilizadores -->
 <div class="sidebar">
     <h2>Utilizadores do Grupo</h2>
-
-    <!-- Exibe Admin -->
-    <h3>Admin</h3>
-    <ul>
-        <?php foreach ($membros as $membro): ?>
-            <?php if ($membro['is_admin']): ?>
-                <li class="admin">
-                    <span class="user-icon">👑</span>
-                    <span class="user-name"><?= htmlspecialchars($membro['nome']) ?></span>
-                    <span class="role admin">(Admin)</span>
-                </li>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </ul>
     <!-- Exibe Utilizadores -->
-    <h3>Utilizadores</h3>
       <ul>
         <?php foreach ($membros as $membro): ?>
             <?php if (!$membro['is_admin']): ?>

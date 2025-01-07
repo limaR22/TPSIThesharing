@@ -99,7 +99,7 @@ body {
     height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* Alinha o conteúdo ao topo */
     transition: background-color 0.3s, color 0.3s;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -114,6 +114,8 @@ body {
 .sidebar ul {
     list-style: none;
     padding: 0;
+    flex-grow: 1; /* Faz a lista crescer e ocupar o espaço disponível */
+    margin-top: 0; /* Remove o espaço extra acima da lista */
 }
 
 .sidebar li {
@@ -151,6 +153,7 @@ body {
     color: #28a745;
     font-weight: bold;
 }
+
 
 /* Layout principal */
 .content {
