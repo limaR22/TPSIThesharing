@@ -28,20 +28,15 @@ include_once __DIR__ . '/templates/cabecalho.php';
 ?>
 
 <!-- Link para o CSS externo -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/Css/roupa-detalhes.css">
 
-
-
-<!-- Área de conteúdo principal centralizado -->
-<div class="container">
-    <!-- Botões Voltar e Alugar -->
-    <div class="botao-container">
-        <!-- Botão Voltar que usa HTTP_REFERER -->
-        <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php' ?>" class="btn btn-secondary voltar-btn">Voltar</a>
-        <form method="POST" action="alugar-roupa.php">
-            <input type="hidden" name="roupa_id" value="<?= $roupa['id'] ?>">
-            <button type="submit" class="btn btn-primary alugar-btn">Alugar</button>
-        </form>
+<div class="container py-5">
+    <!-- Botão Voltar no topo -->
+    <div class="top-left-btn mb-4">
+        <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php' ?>" class="btn btn-outline-secondary voltar-btn">
+            <i class="bi bi-arrow-left"></i> Voltar
+        </a>
     </div>
 
     <!-- Detalhes da Roupa -->
@@ -49,11 +44,18 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <h1 class="roupa-nome"><?= htmlspecialchars($roupa['nome']) ?></h1>
         <img src="<?= htmlspecialchars($roupa['imagem']) ?>" alt="<?= htmlspecialchars($roupa['nome']) ?>" class="roupa-imagem">
 
-        <!-- Título para Descrição -->
+        <!-- Descrição da roupa -->
         <h3 class="descricao-titulo">Descrição</h3>
         <p class="roupa-descricao"><?= htmlspecialchars($roupa['descricao']) ?></p>
+
+        <!-- Botão Alugar abaixo da descrição -->
+        <form method="POST" action="alugar-roupa.php">
+            <input type="hidden" name="roupa_id" value="<?= $roupa['id'] ?>">
+            <button type="submit" class="btn btn-primary alugar-btn">Alugar <i class="bi bi-cart"></i></button>
+        </form>
     </div>
 </div>
+
 
 <!-- Rodapé -->
 <?php include_once __DIR__ . '/templates/rodape.php'; ?>
