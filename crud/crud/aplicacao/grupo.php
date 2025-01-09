@@ -76,6 +76,21 @@ $stmtMembros = $pdo->prepare("SELECT u.id, u.nome, CASE WHEN g.utilizador_id = u
 $stmtMembros->execute([':grupo_id' => $grupo_id]);
 $membros = $stmtMembros->fetchAll();
 
+# Captura o termo de pesquisa
+$searchTerm = '';
+if (isset($_GET['search'])) {
+    $searchTerm = $_GET['search'];
+}
+
+# Busca as roupas com base no termo de pesquisa
+if (!empty($searchTerm)) {
+    $stmtRoupas = $pdo->prepare("SELECT * FROM roupas WHERE grupo_id = :grupo_id AND (nome LIKE :search OR descricao LIKE :search)");
+    $stmtRoupas->execute([':grupo_id' => $grupo_id, ':search' => '%' . $searchTerm . '%']);
+} else {
+    $stmtRoupas->execute([':grupo_id' => $grupo_id]);
+}
+$roupas = $stmtRoupas->fetchAll();
+
 # Carregar cabeçalho
 $titulo = '- Grupo: ' . htmlspecialchars($grupo['nome']);
 include_once __DIR__ . '/templates/cabecalho.php';
@@ -92,7 +107,11 @@ include_once __DIR__ . '/templates/cabecalho.php';
     </div>
 
     <div class="search-bar">
-
+        <form method="GET" action="">
+            <input type="text" class="form-control" name="search" placeholder="Pesquisar roupas..." value="<?= htmlspecialchars($searchTerm) ?>">
+            <input type="hidden" name="grupo_id" value="<?= $grupo_id ?>">
+            <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </form>
     </div>
 
     <div class="mode-toggle-container">
@@ -111,72 +130,67 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <div class="content">
     <h1><?= htmlspecialchars($grupo['nome']) ?></h1>
     <p><?= htmlspecialchars($grupo['descricao']) ?></p>
-   
-    
 
-<!-- Botão de adicionar roupa -->
-<button class="btn btn-success" id="adicionar-roupa-btn">Adicionar Roupa</button>
+    <!-- Botão de adicionar roupa -->
+    <button class="btn btn-success" id="adicionar-roupa-btn">Adicionar Roupa</button>
 
-<!-- Modal para adicionar roupa -->
-        <div id="adicionar-roupa-modal" class="modal">
+    <!-- Modal para adicionar roupa -->
+    <div id="adicionar-roupa-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-modal">&times;</span>
             <h2>Adicionar Roupa</h2>
             <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="nome">Nome:</label>
-                <input type="text" class="form-control" name="nome" required>
-            </div>
-            <div class="form-group">
-                <label for="descricao">Descrição:</label>
-                <textarea class="form-control" name="descricao" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="tamanho">Tamanho:</label>
-                <select class="form-control" name="tamanho" required>
-                <option value="">Selecione o tamanho</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="genero">Gênero:</label>
-                <select class="form-control" name="genero" required>
-                <option value="">Selecione o gênero</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Feminino">Feminino</option>
-                <option value="Unisex">Unisex</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="foto">Foto:</label>
-                <input type="file" class="form-control" name="foto" accept="image/*" required>
-            </div>
-            <button type="submit" class="btn btn-success">Adicionar Roupa</button>
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" class="form-control" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição:</label>
+                    <textarea class="form-control" name="descricao" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tamanho">Tamanho:</label>
+                    <select class="form-control" name="tamanho" required>
+                        <option value="">Selecione o tamanho</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="genero">Gênero:</label>
+                    <select class="form-control" name="genero" required>
+                        <option value="">Selecione o gênero</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Unisex">Unisex</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="foto">Foto:</label>
+                    <input type="file" class="form-control" name="foto" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-success">Adicionar Roupa</button>
             </form>
         </div>
-        </div>
+    </div>
 
-    
-
-   <!-- Lista de utilizadores -->
-<div class="sidebar">
-    <h2>Utilizadores do Grupo</h2>
-    <!-- Exibe Utilizadores -->
-      <ul>
-        <?php foreach ($membros as $membro): ?>
-            <?php if (!$membro['is_admin']): ?>
-                <li>
-                    <span class="user-icon">👤</span>
-                    <span class="user-name"><?= htmlspecialchars($membro['nome']) ?></span>
-                    <span class="role utilizador">(Utilizador)</span>
-                </li>
-            <?php endif; ?>
-        <?php endforeach; ?>
-      </ul>
-</div>
+    <!-- Lista de utilizadores -->
+    <div class="sidebar">
+        <h2>Utilizadores do Grupo</h2>
+        <ul>
+            <?php foreach ($membros as $membro): ?>
+                <?php if (!$membro['is_admin']): ?>
+                    <li>
+                        <span class="user-icon">👤</span>
+                        <span class="user-name"><?= htmlspecialchars($membro['nome']) ?></span>
+                        <span class="role utilizador">(Utilizador)</span>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 
     <!-- Lista de roupas -->
     <div class="roupas-list">
@@ -217,8 +231,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
             }
         };
     </script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script src="/javascript/modos.js"></script>
 
 <?php include_once __DIR__ . '/templates/rodape.php'; ?>
