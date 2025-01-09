@@ -31,22 +31,33 @@ if (!$grupo) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = $_POST['nome'] ?? '';
     $descricao = $_POST['descricao'] ?? '';
+    $tamanho = $_POST['tamanho'] ?? ''; // Novo campo: tamanho
+    $genero = $_POST['genero'] ?? '';
     $utilizador_id = $_SESSION['id']; // ID do usuário autenticado
 
+    // Verifica se o arquivo de foto foi enviado corretamente
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        // Gera um nome único para a foto
         $fotoNome = uniqid('roupa_', true) . '.' . pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
         $fotoCaminho = __DIR__ . '/uploads/' . $fotoNome;
 
+        // Move a foto para o diretório de uploads
         if (move_uploaded_file($_FILES['foto']['tmp_name'], $fotoCaminho)) {
             $fotoRelativa = 'uploads/' . $fotoNome;
 
-            $stmtInserir = $pdo->prepare("INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id) VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id)");
+            // Prepara e executa a inserção no banco de dados
+            $stmtInserir = $pdo->prepare("
+                INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id, tamanho, genero)
+                VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id, :tamanho, :genero)
+            ");
             $stmtInserir->execute([
                 ':nome' => $nome,
                 ':descricao' => $descricao,
                 ':imagem' => $fotoRelativa,
                 ':grupo_id' => $grupo_id,
                 ':utilizador_id' => $utilizador_id,
+                ':tamanho' => $tamanho, // Novo campo: tamanho
+                ':genero' => $genero, // Novo campo: gênero
             ]);
 
             // Redireciona após a inserção para evitar reenvio do formulário
@@ -103,31 +114,50 @@ include_once __DIR__ . '/templates/cabecalho.php';
    
     
 
-    <!-- Botão de adicionar roupa -->
-    <button class="btn btn-success" id="adicionar-roupa-btn">Adicionar Roupa</button>
+<!-- Botão de adicionar roupa -->
+<button class="btn btn-success" id="adicionar-roupa-btn">Adicionar Roupa</button>
 
-    <!-- Modal para adicionar roupa -->
-    <div id="adicionar-roupa-modal" class="modal">
+<!-- Modal para adicionar roupa -->
+        <div id="adicionar-roupa-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-modal">&times;</span>
             <h2>Adicionar Roupa</h2>
             <form method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="nome">Nome:</label>
-                    <input type="text" class="form-control" name="nome" required>
-                </div>
-                <div class="form-group">
-                    <label for="descricao">Descrição:</label>
-                    <textarea class="form-control" name="descricao" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="foto">Foto:</label>
-                    <input type="file" class="form-control" name="foto" accept="image/*" required>
-                </div>
-                <button type="submit" class="btn btn-success">Adicionar Roupa</button>
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <textarea class="form-control" name="descricao" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="tamanho">Tamanho:</label>
+                <select class="form-control" name="tamanho" required>
+                <option value="">Selecione o tamanho</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="genero">Gênero:</label>
+                <select class="form-control" name="genero" required>
+                <option value="">Selecione o gênero</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Unisex">Unisex</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="foto">Foto:</label>
+                <input type="file" class="form-control" name="foto" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-success">Adicionar Roupa</button>
             </form>
         </div>
-    </div>
+        </div>
 
     
 
@@ -161,6 +191,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($roupa['nome']) ?></h5>
                             <p class="card-text"><?= htmlspecialchars($roupa['descricao']) ?></p>
+                            <p class="card-text">Tamanho: <?= htmlspecialchars($roupa['tamanho'] ?? '') ?></p>
+                            <p class="card-text">Gênero: <?= htmlspecialchars($roupa['genero'] ?? '') ?></p>
                             <a href="roupas-detalhes.php?id=<?= $roupa['id'] ?>" class="btn btn-info">Detalhes</a>
                         </div>
                     </div>
