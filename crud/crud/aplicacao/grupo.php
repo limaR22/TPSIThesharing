@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $descricao = $_POST['descricao'] ?? '';
     $tamanho = $_POST['tamanho'] ?? ''; // Novo campo: tamanho
     $genero = $_POST['genero'] ?? '';
+    $marca = $_POST['marca'] ?? ''; // Novo campo: marca
     $utilizador_id = $_SESSION['id']; // ID do usuário autenticado
 
     // Verifica se o arquivo de foto foi enviado corretamente
@@ -47,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Prepara e executa a inserção no banco de dados
             $stmtInserir = $pdo->prepare("
-                INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id, tamanho, genero)
-                VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id, :tamanho, :genero)
+                INSERT INTO roupas (nome, descricao, imagem, grupo_id, utilizador_id, tamanho, genero, marca)
+                VALUES (:nome, :descricao, :imagem, :grupo_id, :utilizador_id, :tamanho, :genero, :marca)
             ");
             $stmtInserir->execute([
                 ':nome' => $nome,
@@ -58,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':utilizador_id' => $utilizador_id,
                 ':tamanho' => $tamanho, // Novo campo: tamanho
                 ':genero' => $genero, // Novo campo: gênero
+                ':marca' => $marca, // Novo campo: marca
             ]);
 
             // Redireciona após a inserção para evitar reenvio do formulário
@@ -76,20 +78,45 @@ $stmtMembros = $pdo->prepare("SELECT u.id, u.nome, CASE WHEN g.utilizador_id = u
 $stmtMembros->execute([':grupo_id' => $grupo_id]);
 $membros = $stmtMembros->fetchAll();
 
+# Captura os filtros de busca
+$sexoFiltro = $_GET['sexo'] ?? '';
+$tamanhoFiltro = $_GET['tamanho'] ?? '';
+$marcaFiltro = $_GET['marca'] ?? '';
+
 # Captura o termo de pesquisa
 $searchTerm = '';
 if (isset($_GET['search'])) {
     $searchTerm = $_GET['search'];
 }
 
-# Busca as roupas com base no termo de pesquisa
+# Busca as roupas com base no termo de pesquisa e nos filtros
+$query = "SELECT * FROM roupas WHERE grupo_id = :grupo_id";
+$parametros = [':grupo_id' => $grupo_id];
+
 if (!empty($searchTerm)) {
-    $stmtRoupas = $pdo->prepare("SELECT * FROM roupas WHERE grupo_id = :grupo_id AND (nome LIKE :search OR descricao LIKE :search)");
-    $stmtRoupas->execute([':grupo_id' => $grupo_id, ':search' => '%' . $searchTerm . '%']);
-} else {
-    $stmtRoupas->execute([':grupo_id' => $grupo_id]);
+    $query .= " AND (nome LIKE :search OR descricao LIKE :search OR marca LIKE :search)";
+    $parametros[':search'] = '%' . $searchTerm . '%';
 }
+
+if (!empty($sexoFiltro)) {
+    $query .= " AND genero = :genero";
+    $parametros[':genero'] = $sexoFiltro;
+}
+
+if (!empty($tamanhoFiltro)) {
+    $query .= " AND tamanho = :tamanho";
+    $parametros[':tamanho'] = $tamanhoFiltro;
+}
+
+if (!empty($marcaFiltro)) {
+    $query .= " AND marca = :marca";
+    $parametros[':marca'] = $marcaFiltro;
+}
+
+$stmtRoupas = $pdo->prepare($query);
+$stmtRoupas->execute($parametros);
 $roupas = $stmtRoupas->fetchAll();
+
 
 # Carregar cabeçalho
 $titulo = '- Grupo: ' . htmlspecialchars($grupo['nome']);
@@ -99,6 +126,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <!-- Link para o CSS externo -->
 <link rel="stylesheet" href="/Css/grupo.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Barra superior -->
 
 <div class="top-bar">
@@ -149,6 +177,10 @@ include_once __DIR__ . '/templates/cabecalho.php';
                     <textarea class="form-control" name="descricao" required></textarea>
                 </div>
                 <div class="form-group">
+                    <label for="marca">Marca:</label>
+                    <input type="text" class="form-control" name="marca" required>
+                </div>
+                <div class="form-group">
                     <label for="tamanho">Tamanho:</label>
                     <select class="form-control" name="tamanho" required>
                         <option value="">Selecione o tamanho</option>
@@ -194,28 +226,91 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
     <!-- Lista de roupas -->
     <div class="roupas-list">
-        <h2 class="roupas-titulo">Roupas do Grupo</h2>
         <div class="row">
-            <?php foreach ($roupas as $roupa): ?>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <?php if ($roupa['imagem']): ?>
-                            <img src="<?= htmlspecialchars($roupa['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($roupa['nome']) ?>" style="object-fit: cover; height: 200px; width: 100%;">
-                        <?php endif; ?>
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($roupa['nome']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($roupa['descricao']) ?></p>
-                            <p class="card-text">Tamanho: <?= htmlspecialchars($roupa['tamanho'] ?? '') ?></p>
-                            <p class="card-text">Gênero: <?= htmlspecialchars($roupa['genero'] ?? '') ?></p>
-                            <a href="roupas-detalhes.php?id=<?= $roupa['id'] ?>" class="btn btn-info">Detalhes</a>
-                        </div>
+            <div class="col-md-6">
+                <h2 class="roupas-titulo">Roupas do Grupo</h2>
+            </div>
+            <div class="col-md-6 text-right">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filtrarRoupasModal">Filtrar</button>
+            </div>
+        </div>
+        <!-- Modal de filtragem -->
+        <div class="modal fade" id="filtrarRoupasModal" tabindex="-1" aria-labelledby="filtrarRoupasModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="filtrarRoupasModalLabel">Filtrar Roupas</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="GET" action="grupo.php">
+                            <!-- Campo oculto para passar o grupo_id -->
+                            <input type="hidden" name="grupo_id" value="<?= isset($_GET['grupo_id']) ? $_GET['grupo_id'] : '' ?>">
+
+                            <div class="form-group">
+                                <label for="sexo">Sexo:</label>
+                                <select class="form-control" name="sexo" id="sexo">
+                                    <option value="">Todos os sexos</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="feminino">Feminino</option>
+                                    <option value="unisex">Unisex</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tamanho">Tamanho:</label>
+                                <select class="form-control" name="tamanho" id="tamanho">
+                                    <option value="">Todos os tamanhos</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="marca">Marca:</label>
+                                <select class="form-control" name="marca" id="marca">
+                                    <option value="">Todas as marcas</option>
+                                    <?php
+                                    $stmtMarcas = $pdo->prepare("SELECT DISTINCT marca FROM roupas");
+                                    $stmtMarcas->execute();
+                                    $marcas = $stmtMarcas->fetchAll();
+                                    foreach ($marcas as $marca): ?>
+                                        <option value="<?= htmlspecialchars($marca['marca']) ?>"><?= htmlspecialchars($marca['marca']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                        </form>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            </div>
         </div>
+        <?php if (empty($roupas)): ?>
+            <p class="text-muted">Ainda não há nenhuma roupa neste grupo😓.</p>
+        <?php else: ?>
+            <div class="row">
+                <?php foreach ($roupas as $roupa): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <?php if ($roupa['imagem']): ?>
+                                <img src="<?= htmlspecialchars($roupa['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($roupa['nome']) ?>" style="object-fit: cover; height: 200px; width: 100%;">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($roupa['nome']) ?></h5>
+                                <p class="card-text">Marca: <?= htmlspecialchars($roupa['marca']) ?></p>
+                                <p class="card-text">Tamanho: <?= htmlspecialchars($roupa['tamanho']) ?></p>
+                                <p class="card-text">Gênero: <?= htmlspecialchars($roupa['genero']) ?></p>
+                                <a href="roupas-detalhes.php?id=<?= $roupa['id'] ?>" class="btn btn-info">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
     <!-- JavaScript para mostrar o modal -->
+
     <script>
         document.getElementById('adicionar-roupa-btn').addEventListener('click', function() {
             document.getElementById('adicionar-roupa-modal').style.display = 'flex';
