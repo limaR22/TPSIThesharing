@@ -1,32 +1,125 @@
-/* Estilos para o modo claro */
+/* Estilos gerais para o modo claro (light mode) */
 body.light-mode {
-    background-color: #fff;
-    color: #000;
-  }
-  
-  body.light-mode .btn-light {
-    background-color: #fff;
-    color: #000;
-  }
-  
-  body.light-mode .btn-dark {
-    background-color: #000;
-    color: #fff;
-  }
-  
-  /* Estilos para o modo escuro */
-  body.dark-mode {
-    background-color: #121212;
-    color: #fff;
-  }
-  
-  body.dark-mode .btn-light {
-    background-color: #333;
-    color: #fff;
-  }
-  
-  body.dark-mode .btn-dark {
-    background-color: #fff;
-    color: #121212;
-  }
-  
+  background-color: #ffffff;
+  color: #212529;
+}
+
+.light-mode .container {
+  background-color: #ffffff;
+  color: #212529;
+}
+
+.light-mode .formulario {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+}
+
+.light-mode .formulario input[type="text"], 
+.light-mode .formulario input[type="email"], 
+.light-mode .formulario input[type="tel"], 
+.light-mode .formulario input[type="file"] {
+  background-color: #ffffff;
+  color: #212529;
+  border: 1px solid #ccc;
+}
+
+.light-mode .formulario label {
+  color: #212529;
+}
+
+.light-mode .formulario button[type="submit"] {
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+}
+
+.light-mode .formulario input::file-selector-button {
+  background-color: #e9ecef;
+  color: #212529;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.light-mode .fw-bold {
+  color: #333;
+}
+
+.light-mode .alert {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+/* Estilos para o modo escuro (dark mode) */
+body.dark-mode {
+  background-color: #222;
+  color: #fff;
+}
+
+.dark-mode .container {
+  background-color: #222;
+  color: #fff;
+}
+
+.dark-mode .formulario {
+  background-color: #333;
+  border: 1px solid #444;
+}
+
+.dark-mode .formulario input[type="text"], 
+.dark-mode .formulario input[type="email"], 
+.dark-mode .formulario input[type="tel"], 
+.dark-mode .formulario input[type="file"] {
+  background-color: #444;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.dark-mode .formulario label {
+  color: #ddd;
+}
+
+.dark-mode .formulario button[type="submit"] {
+  background-color: #444; 
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.dark-mode .formulario input::file-selector-button {
+  background-color: #555;
+  color: #fff;
+  border: 1px solid #666;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.dark-mode .fw-bold {
+  color: #fff;
+}
+
+.dark-mode .alert {
+  background-color: #333;
+  color: #ddd;
+}
+
+/* Estilos gerais para botões de modo */
+#toggleMode {
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: 1.5rem;
+}
+
+#toggleMode i {
+  pointer-events: none;
+}
+
+/* Melhorias para elementos responsivos */
+.formulario input, 
+.formulario button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}

@@ -6,8 +6,66 @@ body {
     height: 100vh;
     transition: background-color 0.3s, color 0.3s;
 }
+/* Modal */
+#formularioGrupo {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+<<<<<<< Updated upstream
 /* Modos claro e escuro */
+=======
+/* Estilo específico para o modal no modo escuro */
+.dark-mode #formularioGrupo {
+    background-color: #333;
+    color: #ffffff;
+}
+
+.dark-mode #formularioGrupo input[type="text"], .dark-mode #formularioGrupo textarea {
+    background-color: #444;
+    color: #ffffff;
+    border: 1px solid #555;
+}
+
+.dark-mode #formularioGrupo input[type="file"] {
+    background-color: #444;
+    color: #ffffff;
+    border: 1px solid #555;
+}
+
+.dark-mode #formularioGrupo input[type="text"]::placeholder, .dark-mode #formularioGrupo textarea::placeholder {
+    color: #999;
+}
+
+.dark-mode #formularioGrupo button {
+    background-color: #555;
+    color: #ffffff;
+    border: none;
+}
+
+.dark-mode #formularioGrupo button:hover {
+    background-color: #666;
+}
+
+/* Estilo específico para o botão de cancelar no modo escuro */
+.dark-mode #cancelarBtn {
+    background-color: #555;
+    color: #ffffff;
+    border: none;
+}
+
+.dark-mode #cancelarBtn:hover {
+    background-color: #666;
+}
+/* Modo claro */
+>>>>>>> Stashed changes
 .light-mode {
     background-color: #ffffff; /* Fundo branco */
     color: #000000; /* Texto preto */
@@ -137,30 +195,300 @@ body {
 /* Barra superior */
 .top-bar {
     position: fixed;
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: space-between; /* Distribui o espaço entre os elementos */
+    padding: 0 20px; /* Espaçamento interno */
+    height: 60px; /* Altura fixa */
+    background-color: #f1f1f1; /* Cor de fundo para o modo claro */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    position: fixed; /* Fixa a top-bar no topo */
     top: 0;
     left: 0;
     width: 100%;
-    height: 60px;
-    background-color: #f1f1f1;
+    z-index: 1000; /* Garante que a top-bar fique acima de outros elementos */
+}
+.utilizador-info {
+    margin-right: auto; /* Empurra o texto para a esquerda */
+}
+/* Estilo para o texto "Olá, [nome]" */
+.titulo-utilizador {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1.5rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Ajustes para o modo escuro */
+body.dark-mode .titulo-utilizador {
+    color: #ffffff; /* Cor branca para o modo escuro */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
+/* Estilo para o título da sidebar */
+.sidebar .top-section h2.titulo-elegante {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1.5rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+<<<<<<< Updated upstream
+/* Barra de pesquisa */
+.search-bar {
+    flex: 1;
+    margin: 0 20px;
+=======
+/* Estilo para os links da sidebar */
+.sidebar .nav-links a {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    text-decoration: none; /* Remove sublinhado */
+    transition: color 0.3s; /* Transição suave para a cor */
+}
+
+/* Efeito ao passar o mouse nos links */
+.sidebar .nav-links a:hover {
+    color: #007bff; /* Cor do link ao passar o mouse */
+}
+
+/* Ajustes para o modo escuro */
+body.dark-mode .sidebar .top-section h2.titulo-elegante {
+    color: #ffffff; /* Cor branca para o modo escuro */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
+
+body.dark-mode .sidebar .nav-links a {
+    color: #ffffff; /* Links brancos no modo escuro */
+}
+
+body.dark-mode .sidebar .nav-links a:hover {
+    color: #007bff; /* Cor do link ao passar o mouse no modo escuro */
+}
+/* Sidebar estilizada */
+.sidebar {
+    width: 250px;
+    background-color: #111111; /* Fundo escuro por padrão */
+    color: #ffffff; /* Texto branco */
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 20px;
     box-sizing: border-box;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, color 0.3s;
-    z-index: 1000;
+    margin-top: 60px; /* Altura da barra superior */
+    height: calc(100vh - 60px); /* Altura da tela menos a altura da barra superior */
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.light-mode .sidebar {
+    background-color: #f7f7f7; /* Modo claro: fundo mais claro */
+    color: #000000; /* Texto preto */
+}
+
+.dark-mode .sidebar {
+    background-color: #2a2a2a; /* Modo escuro: fundo mais escuro */
+    color: #ffffff; /* Texto branco */
+}
+
+.sidebar .top-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.sidebar .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar .nav-links a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 1rem;
+}
+
+.sidebar .nav-links a:hover {
+    opacity: 0.8;
+    color: #007bff; /* Cor do link ao passar o mouse */
+}
+
+.light-mode .sidebar .nav-links a {
+    color: #000000; /* Links pretos no modo claro */
+}
+
+.dark-mode .sidebar .nav-links a {
+    color: #ffffff; /* Links brancos no modo escuro */
+}
+
+.sidebar .nav-links a:hover {
+    opacity: 0.8;
+    color: #262e36; /* Cor do link ao passar o mouse */
+}
+
+.light-mode .sidebar .nav-links a:hover {
+    color: #2d343b; /* Cor do link ao passar o mouse no modo claro */
 }
 
 .dark-mode .top-bar {
     background-color: #222222;
     color: #ffffff;
 }
+.logout-section form button {
+    width: 100%;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-family: 'Georgia', serif; /* Fonte elegante */
+        font-weight: bold; /* Letras grossas */
+        font-size: 1rem; /* Tamanho da fonte */
+        text-transform: uppercase; /* Transforma o texto em maiúsculas */
+        letter-spacing: 2px; /* Espaçamento entre as letras */
+        padding: 10px 20px; /* Espaçamento interno */
+        border-radius: 5px; /* Bordas arredondadas */
+        background-color: #dc3545; /* Cor de fundo vermelha */
+        color: #ffffff; /* Cor do texto branco */
+        border: none; /* Remove a borda padrão */
+        cursor: pointer; /* Cursor de ponteiro */
+        transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
+}
+/* Ajustes para o modo escuro */
+body.dark-mode .btn-sair {
+    background-color: #570101; /* Cor de fundo vermelha mais clara no modo escuro */
+    color: #ffffff; /* Cor do texto branco */
+}
+
+body.dark-mode .btn-sair:hover {
+    background-color: #560000; /* Cor de fundo mais escura no modo escuro */
+}
+
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Conteúdo principal */
+.main-content {
+    margin-left: 250px;
+    margin-top: 60px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #ffffff;
+}
+
+.dark-mode .main-content {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+/* Título principal */
+.main-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Lista de grupos - Ajustando o layout para cards (3 por linha) */
+.grupos-list {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.grupos-list p {
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.grupos-list ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+}
+
+.grupos-list li {
+    list-style: none;
+    width: 30%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.grupos-list li .card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.grupos-list li .card:hover {
+    transform: scale(1.05);
+}
+
+.grupos-list li .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.grupos-list li .card-body {
+    padding: 15px;
+}
+
+.grupos-list li .card-body .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.grupos-list li .card-body .card-text {
+    font-size: 1rem;
+    color: #666;
+}
+
+.grupos-list li .card-body .btn-entrar {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.grupos-list li .card-body .btn-entrar:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.card-body .btn {
+    margin-right: 10px;
+}
+
+.card-body .d-inline-block {
+    display: inline-block;
+    margin-right: 10px;
+}
 
 /* Barra de pesquisa */
 .search-bar {
-    flex: 1;
-    margin: 0 20px;
+    position: absolute; /* Posiciona o título absolutamente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta o centro */
+>>>>>>> Stashed changes
     display: flex;
     justify-content: center;
 }
@@ -198,3 +526,20 @@ body {
 .mode-toggle:hover {
     transform: scale(1.1);
 }
+<<<<<<< Updated upstream
+=======
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .grupos-list li {
+        width: 45%;
+    }
+}
+
+@media (max-width: 480px) {
+    .grupos-list li {
+        width: 100%;
+    }
+}
+>>>>>>> Stashed changes

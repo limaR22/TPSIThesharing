@@ -18,6 +18,49 @@ body {
     color: #ffffff; /* Texto branco */
 }
 
+/* Estilo para o título da sidebar */
+.sidebar .top-section h2.titulo-elegante {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1.5rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Estilo para os links da sidebar */
+.sidebar .nav-links a {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    text-decoration: none; /* Remove sublinhado */
+    transition: color 0.3s; /* Transição suave para a cor */
+}
+
+/* Efeito ao passar o mouse nos links */
+.sidebar .nav-links a:hover {
+    color: #007bff; /* Cor do link ao passar o mouse */
+}
+
+/* Ajustes para o modo escuro */
+body.dark-mode .sidebar .top-section h2.titulo-elegante {
+    color: #ffffff; /* Cor branca para o modo escuro */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
+
+body.dark-mode .sidebar .nav-links a {
+    color: #ffffff; /* Links brancos no modo escuro */
+}
+
+body.dark-mode .sidebar .nav-links a:hover {
+    color: #007bff; /* Cor do link ao passar o mouse no modo escuro */
+}
 /* Sidebar estilizada */
 .sidebar {
     width: 250px;
@@ -34,6 +77,24 @@ body {
     position: fixed;
     top: 0;
     left: 0;
+}
+/* Estilo para o texto "Olá, [nome]" */
+.titulo-utilizador {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1.5rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Ajustes para o modo escuro */
+body.dark-mode .titulo-utilizador {
+    color: #ffffff; /* Cor branca para o modo escuro */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
 }
 
 .light-mode .sidebar {
@@ -78,14 +139,30 @@ body {
 
 .sidebar .nav-links a:hover {
     opacity: 0.8;
-    color: #007bff; /* Cor do link ao passar o mouse */
+    color: #262e36; /* Cor do link ao passar o mouse */
 }
 
 .light-mode .sidebar .nav-links a:hover {
-    color: #0056b3; /* Cor do link ao passar o mouse no modo claro */
+    color: #2d343b; /* Cor do link ao passar o mouse no modo claro */
 }
 
 
+/* Efeito ao passar o mouse no botão "Sair" */
+.btn-sair:hover {
+    background-color: #c82333; /* Cor de fundo mais escura ao passar o mouse */
+    transform: scale(1.05); /* Efeito de escala ao passar o mouse */
+}
+
+/* Ajustes para o modo escuro */
+body.dark-mode .btn-sair {
+    background-color: #570101; /* Cor de fundo vermelha mais clara no modo escuro */
+    color: #ffffff; /* Cor do texto branco */
+}
+
+body.dark-mode .btn-sair:hover {
+    background-color: #560000; /* Cor de fundo mais escura no modo escuro */
+}
+/* Logout */
 .logout-section form button {
     width: 100%;
     padding: 10px;
@@ -95,15 +172,20 @@ body {
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1rem; /* Tamanho da fonte */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    background-color: #dc3545; /* Cor de fundo vermelha */
+    color: #ffffff; /* Cor do texto branco */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Cursor de ponteiro */
+    transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
 }
 
-.light-mode .logout-section form button {
-    background-color: #ff6666;
-}
-
-.logout-section form button:hover {
-    background-color: #a71d2a;
-}
 
 /* Conteúdo principal */
 .main-content {
@@ -115,13 +197,6 @@ body {
     flex-direction: column; /* Para que os elementos fiquem em coluna */
     align-items: flex-start; /* Alinha os elementos ao início */
 }
-
-/* Título principal */
-.main-content h1 {
-    font-size: 2rem; /* Ajustando o tamanho do título */
-    margin-bottom: 20px; /* Espaçamento abaixo do título */
-}
-
 /* Estilo para lista de notificações */
 .notificacoes-list {
     width: 100%; /* Garante que a lista ocupe toda a largura disponível */

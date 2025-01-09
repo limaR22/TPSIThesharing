@@ -25,7 +25,11 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <!-- Barra superior -->
     <div class="top-bar">
         <div>
+<<<<<<< Updated upstream
             <h3>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
+=======
+            <h3 class="titulo-utilizador">Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
+>>>>>>> Stashed changes
         </div>
 
         <div class="search-bar">
@@ -40,7 +44,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="top-section">
-            <h2>Menu</h2>
+            <h2 class="titulo-elegante">Menu</h2>
+            <br></br>
             <div class="nav-links">
                 <a href="\aplicacao\index.php" class="nav-link">Início</a> <!-- Link para a página inicial -->
                 <a href="\aplicacao\notificacoes.php" class="nav-link">Notificações</a>
@@ -49,19 +54,29 @@ include_once __DIR__ . '/templates/cabecalho.php';
         </div>
         <div class="logout-section">
             <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
-                <button type="submit" class="btn btn-danger" name="utilizador" value="logout">Sair</button>
+                <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">Sair</button>
             </form>
         </div>
     </div>
 
     <!-- Conteúdo principal -->
     <div class="main-content">
-        <h1>Meus Grupos</h1>
+        <h1 class="titulo-utilizador">Meus Grupos</h1>
 
         <!-- Lista de grupos -->
         <div class="grupos-list">
             <?php if (empty($grupos)): ?>
+<<<<<<< Updated upstream
                 <p>Não estás em nenhum grupo neste momento... 😓.</p>
+=======
+                <p class="text-muted">
+                    <?php if (!empty($searchTerm)): ?>
+                        <div>Nenhum grupo encontrado para "<?= htmlspecialchars($searchTerm) ?>" 😓.</div>
+                    <?php else: ?>
+                        <div>Ainda não estás em nenhum grupo! Cria ou pesquisa um grupo para começar 🚀. </div>
+                    <?php endif; ?>
+                </p>
+>>>>>>> Stashed changes
             <?php else: ?>
                 <ul class="list-group">
                     <?php foreach ($grupos as $grupo): ?>
@@ -75,6 +90,33 @@ include_once __DIR__ . '/templates/cabecalho.php';
                 </ul>
             <?php endif; ?>
         </div>
+<<<<<<< Updated upstream
+=======
+
+        <button class="btn btn-primary btn-floating" id="criarGrupoBtn" style="position: fixed; bottom: 20px; right: 20px;">
+            Criar Grupo
+        </button>
+
+        <div id="formularioGrupo">
+            <h5>Criar Novo Grupo</h5>
+            <form id="formCriarGrupo" action="grupos.php" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome do Grupo</label>
+                    <input type="text" class="form-control" id="nome" name="nome" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea class="form-control" id="descricao" name="descricao" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Foto do Grupo</label>
+                    <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary">Criar Grupo</button>
+                <button type="button" class="btn btn-secondary" id="cancelarBtn">Cancelar</button>
+            </form>
+        </div>
+>>>>>>> Stashed changes
     </div>
 
     <!-- Bootstrap JS -->

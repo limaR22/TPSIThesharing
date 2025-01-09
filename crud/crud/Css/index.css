@@ -18,6 +18,49 @@ body {
     color: #ffffff; /* Texto branco */
 }
 
+/* Estilo para o título da sidebar */
+.sidebar .top-section h2.titulo-elegante {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1.5rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Estilo para os links da sidebar */
+.sidebar .nav-links a {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    text-decoration: none; /* Remove sublinhado */
+    transition: color 0.3s; /* Transição suave para a cor */
+}
+
+/* Efeito ao passar o mouse nos links */
+.sidebar .nav-links a:hover {
+    color: #007bff; /* Cor do link ao passar o mouse */
+}
+
+/* Ajustes para o modo escuro */
+body.dark-mode .sidebar .top-section h2.titulo-elegante {
+    color: #ffffff; /* Cor branca para o modo escuro */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
+
+body.dark-mode .sidebar .nav-links a {
+    color: #ffffff; /* Links brancos no modo escuro */
+}
+
+body.dark-mode .sidebar .nav-links a:hover {
+    color: #007bff; /* Cor do link ao passar o mouse no modo escuro */
+}
 /* Sidebar estilizada */
 .sidebar {
     width: 250px;
@@ -85,57 +128,76 @@ body {
     color: #0056b3; /* Cor do link ao passar o mouse no modo claro */
 }
 
-/* Barra superior */
+/* Estilo para a top-bar */
 .top-bar {
-    position: fixed;
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: space-between; /* Distribui o espaço entre os elementos */
+    padding: 0 20px; /* Espaçamento interno */
+    height: 60px; /* Altura fixa */
+    background-color: #f1f1f1; /* Cor de fundo para o modo claro */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    position: fixed; /* Fixa a top-bar no topo */
     top: 0;
     left: 0;
     width: 100%;
-    height: 60px;
-    background-color: #f1f1f1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    box-sizing: border-box;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, color 0.3s;
-    z-index: 1000;
+    z-index: 1000; /* Garante que a top-bar fique acima de outros elementos */
 }
 
+/* Contêiner para o texto "Olá, [nome]" */
+.utilizador-info {
+    margin-right: auto; /* Empurra o texto para a esquerda */
+}
+/* Estilo para o texto "Olá, [nome]" */
+.titulo-utilizador {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1.5rem; /* Tamanho menor (ajuste conforme necessário) */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Ajustes para o modo escuro */
+body.dark-mode .titulo-utilizador {
+    color: #ffffff; /* Cor branca para o modo escuro */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
+/* Contêiner para o título */
+.titulo-container {
+    position: absolute; /* Posiciona o título absolutamente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta o centro */
+}
+
+/* Estilo para o título "THESHARING" */
+.titulo-elegante {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 2rem; /* Tamanho grande */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+/* Ajustes para o modo escuro */
+body.dark-mode .top-bar {
+    background-color: #1e1e1e; /* Fundo escuro para a top-bar */
+}
+
+body.dark-mode .titulo-elegante {
+    color: #ffffff; /* Cor branca para o modo escuro */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
 .dark-mode .top-bar {
     background-color: #222222;
     color: #ffffff;
 }
-
-/* Barra de pesquisa */
-.search-bar {
-    flex: 1;
-    margin: 0 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.search-bar input {
-    width: 50%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-.dark-mode .search-bar input {
-    background-color: #333333;
-    color: #ffffff;
-    border: 1px solid #555555;
-}
-
-.search-bar input:focus {
-    border-color: #007bff;
-}
-
 /* Botão de alternar tema */
 .mode-toggle {
     font-size: 1.5rem;
@@ -162,14 +224,46 @@ body {
 }
 
 /* Conteúdo principal */
+/* Define o estilo principal da área de conteúdo */
 .main-content {
     margin-left: 250px; /* Largura da sidebar */
     margin-top: 60px; /* Altura da barra superior */
     padding: 20px;
+<<<<<<< Updated upstream
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+=======
+    background-color: #f0f0f0; /* Cor de fundo */
+    min-height: calc(100vh - 60px); /* Garante altura mínima */
+}
+
+/* Ajusta o contêiner do carrossel */
+.container {
+    max-width: 1000px; /* Largura máxima para o carrossel */
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+/* Imagens no carrossel */
+.carousel-item img {
+    object-fit: contain; /* Ajusta a imagem para não ser cortada */
+    height: 500px; /* Altura máxima das imagens */
+    width: 100%; /* Largura total do contêiner */
+}
+/* Estilo para os carrosséis lado a lado */
+.carousel {
+    margin-bottom: 20px; /* Espaçamento entre os carrosséis */
+}
+.carousel-container {
+    margin-bottom: 20px; /* Espaçamento entre os carrosséis */
+}
+
+/* Ajustes para o modo escuro */
+.dark-mode .main-content {
+    background-image: url('https://wallpapers.com/images/hd/aesthetic-black-background-1920-x-1080-tjv7acf0b8ycalpz.jpg'); /* Imagem alternativa para o modo escuro */
+    color: #ffffff; /* Mantém o texto branco no modo escuro */
+>>>>>>> Stashed changes
 }
 
 /* Modal de criação de grupo */
@@ -265,7 +359,21 @@ body {
     background-color: #207a61;
     border-color: #207a61;
 }
+/* Efeito ao passar o mouse no botão "Sair" */
+.btn-sair:hover {
+    background-color: #c82333; /* Cor de fundo mais escura ao passar o mouse */
+    transform: scale(1.05); /* Efeito de escala ao passar o mouse */
+}
 
+/* Ajustes para o modo escuro */
+body.dark-mode .btn-sair {
+    background-color: #570101; /* Cor de fundo vermelha mais clara no modo escuro */
+    color: #ffffff; /* Cor do texto branco */
+}
+
+body.dark-mode .btn-sair:hover {
+    background-color: #560000; /* Cor de fundo mais escura no modo escuro */
+}
 /* Logout */
 .logout-section form button {
     width: 100%;
@@ -276,7 +384,20 @@ body {
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 1rem; /* Tamanho da fonte */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    background-color: #dc3545; /* Cor de fundo vermelha */
+    color: #ffffff; /* Cor do texto branco */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Cursor de ponteiro */
+    transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
 }
+<<<<<<< Updated upstream
 
 .light-mode .logout-section form button {
     background-color: #ff6666;
@@ -293,3 +414,5 @@ body {
 .dark-mode .logout-section form button:hover {
     background-color: #c9302c;
 }
+=======
+>>>>>>> Stashed changes

@@ -27,7 +27,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <!-- Barra superior -->
     <div class="top-bar">
         <div>
-            <h3>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
+            <h3>Olá, <?=$utilizador['nome'] ?? 'Utilizador' ?>!</h3>
         </div>
 
         <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
@@ -38,7 +38,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="top-section">
-            <h2>Menu</h2>
+            <h2 class="titulo-elegante">Menu</h2>
+            <br></br>
             <div class="nav-links">
                  <!-- Link para a página inicial -->
                 <a href="\aplicacao\grupos.php" class="nav-link">Grupos</a>
@@ -48,15 +49,14 @@ include_once __DIR__ . '/templates/cabecalho.php';
         </div>
         <div class="logout-section">
             <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
-                <button type="submit" class="btn btn-danger" name="utilizador" value="logout">Sair</button>
+                <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">Sair</button>
             </form>
         </div>
     </div>
 
     <!-- Conteúdo principal -->
     <div class="main-content">
-        <h1>Notificações</h1>
-
+        <h2 class="titulo-utilizador">Notificações</h2>
         <!-- Lista de notificações -->
         <div class="notificacoes-list">
             <?php if (empty($notificacoes)): ?>

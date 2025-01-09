@@ -13,12 +13,16 @@ $utilizador = utilizador();
 # Consultar a imagem de perfil no banco de dados (supondo que existe um campo 'imagem_perfil' no banco de dados)
 $imagem_perfil = isset($utilizador['perfil']) && !empty($utilizador['perfil']) ? $utilizador['perfil'] : 'https://i.pinimg.com/236x/21/9e/ae/219eaea67aafa864db091919ce3f5d82.jpg'; // Imagem padrão
 ?>
+<link rel="stylesheet" href="/Css/perfil.css">
 
 <body class="light-mode">
   <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1 class="fw-bold text-dark">O meu Perfil</h1>
-    </div>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="fw-bold">O meu Perfil</h1>
+  <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
+    <i class="fas fa-moon"></i>
+  </button>
+</div>
 
     <!-- Exibir a imagem de perfil -->
     <div class="text-center mb-4">
@@ -51,7 +55,7 @@ $imagem_perfil = isset($utilizador['perfil']) && !empty($utilizador['perfil']) ?
       <?php endif; ?>
     </section>
 
-    <section>
+    <section class="formulario">
       <form enctype="multipart/form-data" action="/src/controlador/admin/controlar-utilizador.php" method="post" class="shadow-sm p-4 bg-white rounded">
         <div class="mb-3">
           <label for="nome" class="form-label">Nome</label>
@@ -89,7 +93,10 @@ $imagem_perfil = isset($utilizador['perfil']) && !empty($utilizador['perfil']) ?
       </form>
     </section>
   </div>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script src="/javascript/modos.js"></script>
+<!-- Font Awesome para ícones -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+<script src="/javascript/modos.js"></script>
 </body>

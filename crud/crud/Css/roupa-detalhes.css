@@ -1,0 +1,96 @@
+/* Conteúdo principal */
+/* Conteúdo principal */
+.content {
+  margin-left: 270px; /* Ajuste conforme o tamanho da sidebar */
+  padding: 20px;
+  z-index: 1000;
+  position: relative;
+  background-color: #ffffff;
+  margin-top: 80px; /* Ajuste a altura da barra superior aqui */
+  width: calc(100% - 270px); /* Ocupa o espaço restante da página */
+  min-height: calc(100vh - 80px); /* Ocupa a altura total da página */
+  box-shadow: none; /* Remove a sombra */
+  border-radius: 0; /* Remove as bordas arredondadas */
+}
+
+/* Container para imagem e detalhes */
+.detalhes-container {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  gap: 40px; /* Espaço entre a imagem e os detalhes */
+  max-width: 1200px; /* Limita a largura máxima do conteúdo */
+  margin: 0 auto; /* Centraliza o conteúdo */
+}
+
+/* Estilo da imagem */
+.imagem-container img.roupa-img {
+  width: 400px; /* Aumenta o tamanho da imagem */
+  height: auto;
+  border-radius: 0; /* Remove as bordas arredondadas */
+}
+
+/* Estilo dos detalhes ao lado da imagem */
+.detalhes-texto {
+  flex: 1; /* Ocupa o espaço restante */
+  text-align: left; /* Alinha o texto à esquerda */
+}
+
+/* Estilo do botão de alugar */
+.alugar-btn {
+  margin-top: 20px; /* Espaço acima do botão */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.alugar-btn:hover {
+  opacity: 0.9;
+}
+
+/* Estilização adicional para melhor aparência */
+.content h1 {
+  font-size: 2rem;
+  color: #343a40;
+  margin-bottom: 20px;
+}
+
+.content p {
+  font-size: 1rem;
+  color: #495057;
+  line-height: 1.6;
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 5px;
+  width: 250px; /* Ajuste o tamanho da imagem */
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.col-md-4 {
+  flex-basis: 25%;
+}
+
+.col-md-8 {
+  flex-basis: 75%;
+}
