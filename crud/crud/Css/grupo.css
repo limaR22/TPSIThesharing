@@ -48,6 +48,9 @@ body {
     background-color: #000000;
     color: #ffffff;
 }
+.dark-mode .roupas-titulo {
+    color: #000000; /* Cor branca para o texto no modo escuro */
+}
 
 /* Barra superior */
 .top-bar {
@@ -240,7 +243,11 @@ body {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 200px;
+    width: 400px; /* Reduzir a largura do modal */
+    max-width: 400px; /* Definir o máximo de largura do modal */
+    height: 500px; /* Reduzir a altura do modal */
+    max-height: 500px; /* Definir o máximo de altura do modal */
+    overflow-y: auto; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -269,7 +276,35 @@ body {
 .modal-content button:hover {
     background-color: #218838;
 }
+.dark-mode .modal-content {
+    background-color: #333; /* Cor de fundo escura para o modal */
+    color: #ffffff; /* Cor de texto branca para o modal */
+}
 
+.dark-mode .modal-content input, .dark-mode .modal-content button {
+    background-color: #444; /* Cor de fundo escura para os inputs e botões */
+    color: #ffffff; /* Cor de texto branca para os inputs e botões */
+    border: 1px solid #555; /* Cor de borda escura para os inputs e botões */
+}
+
+.dark-mode .modal-content button {
+    background-color: #555; /* Cor de fundo escura para o botão */
+}
+
+.dark-mode .modal-content button:hover {
+    background-color: #666; /* Cor de fundo escura para o botão ao passar o mouse */
+}
+
+.dark-mode .modal-content textarea {
+    background-color: #444; /* Cor de fundo escura para o campo de descrição */
+    color: #ffffff; /* Cor de texto branca para o campo de descrição */
+    border: 1px solid #555; /* Cor de borda escura para o campo de descrição */
+}
+.dark-mode .modal-content input[type="file"] {
+    background-color: #444; /* Cor de fundo escura para o botão de buscar foto */
+    color: #ffffff; /* Cor de texto branca para o botão de buscar foto */
+    border: 1px solid #555; /* Cor de borda escura para o botão de buscar foto */
+}
 /* Responsividade */
 @media (max-width: 768px) {
     .sidebar {

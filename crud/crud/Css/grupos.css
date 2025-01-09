@@ -3,53 +3,21 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Alteração: permite estrutura em coluna */
     min-height: 100vh;
     transition: background-color 0.3s, color 0.3s;
 }
-/* Botão Voltar no canto superior direito */
-#voltar-btn {
-    position: fixed;
-    top: 20px; /* Distância do topo */
-    right: 20px; /* Distância da borda direita */
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 1001; /* Garantir que fique acima de outros elementos */
-}
 
-/* Botão Adicionar Roupa no canto inferior direito */
-#adicionar-roupa-btn {
-    position: fixed;
-    bottom: 20px; /* Distância da parte inferior */
-    right: 20px; /* Distância da borda direita */
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1001; /* Garantir que fique acima de outros elementos */
-}
-
-#adicionar-roupa-btn:hover {
-    background-color: #218838;
-}
-/* Modos claro e escuro */
+/* Modo claro */
 .light-mode {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #ffffff; /* Fundo branco */
+    color: #000000; /* Texto preto */
 }
 
+/* Modo escuro */
 .dark-mode {
-    background-color: #000000;
-    color: #ffffff;
-}
-.dark-mode .roupas-titulo {
-    color: #000000; /* Cor branca para o texto no modo escuro */
+    background-color: #000000; /* Fundo preto */
+    color: #ffffff; /* Texto branco */
 }
 
 /* Barra superior */
@@ -64,32 +32,10 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    box-sizing: border-box;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
     z-index: 1000;
-}
-
-.top-bar > div {
-    margin-right: 20px;
-}
-
-.top-bar .search-bar form {
-    display: flex;
-    align-items: center;
-}
-
-.top-bar .search-bar button {
-    margin-left: 10px;
-}
-
-.mode-toggle-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.mode-toggle-container .d-flex {
-    flex-direction: row;
-    align-items: center;
 }
 
 .dark-mode .top-bar {
@@ -97,225 +43,246 @@ body {
     color: #ffffff;
 }
 
-/* Botão Voltar (X no canto superior direito) */
-.btn-close {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 24px;
-    background-color: transparent;
-    border: none;
-    color: #333;
-    cursor: pointer;
-}
-
-.btn-close:hover {
-    color: #007bff;
-}
-
 /* Sidebar estilizada */
 .sidebar {
     width: 250px;
     background-color: #f7f7f7;
     color: #000000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 20px;
     box-sizing: border-box;
-    position: fixed;
-    top: 60px;
-    left: 0;
-    height: calc(100vh - 60px);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Alinha o conteúdo ao topo */
     transition: background-color 0.3s, color 0.3s;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    flex-grow: 1; /* Faz a lista crescer e ocupar o espaço disponível */
-    margin-top: 0; /* Remove o espaço extra acima da lista */
-}
-
-.sidebar li {
-    background-color: #ffffff;
-    margin-bottom: 10px;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sidebar li.admin {
-    background-color: #d1ecf1;
-    border-left: 5px solid #17a2b8;
-    color: #0c5460;
-}
-
-.sidebar li .user-name {
-    font-weight: bold;
-}
-
-.sidebar li .role {
-    font-size: 14px;
-    color: #6c757d;
-}
-
-.sidebar li .role.admin {
-    color: #17a2b8;
-    font-weight: bold;
-}
-
-.sidebar li .role.utilizador {
-    color: #28a745;
-    font-weight: bold;
-}
-
-
-/* Layout principal */
-.content {
-    margin-left: 250px;
-    padding: 80px 20px 20px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.roupas-list {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.roupas-list h2 {
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-.roupas-list ul {
-    list-style: none;
-    padding: 0;
-}
-
-.roupas-list li {
-    margin-bottom: 15px;
-    padding: 10px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.roupas-list img {
-    display: block;
-    margin-top: 10px;
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
-/* Modal */
-.modal {
-    display: none;
+    margin-top: 60px;
+    height: calc(100vh - 60px);
     position: fixed;
     top: 0;
     left: 0;
+}
+
+.dark-mode .sidebar {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.sidebar .top-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.sidebar .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar .nav-links a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 1rem;
+}
+
+.sidebar .nav-links a:hover {
+    opacity: 0.8;
+    color: #007bff;
+}
+
+.logout-section form button {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1001;
+    padding: 10px;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.light-mode .logout-section form button {
+    background-color: #ff6666;
+}
+
+.logout-section form button:hover {
+    background-color: #a71d2a;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Conteúdo principal */
+.main-content {
+    margin-left: 250px;
+    margin-top: 60px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #ffffff;
+}
+
+.dark-mode .main-content {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+/* Título principal */
+.main-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Lista de grupos - Ajustando o layout para cards (3 por linha) */
+.grupos-list {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.grupos-list p {
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.grupos-list ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+}
+
+.grupos-list li {
+    list-style: none;
+    width: 30%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.grupos-list li .card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.grupos-list li .card:hover {
+    transform: scale(1.05);
+}
+
+.grupos-list li .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.grupos-list li .card-body {
+    padding: 15px;
+}
+
+.grupos-list li .card-body .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.grupos-list li .card-body .card-text {
+    font-size: 1rem;
+    color: #666;
+}
+
+.grupos-list li .card-body .btn-entrar {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.grupos-list li .card-body .btn-entrar:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.card-body .btn {
+    margin-right: 10px;
+}
+
+.card-body .d-inline-block {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Barra de pesquisa */
+.search-bar {
+    display: flex;
     justify-content: center;
+    margin: 20px 0;
+}
+
+.search-bar form {
+    display: flex;
     align-items: center;
 }
 
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px; /* Reduzir a largura do modal */
-    max-width: 400px; /* Definir o máximo de largura do modal */
-    height: 500px; /* Reduzir a altura do modal */
-    max-height: 500px; /* Definir o máximo de altura do modal */
-    overflow-y: auto; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.modal-content input, .modal-content button {
-    width: 100%;
+.search-bar input {
+    width: 70%;
     padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
+    font-size: 1rem;
     border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.modal-content button {
-    background-color: #28a745;
+.search-bar button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 20px;
+    background-color: #007bff;
     color: white;
     cursor: pointer;
 }
 
-.modal-content button:hover {
-    background-color: #218838;
-}
-.dark-mode .modal-content {
-    background-color: #333; /* Cor de fundo escura para o modal */
-    color: #ffffff; /* Cor de texto branca para o modal */
+.search-bar button:hover {
+    background-color: #0056b3;
 }
 
-.dark-mode .modal-content input, .dark-mode .modal-content button {
-    background-color: #444; /* Cor de fundo escura para os inputs e botões */
-    color: #ffffff; /* Cor de texto branca para os inputs e botões */
-    border: 1px solid #555; /* Cor de borda escura para os inputs e botões */
+/* Modo escuro */
+.dark-mode .search-bar input {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
 }
 
-.dark-mode .modal-content button {
-    background-color: #555; /* Cor de fundo escura para o botão */
+.search-bar input:focus {
+    border-color: #007bff;
 }
 
-.dark-mode .modal-content button:hover {
-    background-color: #666; /* Cor de fundo escura para o botão ao passar o mouse */
+/* Botão de alternar tema */
+.mode-toggle {
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
-.dark-mode .modal-content textarea {
-    background-color: #444; /* Cor de fundo escura para o campo de descrição */
-    color: #ffffff; /* Cor de texto branca para o campo de descrição */
-    border: 1px solid #555; /* Cor de borda escura para o campo de descrição */
+.mode-toggle:hover {
+    transform: scale(1.1);
 }
-.dark-mode .modal-content input[type="file"] {
-    background-color: #444; /* Cor de fundo escura para o botão de buscar foto */
-    color: #ffffff; /* Cor de texto branca para o botão de buscar foto */
-    border: 1px solid #555; /* Cor de borda escura para o botão de buscar foto */
-}
+
 /* Responsividade */
 @media (max-width: 768px) {
-    .sidebar {
+    .grupos-list li {
+        width: 45%;
+    }
+}
+
+@media (max-width: 480px) {
+    .grupos-list li {
         width: 100%;
-        position: relative;
-        height: auto;
-    }
-    .content {
-        margin-left: 0;
-    }
-    .utilizadores-list {
-        display: none;
     }
 }
