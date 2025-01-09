@@ -78,11 +78,11 @@ body {
 
 .sidebar .nav-links a:hover {
     opacity: 0.8;
-    color: #007bff; /* Cor do link ao passar o mouse */
+    color: #262e36; /* Cor do link ao passar o mouse */
 }
 
 .light-mode .sidebar .nav-links a:hover {
-    color: #0056b3; /* Cor do link ao passar o mouse no modo claro */
+    color: #2d343b; /* Cor do link ao passar o mouse no modo claro */
 }
 
 /* Barra superior */
@@ -170,6 +170,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url('https://blog.cea.com.br/wp-content/uploads/2024/12/roupas-para-o-natal.jpg'); /* Adicione o caminho da sua imagem aqui */
+    background-size: cover; /* Garante que a imagem cubra todo o fundo */
+    background-position: center; /* Centraliza a imagem */
+    color: #ffffff; /* Cor do texto para garantir legibilidade */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra no texto para melhorar a legibilidade */
+}
+
+/* Ajustes para o modo escuro */
+.dark-mode .main-content {
+    background-image: url('https://blog.cea.com.br/wp-content/uploads/2024/12/roupas-para-o-natal.jpg'); /* Imagem alternativa para o modo escuro */
+    color: #ffffff; /* Mantém o texto branco no modo escuro */
 }
 
 /* Modal de criação de grupo */

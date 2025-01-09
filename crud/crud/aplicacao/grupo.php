@@ -180,7 +180,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
     <!-- Lista de roupas -->
     <div class="roupas-list">
-        <h2>Roupas do Grupo</h2>
+        <h2 class="roupas-titulo">Roupas do Grupo</h2>
         <div class="row">
             <?php foreach ($roupas as $roupa): ?>
                 <div class="col-md-4 mb-3">
