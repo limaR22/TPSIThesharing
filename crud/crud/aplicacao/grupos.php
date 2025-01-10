@@ -96,9 +96,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <body class="light-mode">
     <div class="top-bar">
         <div>
-            <h3>Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
+            <h3 class="titulo-utilizador">Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
         </div>
-
         <div class="search-bar">
             <form method="GET" action="grupos.php">
                 <input type="text" class="form-control" name="search" placeholder="Pesquisar grupos..." value="<?= htmlspecialchars($searchTerm) ?>">
@@ -113,7 +112,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
     <div class="sidebar">
         <div class="top-section">
-            <h2>Menu</h2>
+            <h2 class="titulo-utilizador">Menu</h2>
+            <br></br>
             <div class="nav-links">
                 <a href="/aplicacao/index.php" class="nav-link">Início</a>
                 <a href="/aplicacao/notificacoes.php" class="nav-link">Notificações</a>
@@ -122,21 +122,19 @@ include_once __DIR__ . '/templates/cabecalho.php';
         </div>
         <div class="logout-section">
             <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
-                <button type="submit" class="btn btn-danger" name="utilizador" value="logout">Sair</button>
+                <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">Sair</button>
             </form>
         </div>
     </div>
-
     <div class="main-content">
-        <h1>Meus Grupos</h1>
-
+        <h1 class="titulo-elegante">Meus Grupos</h1>
         <div class="grupos-list">
             <?php if (empty($grupos)): ?>
                 <p class="text-muted">
                     <?php if (!empty($searchTerm)): ?>
-                        Nenhum grupo encontrado para "<?= htmlspecialchars($searchTerm) ?>" 😓.
+                       <div> Nenhum grupo encontrado para "<?= htmlspecialchars($searchTerm) ?>" 😓.</div>
                     <?php else: ?>
-                        Ainda não estás em nenhum grupo! Cria ou pesquisa um grupo para começar 🚀.
+                        <div> Ainda não estás em nenhum grupo! Cria ou pesquisa um grupo para começar 🚀.</div>
                     <?php endif; ?>
                 </p>
             <?php else: ?>
