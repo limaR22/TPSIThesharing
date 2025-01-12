@@ -36,38 +36,40 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <body class="light-mode">
     <!-- Barra superior -->
     <div class="top-bar">
-        <div>
-            <h3>Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
+        <div class="titulo-container">
+            <h1 class="titulo-elegante">THE SHARING</h1>
         </div>
-
+        <div class="utilizador-info">
+            <h3 class="titulo-utilizador">Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
+        </div>
         <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
             <i class="fas fa-moon"></i>
         </button>
     </div>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="top-section">
-            <h2 class="titulo-elegante">Menu</h2>
-            <br></br>
-            <div class="nav-links">
-                 <!-- Link para a página inicial -->
-                <a href="\aplicacao\grupos.php" class="nav-link">Grupos</a>
-                <a href="\aplicacao\index.php" class="nav-link">Início</a>
-                <a href="\aplicacao\perfil.php" class="nav-link">Perfil</a>
-            </div>
+   <!-- Nova topbar para links de navegação -->
+    <div class="nav-top-bar">
+        <div class="nav-links">
+            <a href="\aplicacao\index.php" class="nav-link">
+                <i class="fas fa-house"></i> Inicio
+            </a>
+            <a href="\aplicacao\grupos.php" class="nav-link">
+                <i class="fas fa-users"></i> Grupos
+            </a>
+            <a href="\aplicacao\perfil.php" class="nav-link">
+                <i class="fas fa-user"></i> Perfil
+            </a>
         </div>
         <div class="logout-section">
             <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
-                <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">Sair</button>
+                <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
             </form>
         </div>
     </div>
-
     <!-- Conteúdo principal -->
     <div class="main-content">
     <h2 class="titulo-utilizador">Notificações</h2>
-
         <!-- Lista de notificações -->
         <div class="notificacoes-list">
             <?php if (empty($notificacoes)): ?>
@@ -85,13 +87,11 @@ include_once __DIR__ . '/templates/cabecalho.php';
             <?php endif; ?>
         </div>
     </div>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <!-- Font Awesome para ícones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
+    <!-- Modo Escuro -->
     <script src="/javascript/modos.js"></script>
 </body>
 </html>

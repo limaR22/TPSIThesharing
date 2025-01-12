@@ -94,38 +94,46 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <body class="light-mode">
+<body class="light-mode">
+    <!-- Barra superior principal -->
     <div class="top-bar">
-        <div>
-            <h3 class="titulo-utilizador">Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
+        <div class="titulo-container">
+            <h1 class="titulo-elegante">THE SHARING</h1>
         </div>
+        <div class="utilizador-info">
+        <h3 class="titulo-utilizador">Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
+        </div>
+        <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+     <!-- Nova topbar para links de navegação -->
+    <div class="nav-top-bar">
         <div class="search-bar">
             <form method="GET" action="grupos.php">
                 <input type="text" class="form-control" name="search" placeholder="Pesquisar grupos..." value="<?= htmlspecialchars($searchTerm) ?>">
                 <button type="submit" class="btn btn-primary">Pesquisar</button>
             </form>
         </div>
-
-        <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
-            <i class="fas fa-moon"></i>
-        </button>
+    <div class="nav-links">
+        <a href="\aplicacao\index.php" class="nav-link">
+            <i class="fas fa-house"></i> Inicio
+        </a>
+        <a href="\aplicacao\notificacoes.php" class="nav-link">
+            <i class="fas fa-bell"></i> Notificações
+        </a>
+        <a href="\aplicacao\perfil.php" class="nav-link">
+            <i class="fas fa-user"></i> Perfil
+        </a>
     </div>
-
-    <div class="sidebar">
-        <div class="top-section">
-            <h2 class="titulo-utilizador">Menu</h2>
-            <br></br>
-            <div class="nav-links">
-                <a href="/aplicacao/index.php" class="nav-link">Início</a>
-                <a href="/aplicacao/notificacoes.php" class="nav-link">Notificações</a>
-                <a href="/aplicacao/perfil.php" class="nav-link">Perfil</a>
-            </div>
-        </div>
-        <div class="logout-section">
-            <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
-                <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">Sair</button>
-            </form>
-        </div>
+    <div class="logout-section">
+        <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
+            <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        </form>
     </div>
+</div>
     <div class="main-content">
         <h1 class="titulo-elegante">Meus Grupos</h1>
         <div class="grupos-list">

@@ -17,142 +17,176 @@ body {
     background-color: #000000; /* Fundo preto */
     color: #ffffff; /* Texto branco */
 }
-
-/* Estilo para o título da sidebar */
-.sidebar .top-section h2.titulo-elegante {
-    font-family: 'Georgia', serif; /* Fonte elegante */
-    font-weight: bold; /* Letras grossas */
-    font-size: 1.5rem; /* Tamanho menor (ajuste conforme necessário) */
-    color: #333333; /* Cor escura para o modo claro */
-    text-transform: uppercase; /* Transforma o texto em maiúsculas */
-    letter-spacing: 2px; /* Espaçamento entre as letras */
-    margin: 0; /* Remove margens padrão */
-    padding: 0; /* Remove paddings padrão */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+/* Estilo para a nova topbar */
+.nav-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f1f1; /* Cor de fundo para o modo claro */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    position: fixed; /* Fixa a nav-top-bar abaixo da top-bar */
+    top: 60px; /* Altura da barra superior */
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Garante que a nav-top-bar fique acima de outros elementos */
 }
-/* Estilo para os links da sidebar */
-.sidebar .nav-links a {
-    font-family: 'Georgia', serif; /* Fonte elegante */
+
+/* Estilo para os links da nova topbar */
+.nav-links {
+    display: flex;
+    gap: 20px; /* Espaçamento entre os links */
+}
+.nav-links a i {
+    margin-right: 5px;
+    font-size: 1.2rem;
+}
+
+.logout-section button i {
+    margin-right: 5px;
+    font-size: 1.2rem;
+}
+.nav-links a {
+    font-family: 'sans-serif', serif; /* Fonte elegante */
     font-weight: bold; /* Letras grossas */
-    font-size: 1rem; /* Tamanho menor (ajuste conforme necessário) */
+    font-size: 1rem; /* Tamanho do texto */
     color: #333333; /* Cor escura para o modo claro */
-    text-transform: uppercase; /* Transforma o texto em maiúsculas */
-    letter-spacing: 2px; /* Espaçamento entre as letras */
     text-decoration: none; /* Remove sublinhado */
     transition: color 0.3s; /* Transição suave para a cor */
 }
+
 /* Efeito ao passar o mouse nos links */
-.sidebar .nav-links a:hover {
-    color: #007bff; /* Cor do link ao passar o mouse */
-}
-/* Ajustes para o modo escuro */
-body.dark-mode .sidebar .top-section h2.titulo-elegante {
-    color: #ffffff; /* Cor branca para o modo escuro */
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+.nav-links a:hover {
+    color: #ff0000; /* Cor do link ao passar o mouse */
 }
 
-body.dark-mode .sidebar .nav-links a {
+/* Ajustes para o modo escuro */
+body.dark-mode .nav-top-bar {
+    background-color: #222222; /* Fundo escuro para a nav-top-bar */
+}
+
+body.dark-mode .nav-links a {
     color: #ffffff; /* Links brancos no modo escuro */
 }
 
-body.dark-mode .sidebar .nav-links a:hover {
-    color: #007bff; /* Cor do link ao passar o mouse no modo escuro */
+body.dark-mode .nav-links a:hover {
+    color: #ff0000; /* Cor do link ao passar o mouse no modo escuro */
 }
-/* Sidebar estilizada */
-.sidebar {
-    width: 250px;
-    background-color: #111111; /* Fundo escuro por padrão */
-    color: #ffffff; /* Texto branco */
+
+/* Estilo para o botão de logout */
+.logout-section {
+    margin-left: auto; /* Empurra o botão para a direita */
+}
+/* Estilo para a top-bar */
+.top-bar {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-    box-sizing: border-box;
-    transition: background-color 0.3s, color 0.3s;
-    margin-top: 60px; /* Altura da barra superior */
-    height: calc(100vh - 60px); /* Altura da tela menos a altura da barra superior */
-    position: fixed;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: space-between; /* Distribui o espaço entre os elementos */
+    padding: 0 20px; /* Espaçamento interno */
+    height: 60px; /* Altura fixa */
+    background-color: #f1f1f1; /* Cor de fundo para o modo claro */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    position: fixed; /* Fixa a top-bar no topo */
     top: 0;
     left: 0;
+    width: 100%;
+    z-index: 1000; /* Garante que a top-bar fique acima de outros elementos */
+}
+/* Contêiner para o texto "Olá, [nome]" */
+.utilizador-info {
+    margin-right: auto; /* Empurra o texto para a esquerda */
 }
 /* Estilo para o texto "Olá, [nome]" */
 .titulo-utilizador {
-    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-family: 'sans-serif', serif; /* Fonte elegante */
     font-weight: bold; /* Letras grossas */
-    font-size: 1.5rem; /* Tamanho menor (ajuste conforme necessário) */
+    font-size: 1.0rem; /* Tamanho menor (ajuste conforme necessário) */
     color: #333333; /* Cor escura para o modo claro */
-    text-transform: uppercase; /* Transforma o texto em maiúsculas */
-    letter-spacing: 2px; /* Espaçamento entre as letras */
+    letter-spacing: 1.5px; /* Espaçamento entre as letras */
     margin: 0; /* Remove margens padrão */
     padding: 0; /* Remove paddings padrão */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
-
 /* Ajustes para o modo escuro */
 body.dark-mode .titulo-utilizador {
     color: #ffffff; /* Cor branca para o modo escuro */
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
 }
-.light-mode .sidebar {
-    background-color: #f7f7f7; /* Modo claro: fundo mais claro */
-    color: #000000; /* Texto preto */
+/* Contêiner para o título */
+.titulo-container {
+    position: absolute; /* Posiciona o título absolutamente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta o centro */
+}
+/* Estilo para o título "THESHARING" */
+.titulo-elegante {
+    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-weight: bold; /* Letras grossas */
+    font-size: 2rem; /* Tamanho grande */
+    color: #333333; /* Cor escura para o modo claro */
+    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    letter-spacing: 2px; /* Espaçamento entre as letras */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+/* Ajustes para o modo escuro */
+body.dark-mode .top-bar {
+    background-color: #1e1e1e; /* Fundo escuro para a top-bar */
+}
+body.dark-mode .titulo-elegante {
+    color: #ffffff; /* Cor branca para o modo escuro */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
+.dark-mode .top-bar {
+    background-color: #222222;
+    color: #ffffff;
 }
 
-.dark-mode .sidebar {
-    background-color: #222222; /* Modo escuro: fundo mais escuro */
-    color: #ffffff; /* Texto branco */
-}
-
-.sidebar .top-section h2 {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-}
-
-.sidebar .nav-links {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.sidebar .nav-links a {
-    text-decoration: none;
+/* Botão de alternar tema */
+.mode-toggle {
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: none;
     color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.mode-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Sidebar links */
+.nav-links a {
+    text-decoration: none;
     font-size: 1rem;
 }
 
-.sidebar .nav-links a:hover {
+.nav-links a:hover {
     opacity: 0.8;
-    color: #007bff; /* Cor do link ao passar o mouse */
+    color: #007bff;
 }
-
-.light-mode .sidebar .nav-links a {
-    color: #000000; /* Links pretos no modo claro */
-}
-
-.dark-mode .sidebar .nav-links a {
-    color: #ffffff; /* Links brancos no modo escuro */
-}
-.sidebar .nav-links a:hover {
-    opacity: 0.8;
-    color: #262e36; /* Cor do link ao passar o mouse */
-}
-.light-mode .sidebar .nav-links a:hover {
-    color: #2d343b; /* Cor do link ao passar o mouse no modo claro */
+/* Ajusta o contêiner do carrossel */
+.container {
+    max-width: 1000px; /* Largura máxima para o carrossel */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    padding: 20px;
 }
 /* Efeito ao passar o mouse no botão "Sair" */
 .btn-sair:hover {
-    background-color: #c82333; /* Cor de fundo mais escura ao passar o mouse */
+    background-color: #570101; /* Cor de fundo mais escura ao passar o mouse */
     transform: scale(1.05); /* Efeito de escala ao passar o mouse */
 }
-
 /* Ajustes para o modo escuro */
 body.dark-mode .btn-sair {
     background-color: #570101; /* Cor de fundo vermelha mais clara no modo escuro */
     color: #ffffff; /* Cor do texto branco */
 }
-
 body.dark-mode .btn-sair:hover {
     background-color: #560000; /* Cor de fundo mais escura no modo escuro */
 }
+/* Logout */
 .logout-section form button {
     width: 100%;
     padding: 10px;
@@ -162,11 +196,10 @@ body.dark-mode .btn-sair:hover {
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-family: 'Georgia', serif; /* Fonte elegante */
+    font-family: 'sans-serif', serif; /* Fonte elegante */
     font-weight: bold; /* Letras grossas */
     font-size: 1rem; /* Tamanho da fonte */
-    text-transform: uppercase; /* Transforma o texto em maiúsculas */
-    letter-spacing: 2px; /* Espaçamento entre as letras */
+    letter-spacing: 1.5px; /* Espaçamento entre as letras */
     padding: 10px 20px; /* Espaçamento interno */
     border-radius: 5px; /* Bordas arredondadas */
     background-color: #dc3545; /* Cor de fundo vermelha */
@@ -175,9 +208,10 @@ body.dark-mode .btn-sair:hover {
     cursor: pointer; /* Cursor de ponteiro */
     transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
 }
+
 /* Conteúdo principal */
 .main-content {
-    margin-left: 250px; /* Largura da sidebar */
+    margin-left: 0; /* Largura da sidebar */
     margin-top: 80px; /* Aumentando a altura do topo para separar o título */
     padding: 20px;
     flex: 1;

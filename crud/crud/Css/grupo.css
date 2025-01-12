@@ -131,7 +131,27 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+/* Modo escuro para a sidebar */
+.dark-mode .sidebar {
+    background-color: #222222; /* Cor de fundo escura */
+    color: #ffffff; /* Cor do texto clara */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra ajustada para o modo escuro */
+}
+.dark-mode .sidebar h2 {
+    color: #ffffff; /* Cor do título no modo escuro */
+}
 
+.dark-mode .sidebar ul {
+    color: #0d0d0d; /* Cor do texto da lista no modo escuro */
+}
+
+.dark-mode .sidebar .user-name {
+    color: #070707; /* Cor do nome do utilizador no modo escuro */
+}
+
+.dark-mode .sidebar .user-icon {
+    color: #040404; /* Cor do ícone no modo escuro */
+}
 .sidebar h2 {
     font-size: 24px;
     margin-bottom: 15px;
@@ -180,6 +200,7 @@ body {
     color: #28a745;
     font-weight: bold;
 }
+
 
 
 /* Layout principal */
