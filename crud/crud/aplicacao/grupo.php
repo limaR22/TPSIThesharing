@@ -249,7 +249,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
                             <div class="form-group">
                                 <label for="sexo">Sexo:</label>
-                                <select class="form-control" name="sexo" id="sexo">
+                                <select class="form-control" name="genero" id="genero">
                                     <option value="">Todos os sexos</option>
                                     <option value="masculino">Masculino</option>
                                     <option value="feminino">Feminino</option>
