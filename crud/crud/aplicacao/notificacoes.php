@@ -29,6 +29,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
 <!-- Link para o CSS externo -->
 <link rel="stylesheet" href="/Css/notificacoes.css">
+<link rel="stylesheet" href="/Css/footer.css">
 
 <!-- Link do Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -97,4 +98,5 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <!-- Modo Escuro -->
     <script src="/javascript/modos.js"></script>
 </body>
+<?php include_once __DIR__ . '/../admin/templates/footer.php';?>
 </html>

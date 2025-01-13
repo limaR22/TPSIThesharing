@@ -1,0 +1,31 @@
+/* footer.css */
+.footer {
+    background-color: #fdabab; /* Cor de fundo vermelho claro */
+    padding: 20px 0; /* Espaçamento interno */
+    text-align: center; /* Centraliza o texto */
+    border-top: 1px solid #dee2e6; /* Linha superior */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* Espaça os itens */
+    align-items: center; /* Alinha verticalmente */
+    max-width: 1200px; /* Largura máxima */
+    margin: 0 auto; /* Centraliza o footer */
+    padding: 0 20px; /* Espaçamento lateral */
+}
+
+.footer-links a {
+    margin: 0 15px; /* Espaçamento entre os links */
+    text-decoration: none; /* Remove o sublinhado */
+    color: #000000; /* Cor do texto dos links */
+}
+
+.footer-links a:hover {
+    text-decoration: underline; /* Sublinha ao passar o mouse */
+}
+
+.footer-rights {
+    font-size: 14px; /* Tamanho da fonte */
+    color: #333; /* Cor do texto (um cinza escuro) */
+}

@@ -30,6 +30,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <!-- Link para o CSS externo -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/Css/roupa-detalhes.css">
+<link rel="stylesheet" href="/Css/footer.css">
 
 
 <?php include __DIR__ . '/sidebar.php'; ?>
@@ -56,4 +57,4 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <?php endif; ?>
 </div>
 <!-- Rodapé -->
-<?php include_once __DIR__ . '/templates/rodape.php'; ?>
+<?php include_once __DIR__ . '/../admin/templates/footer.php';?>

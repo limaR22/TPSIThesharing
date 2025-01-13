@@ -125,6 +125,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
 <!-- Link para o CSS externo -->
 <link rel="stylesheet" href="/Css/grupo.css">
+<link rel="stylesheet" href="/Css/footer.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Barra superior -->
@@ -329,4 +330,4 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script src="/javascript/modos.js"></script>
 
-<?php include_once __DIR__ . '/templates/rodape.php'; ?>
+    <?php include_once __DIR__ . '/../admin/templates/footer.php';?>

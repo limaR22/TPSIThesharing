@@ -28,6 +28,7 @@ $roupas_para_alugar = $stmt->fetchAll();
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/Css/roupas-alugadas.css">
+<link rel="stylesheet" href="/Css/footer.css">
 
 <div class="container mt-5">
     <h1>Minha Conta</h1>
@@ -94,3 +95,4 @@ $roupas_para_alugar = $stmt->fetchAll();
         <p>Você ainda não colocou nenhuma roupa para alugar.</p>
     <?php endif; ?>
 </div>
+<?php include_once __DIR__ . '/../admin/templates/footer.php';?>
