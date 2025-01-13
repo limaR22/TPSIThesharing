@@ -170,7 +170,6 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 
     <!-- Modo escuro/claro e outras funções -->
-    <script ```html
-    src="/javascript/modos.js"></script>
+    <script src="/javascript/modos.js"></script>
 </body>
 </html>

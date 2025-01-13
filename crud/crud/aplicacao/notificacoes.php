@@ -47,7 +47,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
             <i class="fas fa-moon"></i>
         </button>
     </div>
-   <!-- Nova topbar para links de navegação -->
+
+    <!-- Nova topbar para links de navegação -->
     <div class="nav-top-bar">
         <div class="nav-links">
             <a href="\aplicacao\index.php" class="nav-link">
@@ -59,21 +60,22 @@ include_once __DIR__ . '/templates/cabecalho.php';
             <a href="\aplicacao\perfil.php" class="nav-link">
                 <i class="fas fa-user"></i> Perfil
             </a>
-            <a href="\aplicacao\roupas-alugadas.php" class="nav-link"> <!-- Link para a página de alugueis -->
+            <a href="\aplicacao\roupas-alugadas.php" class="nav-link">
                 <i class="fas fa-tags"></i> Alugueis
             </a>
         </div>
         <div class="logout-section">
             <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
-                <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">
+                <button type="submit" class="btn btn-danger btn-sair" name="util izador" value="logout">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </button>
             </form>
         </div>
     </div>
+
     <!-- Conteúdo principal -->
     <div class="main-content">
-    <h2 class="titulo-utilizador">Notificações</h2>
+        <h2 class="titulo-utilizador">Notificações</h2>
         <!-- Lista de notificações -->
         <div class="notificacoes-list">
             <?php if (empty($notificacoes)): ?>
@@ -91,12 +93,11 @@ include_once __DIR__ . '/templates/cabecalho.php';
             <?php endif; ?>
         </div>
     </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Incluir o footer -->
+    <?php include_once __DIR__ . '/../admin/templates/footer.php'; ?>
     <!-- Font Awesome para ícones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-    <!-- Modo Escuro -->
+    <!-- Modo escuro/claro e outras funções -->
     <script src="/javascript/modos.js"></script>
 </body>
-<?php include_once __DIR__ . '/../admin/templates/footer.php';?>
 </html>
