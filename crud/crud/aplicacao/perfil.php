@@ -15,6 +15,7 @@ $imagem_perfil = isset($utilizador['perfil']) && !empty($utilizador['perfil']) ?
 ?>
 
 <body class="light-mode">
+  
   <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h1 class="fw-bold text-dark">O meu Perfil</h1>

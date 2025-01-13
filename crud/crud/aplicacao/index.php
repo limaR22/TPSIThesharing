@@ -45,6 +45,9 @@ include_once __DIR__ . '/templates/cabecalho.php';
         <a href="\aplicacao\perfil.php" class="nav-link">
             <i class="fas fa-user"></i> Perfil
         </a>
+        <a href="\aplicacao\roupas-alugadas.php" class="nav-link"> <!-- Link para a página de alugueis -->
+                <i class="fas fa-tags"></i> Alugueis
+         </a>
     </div>
     <div class="logout-section">
         <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
