@@ -79,10 +79,19 @@ $roupas_para_alugar = $stmt->fetchAll();
     </div>
     <!-- Conteúdo principal -->
     <div class="container mt-5">
-        <h1>Minha Conta</h1>
+    <h1>Minha Conta</h1>
+
+    <!-- Verificar se ambas as listas estão vazias -->
+    <?php if (count($roupas_alugadas) === 0 && count($roupas_para_alugar) === 0): ?>
+        <div class="placeholder-container">
+            <h2>Nada por aqui ainda!</h2>
+            <p>Você ainda não alugou nenhuma roupa nem colocou roupas para alugar. Que tal explorar nossas opções?</p>
+        </div>
+    <?php else: ?>
+
         <!-- Secção 1: Roupas Alugadas -->
-        <h2>Roupas Alugadas</h2>
         <?php if (count($roupas_alugadas) > 0): ?>
+            <h2>Roupas Alugadas</h2>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -109,12 +118,11 @@ $roupas_para_alugar = $stmt->fetchAll();
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        <?php else: ?>
-            <p>Você ainda não alugou nenhuma roupa.</p>
         <?php endif; ?>
-        <!-- Secção 2: Roupas Disponíveis para Alugar -->
-        <h2>Roupas que Coloquei para Alugar</h2>
+
+        <!-- Secção 2: Roupas que Coloquei para Alugar -->
         <?php if (count($roupas_para_alugar) > 0): ?>
+            <h2>Roupas que Coloquei para Alugar</h2>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -137,10 +145,10 @@ $roupas_para_alugar = $stmt->fetchAll();
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        <?php else: ?>
-            <p>Você ainda não colocou nenhuma roupa para alugar.</p>
         <?php endif; ?>
-    </div> 
+
+    <?php endif; ?>
+</div>
     <?php include_once __DIR__ . '/../admin/templates/footer.php'; ?>
 </body>
 </html>

@@ -254,3 +254,31 @@ body.dark-mode .btn-sair:hover {
     cursor: pointer; /* Cursor de ponteiro */
     transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
 }
+
+/* Estilo para mensagens de placeholder */
+.placeholder-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Ocupa toda a altura da tela */
+    text-align: center;
+    color: #666; /* Cor suave */
+    font-family: 'Arial', sans-serif; /* Fonte simples */
+    gap: 20px; /* Espaço entre elementos */
+}
+
+.placeholder-container img {
+    max-width: 300px; /* Largura máxima da imagem */
+    opacity: 0.8; /* Torna a imagem mais suave */
+}
+
+.placeholder-container h2 {
+    font-size: 1.5rem; /* Tamanho do texto */
+    font-weight: bold;
+}
+
+.placeholder-container p {
+    font-size: 1rem;
+    color: #888; /* Cor mais clara */
+}
