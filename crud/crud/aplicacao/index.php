@@ -160,8 +160,6 @@ include_once __DIR__ . '/templates/cabecalho.php';
         </div>
     </div>
 </div>
-<!-- Incluir o footer -->
-<?php include_once __DIR__ . '/../admin/templates/footer.php'; ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -171,5 +169,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
     <!-- Modo escuro/claro e outras funções -->
     <script src="/javascript/modos.js"></script>
+
 </body>
+<!-- Incluir o footer -->
+<?php include_once __DIR__ . '/../admin/templates/footer.php'; ?>
 </html>
