@@ -1,11 +1,10 @@
 /* Reset básico */
-body {
+/* Remove margens e paddings padrão do body e html */
+body, html {
     margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column; /* Organiza os elementos em coluna */
-    min-height: 100vh; /* Garante que o body ocupe pelo menos a altura da tela */
-    transition: background-color 0.3s, color 0.3s;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Evita barras de rolagem horizontais */
 }
 
 /* Modos claro e escuro */
@@ -18,6 +17,7 @@ body {
     background-color: #000000; /* Fundo preto */
     color: #ffffff; /* Texto branco */
 }
+
 /* Estilo para a nova topbar */
 .nav-top-bar {
     display: flex;
@@ -53,7 +53,7 @@ body {
     font-size: 1rem; /* Tamanho do texto */
     color: #333333; /* Cor escura para o modo claro */
     text-decoration: none; /* Remove sublinhado */
-    transition: color 0.3s; /* Transição suave para a cor */
+    transition: color 0. 3s; /* Transição suave para a cor */
 }
 
 /* Efeito ao passar o mouse nos links */
@@ -78,6 +78,7 @@ body.dark-mode .nav-links a:hover {
 .logout-section {
     margin-left: auto; /* Empurra o botão para a direita */
 }
+
 /* Estilo para a top-bar */
 .top-bar {
     display: flex;
@@ -93,10 +94,12 @@ body.dark-mode .nav-links a:hover {
     width: 100%;
     z-index: 1000; /* Garante que a top-bar fique acima de outros elementos */
 }
+
 /* Contêiner para o texto "Olá, [nome]" */
 .utilizador-info {
     margin-right: auto; /* Empurra o texto para a esquerda */
 }
+
 /* Estilo para o texto "Olá, [nome]" */
 .titulo-utilizador {
     font-family: 'sans-serif', serif; /* Fonte elegante */
@@ -108,17 +111,20 @@ body.dark-mode .nav-links a:hover {
     padding: 0; /* Remove paddings padrão */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
+
 /* Ajustes para o modo escuro */
 body.dark-mode .titulo-utilizador {
     color: #ffffff; /* Cor branca para o modo escuro */
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
 }
+
 /* Contêiner para o título */
 .titulo-container {
     position: absolute; /* Posiciona o título absolutamente */
     left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%); /* Ajusta o centro */
 }
+
 /* Estilo para o título "THESHARING" */
 .titulo-elegante {
     font-family: 'Georgia', serif; /* Fonte elegante */
@@ -131,17 +137,15 @@ body.dark-mode .titulo-utilizador {
     padding: 0; /* Remove paddings padrão */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
+
 /* Ajustes para o modo escuro */
 body.dark-mode .top-bar {
     background-color: #1e1e1e; /* Fundo escuro para a top-bar */
 }
+
 body.dark-mode .titulo-elegante {
     color: #ffffff; /* Cor branca para o modo escuro */
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
-}
-.dark-mode .top-bar {
-    background-color: #222222;
-    color: #ffffff;
 }
 
 /* Botão de alternar tema */
@@ -168,25 +172,66 @@ body.dark-mode .titulo-elegante {
     opacity: 0.8;
     color: #007bff;
 }
+
 /* Ajusta o contêiner do carrossel */
 .container {
     max-width: 1000px; /* Largura máxima para o carrossel */
     margin: 0 auto; /* Centraliza horizontalmente */
     padding: 20px;
 }
+
+/* Ajusta o contêiner do carrossel */
+.carousel-container {
+    max-width: 100%; /* Ocupa toda a largura disponível */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    padding: 0 10px; /* Adiciona um pequeno padding nas laterais */
+}
+
+/* Ajusta o layout das colunas */
+.row {
+    display: flex;
+    justify-content: center; /* Centraliza as colunas horizontalmente */
+    flex-wrap: wrap; /* Permite que as colunas se ajustem em telas menores */
+}
+
+/* Imagens no carrossel */
+.carousel-item img {
+    object-fit: contain; /* Ajusta a imagem para não ser cortada */
+    height: 700px; /* Altura máxima das imagens */
+    width: 100%; /* Largura total do contêiner */
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+/* Ajusta o contêiner principal */
+.main-content {
+    margin-left: 0; /* Remove a margem da sidebar (se não estiver usando) */
+    margin-right: 0; /* Remove a margem do lado direito */
+    padding: 20px;
+    width: 100%; /* Garante que ocupe toda a largura */
+    box-sizing: border-box; /* Inclui padding na largura total */
+}
+
+.dark-mode .main-content {
+    background-image: url('https://wallpapers.com/images/hd/aesthetic-black-background-1920-x-1080-tjv7acf0b8ycalpz.jpg'); /* Imagem alternativa para o modo escuro */
+    color: #ffffff; /* Mantém o texto branco no modo escuro */
+}
+
 /* Efeito ao passar o mouse no botão "Sair" */
 .btn-sair:hover {
     background-color: #570101; /* Cor de fundo mais escura ao passar o mouse */
     transform: scale(1.05); /* Efeito de escala ao passar o mouse */
 }
+
 /* Ajustes para o modo escuro */
 body.dark-mode .btn-sair {
     background-color: #570101; /* Cor de fundo vermelha mais clara no modo escuro */
     color: #ffffff; /* Cor do texto branco */
 }
+
 body.dark-mode .btn-sair:hover {
     background-color: #560000; /* Cor de fundo mais escura no modo escuro */
 }
+
 /* Logout */
 .logout-section form button {
     width: 100%;
@@ -210,76 +255,30 @@ body.dark-mode .btn-sair:hover {
     transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
 }
 
-/* Conteúdo principal */
-.main-content {
-    flex: 1; /* Faz o conteúdo principal ocupar o espaço restante */
-    margin-top: 80px; /* Aumentando a altura do topo para separar o título */
-    padding: 20px;
+/* Estilo para mensagens de placeholder */
+.placeholder-container {
     display: flex;
-    flex-direction: column; /* Para que os elementos fiquem em coluna */
-    align-items: flex-start; /* Alinha os elementos ao início */
-}
-/* Estilo para o footer */
-footer {
-    margin-top: auto; /* Garante que o footer fique no final da página */
-    background-color: #f1f1f1; /* Cor de fundo para o modo claro */
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* Título principal */
-.main-content h1 {
-    font-size: 2rem; /* Ajustando o tamanho do título */
-    margin-bottom: 20px; /* Espaçamento abaixo do título */
-}
-
-/* Estilo para lista de notificações */
-.notificacoes-list {
-    width: 100%; /* Garante que a lista ocupe toda a largura disponível */
-    margin-top: 20px; /* Espaço entre o título e a lista de notificações */
-}
-
-/* Estilo para a lista quando não houver notificações */
-.notificacoes-list p {
-    font-size: 1.2rem; /* Ajustando o tamanho do texto */
-    color: #888; /* Cor mais clara para indicar ausência de notificações */
-}
-
-/* Barra superior */
-.top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #f1f1f1;
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    box-sizing: border-box;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, color 0.3s;
-    z-index: 1000;
+    justify-content: center;
+    height: 100vh; /* Ocupa toda a altura da tela */
+    text-align: center;
+    color: #666; /* Cor suave */
+    font-family: 'Arial', sans-serif; /* Fonte simples */
+    gap: 20px; /* Espaço entre elementos */
 }
 
-.dark-mode .top-bar {
-    background-color: #222222;
-    color: #ffffff;
+.placeholder-container img {
+    max-width: 300px; /* Largura máxima da imagem */
+    opacity: 0.8; /* Torna a imagem mais suave */
 }
 
-/* Botão de alternar tema */
-.mode-toggle {
-    font-size: 1.5rem;
-    background-color: transparent;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    transition: transform 0.2s;
+.placeholder-container h2 {
+    font-size: 1.5rem; /* Tamanho do texto */
+    font-weight: bold;
 }
 
-.mode-toggle:hover {
-    transform: scale(1.1);
+.placeholder-container p {
+    font-size: 1rem;
+    color: #888; /* Cor mais clara */
 }

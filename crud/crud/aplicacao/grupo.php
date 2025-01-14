@@ -131,8 +131,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <!-- Barra superior -->
 
 <div class="top-bar">
-    <div>
-        <h3>Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
+    <div class="titulo-container">
+      <h3 class="titulo-utilizador">Olá, <?= $utilizador['nome'] ?? 'Utilizador' ?>!</h3>
     </div>
 
     <div class="search-bar">
@@ -211,7 +211,7 @@ include_once __DIR__ . '/templates/cabecalho.php';
 
     <!-- Lista de utilizadores -->
     <div class="sidebar">
-        <h2>Utilizadores do Grupo</h2>
+        <h2 class="titulo-utilizador">Utilizadores do Grupo</h2>
         <ul>
             <?php foreach ($membros as $membro): ?>
                 <?php if (!$membro['is_admin']): ?>
@@ -228,64 +228,68 @@ include_once __DIR__ . '/templates/cabecalho.php';
     <!-- Lista de roupas -->
     <div class="roupas-list">
         <div class="row">
-            <div class="col-md-6">
-                <h2 class="roupas-titulo">Roupas do Grupo</h2>
-            </div>
             <div class="col-md-6 text-right">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filtrarRoupasModal">Filtrar</button>
+                <h2 class="roupas-titulo">Roupas do Grupo</h2>
+                <button type="button" class="btn btn-primary btn-filtrar" data-bs-toggle="modal" data-bs-target="#filtrarRoupasModal">
+                        <i class="fas fa-filter"></i> Filtrar
+                </button>
+                <br></br>
             </div>
         </div>
-        <!-- Modal de filtragem -->
+
+        <!-- Modal de Filtragem -->
         <div class="modal fade" id="filtrarRoupasModal" tabindex="-1" aria-labelledby="filtrarRoupasModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="filtrarRoupasModalLabel">Filtrar Roupas</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form method="GET" action="grupo.php">
-                            <!-- Campo oculto para passar o grupo_id -->
-                            <input type="hidden" name="grupo_id" value="<?= isset($_GET['grupo_id']) ? $_GET['grupo_id'] : '' ?>">
+                    <!-- Campo oculto para passar o grupo_id -->
+                    <input type="hidden" name="grupo_id" value="<?= isset($_GET['grupo_id']) ? $_GET['grupo_id'] : '' ?>">
 
-                            <div class="form-group">
-                                <label for="sexo">Sexo:</label>
-                                <select class="form-control" name="genero" id="genero">
-                                    <option value="">Todos os sexos</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
-                                    <option value="unisex">Unisex</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="tamanho">Tamanho:</label>
-                                <select class="form-control" name="tamanho" id="tamanho">
-                                    <option value="">Todos os tamanhos</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="marca">Marca:</label>
-                                <select class="form-control" name="marca" id="marca">
-                                    <option value="">Todas as marcas</option>
-                                    <?php
-                                    $stmtMarcas = $pdo->prepare("SELECT DISTINCT marca FROM roupas");
-                                    $stmtMarcas->execute();
-                                    $marcas = $stmtMarcas->fetchAll();
-                                    foreach ($marcas as $marca): ?>
-                                        <option value="<?= htmlspecialchars($marca['marca']) ?>"><?= htmlspecialchars($marca['marca']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Filtrar</button>
-                        </form>
+                    <div class="form-group mb-3">
+                        <label for="genero" class="form-label">Sexo:</label>
+                        <select class="form-select" name="genero" id="genero">
+                            <option value="">Todos os sexos</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="feminino">Feminino</option>
+                            <option value="unisex">Unisex</option>
+                        </select>
                     </div>
-                </div>
+                    <div class="form-group mb-3">
+                        <label for="tamanho" class="form-label">Tamanho:</label>
+                        <select class="form-select" name="tamanho" id="tamanho">
+                            <option value="">Todos os tamanhos</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="marca" class="form-label">Marca:</label>
+                        <select class="form-select" name="marca" id="marca">
+                            <option value="">Todas as marcas</option>
+                            <?php
+                            $stmtMarcas = $pdo->prepare("SELECT DISTINCT marca FROM roupas");
+                            $stmtMarcas->execute();
+                            $marcas = $stmtMarcas->fetchAll();
+                            foreach ($marcas as $marca): ?>
+                                <option value="<?= htmlspecialchars($marca['marca']) ?>"><?= htmlspecialchars($marca['marca']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
+</div>
         <?php if (empty($roupas)): ?>
             <p class="text-muted">Ainda não há nenhuma roupa neste grupo😓.</p>
         <?php else: ?>

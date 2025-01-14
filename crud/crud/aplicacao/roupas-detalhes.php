@@ -32,29 +32,78 @@ include_once __DIR__ . '/templates/cabecalho.php';
 <link rel="stylesheet" href="/Css/roupa-detalhes.css">
 <link rel="stylesheet" href="/Css/footer.css">
 
+<body class="light-mode">
+    <!-- Barra superior principal -->
+    <div class="top-bar">
+        <div class="titulo-container">
+            <h1 class="titulo-elegante">THE SHARING</h1>
+        </div>
+        <div class="utilizador-info">
+            <h3 class="titulo-utilizador">Olá, <?= $_SESSION['nome'] ?? 'Utilizador' ?>!</h3>
+        </div>
+        <button class="btn btn-outline-secondary mode-toggle" id="toggleMode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
 
-<?php include __DIR__ . '/sidebar.php'; ?>
-
+   <!-- Nova topbar para links de navegação -->
+<div class="nav-top-bar">
+    <div class="nav-links">
+        <a href="\aplicacao\grupos.php" class="nav-link">
+            <i class="fas fa-users"></i> Grupos
+        </a>
+        <a href="\aplicacao\notificacoes.php" class="nav-link">
+            <i class="fas fa-bell"></i> Notificações
+        </a>
+        <a href="\aplicacao\perfil.php" class="nav-link">
+            <i class="fas fa-user"></i> Perfil
+        </a>
+        <a href="\aplicacao\roupas-alugadas.php" class="nav-link"> <!-- Link para a página de alugueis -->
+                <i class="fas fa-tags"></i> Alugueis
+         </a>
+    </div>
+    <div class="logout-section">
+        <form action="/src/controlador/aplicacao/controlar-autenticacao.php" method="post">
+            <button type="submit" class="btn btn-danger btn-sair" name="utilizador" value="logout">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        </form>
+    </div>
+</div>
 <!-- Conteúdo principal -->
 <div class="content">
     <h1>Roupas Detalhes</h1>
-    <p>Aqui você pode visualizar os detalhes da roupa.</p>
+    <p>Aqui podes visualizar os detalhes da roupa.</p>
     <?php if (isset($roupa)): ?>
-        <img src="<?= htmlspecialchars($roupa['imagem']) ?>" alt="Imagem da roupa" class="img-fluid roupa-img">
-        <p>Descrição da roupa: <?= htmlspecialchars($roupa['descricao']) ?></p>
-        <?php if (isset($roupa['preco'])): ?>
-            <p>Preço da roupa: <?= htmlspecialchars($roupa['preco']) ?></p>
-        <?php endif; ?>
-        <?php if (isset($roupa['categoria'])): ?>
-            <p>Categoria da roupa: <?= htmlspecialchars($roupa['categoria']) ?></p>
-        <?php endif; ?>
-        <p>Tamanho da roupa: <?= htmlspecialchars($roupa['tamanho'] ?? '') ?></p>
-        <p>Gênero da roupa: <?= htmlspecialchars($roupa['genero'] ?? '') ?></p>
-        <form method="POST" action="alugar-roupa.php">
-            <input type="hidden" name="roupa_id" value="<?= $roupa['id'] ?>">
-            <button type="submit" class="btn btn-primary alugar-btn">Alugar <i class="bi bi-cart"></i></button>
-        </form>
+        <div class="detalhes-container">
+            <!-- Imagem centralizada -->
+            <div class="imagem-container">
+                <img src="<?= htmlspecialchars($roupa['imagem']) ?>" alt="Imagem da roupa" class="roupa-img">
+            </div>
+            <!-- Detalhes ao lado da imagem -->
+            <div class="detalhes-texto">
+                <p>Descrição da roupa: <?= htmlspecialchars($roupa['descricao']) ?></p>
+                <?php if (isset($roupa['preco'])): ?>
+                    <p>Preço da roupa: <?= htmlspecialchars($roupa['preco']) ?></p>
+                <?php endif; ?>
+                <?php if (isset($roupa['categoria'])): ?>
+                    <p>Categoria da roupa: <?= htmlspecialchars($roupa['categoria']) ?></p>
+                <?php endif; ?>
+                <p>Tamanho da roupa: <?= htmlspecialchars($roupa['tamanho'] ?? '') ?></p>
+                <p>Gênero da roupa: <?= htmlspecialchars($roupa['genero'] ?? '') ?></p>
+                <!-- Botão de alugar -->
+                <form method="POST" action="alugar-roupa.php">
+                    <input type="hidden" name="roupa_id" value="<?= $roupa['id'] ?>">
+                    <button type="submit" class="btn btn-primary alugar-btn">Alugar <i class="bi bi-cart"></i></button>
+                </form>
+            </div>
+        </div>
     <?php endif; ?>
 </div>
 <!-- Rodapé -->
-<?php include_once __DIR__ . '/../admin/templates/footer.php';?>
+<?php include_once __DIR__ . '/../admin/templates/footer.php'; ?>
+ <!-- Font Awesome para ícones -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<!-- Modo escuro/claro e outras funções -->
+<script src="/javascript/modos.js"></script>
+</body>

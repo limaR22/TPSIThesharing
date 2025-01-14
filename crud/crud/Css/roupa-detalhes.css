@@ -1,15 +1,262 @@
-/* Conteúdo principal */
-.content {
-  margin-left: 270px;
-  padding: 20px;
-  z-index: 1000;
-  position: relative;
-  background-color: #ffffff;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 80px; /* Ajuste a altura da barra superior aqui */
+/* Reset básico */
+/* Remove margens e paddings padrão do body e html */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Evita barras de rolagem horizontais */
 }
 
+
+/* Modos claro e escuro */
+.light-mode {
+  background-color: #ffffff; /* Fundo branco */
+  color: #1e1e1e; /* Texto preto */
+}
+
+.dark-mode {
+  background-color: #1e1e1e; /* Fundo preto */
+  color: #ffffff; /* Texto branco */
+}
+
+/* Estilo para a nova topbar */
+.nav-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f1f1f1; /* Cor de fundo para o modo claro */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  position: fixed; /* Fixa a nav-top-bar abaixo da top-bar */
+  top: 60px; /* Altura da barra superior */
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Garante que a nav-top-bar fique acima de outros elementos */
+}
+
+/* Estilo para os links da nova topbar */
+.nav-links {
+  display: flex;
+  gap: 20px; /* Espaçamento entre os links */
+}
+.nav-links a i {
+  margin-right: 5px;
+  font-size: 1.2rem;
+}
+
+.logout-section button i {
+  margin-right: 5px;
+  font-size: 1.2rem;
+}
+.nav-links a {
+  font-family: 'sans-serif', serif; /* Fonte elegante */
+  font-weight: bold; /* Letras grossas */
+  font-size: 1rem; /* Tamanho do texto */
+  color: #333333; /* Cor escura para o modo claro */
+  text-decoration: none; /* Remove sublinhado */
+  transition: color 0.3s; /* Transição suave para a cor */
+}
+
+/* Efeito ao passar o mouse nos links */
+.nav-links a:hover {
+  color: #ff0000; /* Cor do link ao passar o mouse */
+}
+
+/* Ajustes para o modo escuro */
+body.dark-mode .nav-top-bar {
+  background-color: #222222; /* Fundo escuro para a nav-top-bar */
+}
+
+body.dark-mode .nav-links a {
+  color: #ffffff; /* Links brancos no modo escuro */
+}
+
+body.dark-mode .nav-links a:hover {
+  color: #ff0000; /* Cor do link ao passar o mouse no modo escuro */
+}
+
+/* Estilo para o botão de logout */
+.logout-section {
+  margin-left: auto; /* Empurra o botão para a direita */
+}
+/* Estilo para a top-bar */
+.top-bar {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: space-between; /* Distribui o espaço entre os elementos */
+  padding: 0 20px; /* Espaçamento interno */
+  height: 60px; /* Altura fixa */
+  background-color: #f1f1f1; /* Cor de fundo para o modo claro */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  position: fixed; /* Fixa a top-bar no topo */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Garante que a top-bar fique acima de outros elementos */
+}
+/* Contêiner para o texto "Olá, [nome]" */
+.utilizador-info {
+  margin-right: auto; /* Empurra o texto para a esquerda */
+}
+/* Estilo para o texto "Olá, [nome]" */
+.titulo-utilizador {
+  font-family: 'sans-serif', serif; /* Fonte elegante */
+  font-weight: bold; /* Letras grossas */
+  font-size: 1.0rem; /* Tamanho menor (ajuste conforme necessário) */
+  color: #333333; /* Cor escura para o modo claro */
+  letter-spacing: 1.5px; /* Espaçamento entre as letras */
+  margin: 0; /* Remove margens padrão */
+  padding: 0; /* Remove paddings padrão */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+/* Ajustes para o modo escuro */
+body.dark-mode .titulo-utilizador {
+  color: #ffffff; /* Cor branca para o modo escuro */
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
+/* Contêiner para o título */
+.titulo-container {
+  position: absolute; /* Posiciona o título absolutamente */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translateX(-50%); /* Ajusta o centro */
+}
+/* Estilo para o título "THESHARING" */
+.titulo-elegante {
+  font-family: 'Georgia', serif; /* Fonte elegante */
+  font-weight: bold; /* Letras grossas */
+  font-size: 2rem; /* Tamanho grande */
+  color: #333333; /* Cor escura para o modo claro */
+  text-transform: uppercase; /* Transforma o texto em maiúsculas */
+  letter-spacing: 2px; /* Espaçamento entre as letras */
+  margin: 0; /* Remove margens padrão */
+  padding: 0; /* Remove paddings padrão */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+/* Ajustes para o modo escuro */
+body.dark-mode .top-bar {
+  background-color: #1e1e1e; /* Fundo escuro para a top-bar */
+}
+body.dark-mode .titulo-elegante {
+  color: #ffffff; /* Cor branca para o modo escuro */
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1); /* Sombra sutil no modo escuro */
+}
+.dark-mode .top-bar {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+/* Botão de alternar tema */
+.mode-toggle {
+  font-size: 1.5rem;
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Sidebar links */
+.nav-links a {
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.nav-links a:hover {
+  opacity: 0.8;
+  color: #007bff;
+}
+
+/* Conteúdo principal */
+.content {
+  padding: 20px;
+  position: relative;
+  background-color: #ffffff;
+  margin-top: 120px; /* Ajuste a altura da barra superior aqui */
+  width: calc(100% - 270px); /* Ocupa o espaço restante da página */
+  min-height: calc(100vh - 120px); /* Ocupa a altura total da página */
+  box-shadow: none; /* Remove a sombra */
+  border-radius: 0; /* Remove as bordas arredondadas */
+  z-index: 999; /* Garante que a nav-top-bar fique acima de outros elementos */
+}
+.content {
+  margin-top: 120px; /* Ajuste para a soma das alturas das barras superiores */
+}
+/* Modo escuro para o conteúdo principal */
+body.dark-mode .content {
+  background-color: #1e1e1e; /* Fundo escuro */
+  color: #ffffff; /* Texto branco */
+}
+
+/* Modo escuro para os títulos e parágrafos dentro do conteúdo */
+body.dark-mode .content h1 {
+  color: #ffffff; /* Títulos brancos */
+}
+
+body.dark-mode .content p {
+  color: #e0e0e0; /* Texto cinza claro para melhor legibilidade */
+}
+
+/* Modo escuro para botões dentro do conteúdo */
+body.dark-mode .content .alugar-btn {
+  background-color: #007bff; /* Mantém a cor do botão (ou ajuste conforme necessário) */
+  color: #ffffff; /* Texto branco no botão */
+}
+
+body.dark-mode .content .alugar-btn:hover {
+  opacity: 0.9; /* Efeito de hover no modo escuro */
+}
+/* Modo escuro para imagens dentro do conteúdo */
+body.dark-mode .content img {
+  filter: brightness(0.8); /* Reduz o brilho das imagens no modo escuro */
+}
+
+/* Modo escuro para links dentro do conteúdo */
+body.dark-mode .content a {
+  color: #007bff; /* Cor dos links no modo escuro */
+}
+
+body.dark-mode .content a:hover {
+  color: #0056b3; /* Cor dos links ao passar o mouse no modo escuro */
+}
+/* Container para imagem e detalhes */
+.detalhes-container {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  gap: 40px; /* Espaço entre a imagem e os detalhes */
+  
+  margin: 0 auto; /* Centraliza o conteúdo */
+}
+/* Estilo da imagem */
+.imagem-container img.roupa-img {
+  width: 300px; /* Aumenta o tamanho da imagem */
+  height: auto;
+  border-radius: 0; /* Remove as bordas arredondadas */
+}
+
+/* Estilo dos detalhes ao lado da imagem */
+.detalhes-texto {
+  flex: 1; /* Ocupa o espaço restante */
+  text-align: left; /* Alinha o texto à esquerda */
+}
+/* Estilo do botão de alugar */
+.alugar-btn {
+  margin-top: 20px; /* Espaço acima do botão */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.alugar-btn:hover {
+  opacity: 0.9;
+}
 /* Estilização adicional para melhor aparência */
 .content h1 {
   font-size: 2rem;
@@ -29,12 +276,26 @@
   display: block;
   margin: 0 auto 20px;
   border-radius: 5px;
+  width: 250px; /* Ajuste o tamanho da imagem */
 }
-
 button {
   cursor: pointer;
 }
 
 button:hover {
   opacity: 0.9;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.col-md-4 {
+  flex-basis: 25%;
+}
+
+.col-md-8 {
+  flex-basis: 75%;
 }
