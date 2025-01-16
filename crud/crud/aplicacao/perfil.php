@@ -78,12 +78,6 @@ $imagem_perfil = isset($utilizador['perfil']) && !empty($utilizador['perfil']) ?
           <label for="email" class="form-label">E-mail</label>
           <input type="email" class="form-control" name="email" id="email" value="<?= isset($_REQUEST['email']) ? $_REQUEST['email'] : $utilizador['email'] ?>" required>
         </div>
-
-        <div class="mb-3">
-          <label for="inputGroupFile01" class="form-label">Foto de Perfil</label>
-          <input accept="image/*" type="file" class="form-control" id="inputGroupFile01" name="foto" />
-        </div>
-
         <div class="text-center">
           <button class="btn btn-dark w-100" type="submit" name="utilizador" value="perfil">Alterar</button>
         </div>

@@ -96,6 +96,8 @@ include_once __DIR__ . '/templates/cabecalho.php';
                     <input type="hidden" name="roupa_id" value="<?= $roupa['id'] ?>">
                     <button type="submit" class="btn btn-primary alugar-btn">Alugar <i class="bi bi-cart"></i></button>
                 </form>
+                <!-- Botão "Voltar" -->
+                <a href="javascript:history.back()" class="btn voltar-btn">Voltar</a>
             </div>
         </div>
     <?php endif; ?>
